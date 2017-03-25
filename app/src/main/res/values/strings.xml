@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">腾讯云助手</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- 抽屉header-->
+    <string name="header_des">本应用非腾讯官方应用</string>
+    <!-- 右上角设置菜单-->
+    <string name="action_settings">设置</string>
+    <string name="action_kanch">by Kanch</string>
+    <!-- 抽屉导航-->
+    <string name="drawer_index">欢迎页 - 关于</string>
+    <string name="drawer_horzontal_title">关于</string>
+    <string name="drawer_cloudserver">云服务器</string>
+    <string name="drawer_domain">域名</string>
+    <!-- Layout字符串-->
+    <!-- - - - - - - - -MainActivity-->
+    <string name="str_ma_title_cloudserver">云服务器管理</string>
+    <string name="str_ma_title_domain">域名管理</string>
+    <string name="str_ma_title_index">欢迎页</string>
+    <!-- - - - - - - - -CloudserverManager-->
+    <!-- - - - - - - - -DomainManager-->
+    <!-- - - - - - - - -IndexPage-->
+    <string name="str_ip_notes">
+        欢迎使用腾讯云助手\r\n
+        鉴于腾讯云没有易用的应用故我开发了该应用\r\n
+        <b>本应用与腾讯公司没有任何关系</b>\r\n
+        在开始使用前，本应用需要获取您的云API密钥\r\n
+    </string>
+    <string name="str_ip_howtogetkey">
+        不知道什么是云API密钥？点击这里查看如何获取\r\n
+        请在下面的编辑框中分别输入您的密钥ID和密钥\r\n
+    </string>
+    <string name="str_ip_keyid">请输入您的SecretKeyID</string>
+    <string name="str_ip_apikey">请输入您的SecretKey</string>
+    <string name="str_ip_ok">确认</string>
+    <string name="str_ip_change">修改</string>
+    <string name="str_tips_invaild_api_key">无效API KEY！</string>
+    <string name="str_tips_api_key_saved">API KEY已储存！</string>
+    <string name="str_tips_api_key_found">存在可用API KEY</string>
+    <string name="str_tips_api_key_needed">未找到API KEY，请添加有效API KEY</string>
+    <string name="str_ip_open_url">打开API KEY获取页面...</string>
+    <!-- 储存数据用的键值对-->
+    <string name="key_value_apikey">TENCENT_API_KEY</string>
+
+</resources>

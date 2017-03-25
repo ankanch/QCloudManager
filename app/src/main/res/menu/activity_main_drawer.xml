@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_cloudserver"
+            android:icon="@drawable/ic_menu_cloudserver"
+            android:title="@string/drawer_cloudserver" />
+        <item
+            android:id="@+id/nav_domain"
+            android:icon="@drawable/ic_menu_domain"
+            android:title="@string/drawer_domain" />
+    </group>
+
+    <item android:title="@string/drawer_horzontal_title">
+        <menu>
+            <item
+                android:id="@+id/nav_index"
+                android:icon="@drawable/ic_menu_index"
+                android:title="@string/drawer_index" />
+        </menu>
+    </item>
+
+</menu>

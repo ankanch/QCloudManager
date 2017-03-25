@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="@string/str_ip_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_notes"
+        android:textAlignment="center" />
+
+    <TextView
+        android:text="@string/str_ip_howtogetkey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textAlignment="center"
+        android:clickable="true"
+        android:onClick="openWebPage"/>
+
+    <EditText
+        android:id="@+id/editText_apikeyid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/str_ip_keyid" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textLongMessage"
+        android:text="@string/str_ip_apikey"
+        android:ems="10"
+        android:id="@+id/editText_apikey" />
+
+    <Button
+        android:text="@string/str_ip_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_OK"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+    <TextView
+        android:text="Made with ❤ by Kanch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:layout_marginTop="15sp"
+        android:textAlignment="center" />
+
+</LinearLayout>
