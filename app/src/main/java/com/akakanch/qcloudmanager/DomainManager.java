@@ -42,7 +42,7 @@ public class DomainManager extends Fragment {
         String readRecordListURL = APIRG.domian_getRecordList("akakanch.com");
         //readRecordListURL = APIRG.domain_getDomainList();
         readRecordListURL = APIRG.domian_addRecord("akakanch.com","test","A","默认","123.123.123.123");
-        Log.v("readRecordListURL=","https://"+readRecordListURL);
+        Log.v("API-URL-Domain-Manager=","https://"+readRecordListURL);
         //APIRG.test_encode();
     }
 

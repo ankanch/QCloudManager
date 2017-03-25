@@ -11,14 +11,23 @@
     <!-- 抽屉导航-->
     <string name="drawer_index">欢迎页 - 关于</string>
     <string name="drawer_horzontal_title">关于</string>
-    <string name="drawer_cloudserver">云服务器</string>
-    <string name="drawer_domain">域名</string>
+    <string name="drawer_cloudserver">云服务器管理</string>
+    <string name="drawer_domain">域名管理</string>
     <!-- Layout字符串-->
     <!-- - - - - - - - -MainActivity-->
     <string name="str_ma_title_cloudserver">云服务器管理</string>
     <string name="str_ma_title_domain">域名管理</string>
     <string name="str_ma_title_index">欢迎页</string>
     <!-- - - - - - - - -CloudserverManager-->
+    <string-array name="strarr_cm_spinner_location">
+        <item>北京</item>
+        <item>上海</item>
+        <item>广州</item>
+        <item>香港</item>
+        <item>新加坡</item>
+        <item>北美</item>
+    </string-array>
+    <string name="str_cm_refresh_button">刷新</string>
     <!-- - - - - - - - -DomainManager-->
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
