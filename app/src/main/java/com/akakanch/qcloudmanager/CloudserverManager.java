@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -82,7 +86,7 @@ public class CloudserverManager extends Fragment {
             }
         });
         //测试代码
-        CloudServerItem testitem = new CloudServerItem("Default Test","123.123.123","Operation System","Status",R.drawable.side_nav_bar,0);
+        CloudServerItem testitem = new CloudServerItem("Default Test","123.123.123","Operation System","Status",R.drawable.raw_centos,0);
         cvmAdapter.add(testitem);
 
     }
@@ -105,11 +109,35 @@ public class CloudserverManager extends Fragment {
         }
         @Override
         protected void onPostExecute(String message) {
-            Snackbar.make(globeView,message,Snackbar.LENGTH_LONG).show();
             //解析返回的JSON数据，加载资源列表
-
+            try {
+                JSONObject responsejson = new JSONObject(message);
+                int resCode = (int)responsejson.get("code");
+                //检查是否成功获取数据
+                if(resCode != 0) {
+                    String resMsg = (String) responsejson.get("message");
+                    Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                //继续解析
+                int totalCount = (int)responsejson.get("totalCount");
+                JSONArray instanceSet = (JSONArray)responsejson.get("instanceSet");
+                for(int i=0;i<totalCount;i++){
+                    JSONObject instance = (JSONObject)instanceSet.get(i);
+                    String name = (String)instance.get("instanceName");
+                    String ip = (String)((JSONArray)instance.get("wanIpSet")).get(0);
+                    String os = (String)instance.get("os");
+                    int status = (int)instance.get("status");
+                    CloudServerItem item = new CloudServerItem(name,ip,os,new String().valueOf(status),R.drawable.raw_windowsserver,1);
+                    cvmAdapter.add(item);
+                }
+                Snackbar.make(globeView,totalCount + "个实例找到。",Snackbar.LENGTH_LONG).show();
+                return;
+            }catch (JSONException e){
+                Log.v("JSON-ERROR=",e.getMessage());
+            }
             //加载资源列表
-            CloudServerItem testitem = new CloudServerItem("Test","123.123.123","Test OS","Running",R.drawable.side_nav_bar,1);
+            CloudServerItem testitem = new CloudServerItem("Test","123.123.123","Test OS","Running",R.drawable.raw_windowsserver,1);
             cvmAdapter.add(testitem);
         }
     }
