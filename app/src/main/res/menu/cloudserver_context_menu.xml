@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_cvm_start"
+        android:title="@string/str_cm_contextmenu_start"/>
+    <item android:id="@+id/menu_cvm_shutdown"
+        android:title="@string/str_cm_contextmenu_shutdown"/>
+    <item android:id="@+id/menu_cvm_reboot"
+        android:title="@string/str_cm_contextmenu_reboot"/>
+    <item android:id="@+id/menu_cvm_reinstallos"
+        android:title="@string/str_cm_contextmenu_reinstallos"/>
+    <item android:id="@+id/menu_cvm_resetpassword"
+        android:title="@string/str_cm_contextmenu_resetpassword"/>
+    <item android:id="@+id/menu_cvm_returninstance"
+        android:title="@string/str_cm_contextmenu_returninstance"/>
+
+</menu>

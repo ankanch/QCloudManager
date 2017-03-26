@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Long Zhang on 2017/3/22.
@@ -22,6 +24,9 @@ import java.io.IOException;
 
 public class CloudserverManager extends Fragment {
     private  APIRequestGenerator APIRG;
+    private ListView cvmListView;
+    private ArrayList<CloudServerItem> arrayOfCVM = new ArrayList<CloudServerItem>();
+    private CloudServerItemAdapter cvmAdapter;
     private View globeView;
     private String defaultkey = new String();
     private String defaulyketId = new String();
@@ -39,9 +44,12 @@ public class CloudserverManager extends Fragment {
     public void onStart() {
         super.onStart();
         globeView = getView();
+        cvmAdapter = new CloudServerItemAdapter(getActivity(), arrayOfCVM);
         //设置关键变量ID
         locationSelector = (Spinner) getActivity().findViewById(R.id.spinner_location);
         buttonRefresh = (Button)getActivity().findViewById(R.id.button_refresh);
+        cvmListView = (ListView)getActivity().findViewById(R.id.listview_cvm_list);
+        cvmListView.setAdapter(cvmAdapter);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");
@@ -73,7 +81,10 @@ public class CloudserverManager extends Fragment {
                 new LoadInstanceList().execute(readRecordListURL);
             }
         });
-        //
+        //测试代码
+        CloudServerItem testitem = new CloudServerItem("Default Test","123.123.123","Operation System","Status",R.drawable.side_nav_bar,0);
+        cvmAdapter.add(testitem);
+
     }
 
     //用于从腾讯获取实例列表
@@ -92,11 +103,14 @@ public class CloudserverManager extends Fragment {
             }
             return resultstr;
         }
-
         @Override
         protected void onPostExecute(String message) {
             Snackbar.make(globeView,message,Snackbar.LENGTH_LONG).show();
             //解析返回的JSON数据，加载资源列表
+
+            //加载资源列表
+            CloudServerItem testitem = new CloudServerItem("Test","123.123.123","Test OS","Running",R.drawable.side_nav_bar,1);
+            cvmAdapter.add(testitem);
         }
     }
 

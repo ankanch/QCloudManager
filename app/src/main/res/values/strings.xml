@@ -28,6 +28,12 @@
         <item>北美</item>
     </string-array>
     <string name="str_cm_refresh_button">刷新</string>
+    <string name="str_cm_contextmenu_start">启动</string>
+    <string name="str_cm_contextmenu_shutdown">关闭</string>
+    <string name="str_cm_contextmenu_reboot">重启</string>
+    <string name="str_cm_contextmenu_reinstallos">重装系统</string>
+    <string name="str_cm_contextmenu_resetpassword">重置密码</string>
+    <string name="str_cm_contextmenu_returninstance">删除实例</string>
     <!-- - - - - - - - -DomainManager-->
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
