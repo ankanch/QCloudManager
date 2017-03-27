@@ -34,6 +34,17 @@
     <string name="str_cm_contextmenu_reinstallos">重装系统</string>
     <string name="str_cm_contextmenu_resetpassword">重置密码</string>
     <string name="str_cm_contextmenu_returninstance">删除实例</string>
+    <string name="str_cm_statusdes_error">故障</string>
+    <string name="str_cm_statusdes_running">运行中</string>
+    <string name="str_cm_statusdes_creating">创建中...</string>
+    <string name="str_cm_statusdes_shutdown">已关机</string>
+    <string name="str_cm_statusdes_snapshooting">镜像制作中...</string>
+    <string name="str_cm_statusdes_rebooting">重启中...</string>
+    <string name="str_cm_statusdes_reinstall">重装系统中...</string>
+    <string name="str_cm_statusdes_booting">开机中...</string>
+    <string name="str_cm_statusdes_shutdowning">关机中...</string>
+    <string name="str_cm_statusdes_formatting">格式化中...</string>
+    <string name="str_cm_statusdes_others">其它状态</string>
     <!-- - - - - - - - -DomainManager-->
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">

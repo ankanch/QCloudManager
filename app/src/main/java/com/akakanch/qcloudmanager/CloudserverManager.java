@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import org.json.JSONArray;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 public class CloudserverManager extends Fragment {
     private  APIRequestGenerator APIRG;
     private ListView cvmListView;
+    private ProgressBar refresh_progress;
     private ArrayList<CloudServerItem> arrayOfCVM = new ArrayList<CloudServerItem>();
     private CloudServerItemAdapter cvmAdapter;
     private View globeView;
@@ -40,7 +42,6 @@ public class CloudserverManager extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            //        return super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.layout_cloudserver,container,false);
     }
 
@@ -54,6 +55,7 @@ public class CloudserverManager extends Fragment {
         buttonRefresh = (Button)getActivity().findViewById(R.id.button_refresh);
         cvmListView = (ListView)getActivity().findViewById(R.id.listview_cvm_list);
         cvmListView.setAdapter(cvmAdapter);
+        refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_cvmrefresh);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");
@@ -67,6 +69,7 @@ public class CloudserverManager extends Fragment {
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                refresh_progress.setVisibility(View.VISIBLE);
                 //找到用户选择的区域
                 String cvmlocation = locationSelector.getSelectedItem().toString();
                 int i = 0;
@@ -85,9 +88,6 @@ public class CloudserverManager extends Fragment {
                 new LoadInstanceList().execute(readRecordListURL);
             }
         });
-        //测试代码
-        CloudServerItem testitem = new CloudServerItem("Default Test","123.123.123","Operation System","Status",R.drawable.raw_centos,0);
-        cvmAdapter.add(testitem);
 
     }
 
@@ -128,18 +128,78 @@ public class CloudserverManager extends Fragment {
                     String ip = (String)((JSONArray)instance.get("wanIpSet")).get(0);
                     String os = (String)instance.get("os");
                     int status = (int)instance.get("status");
-                    CloudServerItem item = new CloudServerItem(name,ip,os,new String().valueOf(status),R.drawable.raw_windowsserver,1);
+                    CloudServerItem item = new CloudServerItem(name,ip,os,getStatusDes(status),getOSImg(os),i);
                     cvmAdapter.add(item);
                 }
                 Snackbar.make(globeView,totalCount + "个实例找到。",Snackbar.LENGTH_LONG).show();
-                return;
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
-            //加载资源列表
-            CloudServerItem testitem = new CloudServerItem("Test","123.123.123","Test OS","Running",R.drawable.raw_windowsserver,1);
-            cvmAdapter.add(testitem);
+            //
+            refresh_progress.setVisibility(View.INVISIBLE);
         }
+    }
+
+    //该函数用于根据腾讯返回的状态码，获取状态字符串
+    public String getStatusDes(int statuscode){
+        String statusdes = new String();
+        switch(statuscode){
+            case 1:
+                statusdes = getString(R.string.str_cm_statusdes_error);
+                break;
+            case 2:
+                statusdes = getString(R.string.str_cm_statusdes_running);
+                break;
+            case 3:
+                statusdes = getString(R.string.str_cm_statusdes_creating);
+                break;
+            case 4:
+                statusdes = getString(R.string.str_cm_statusdes_shutdown);
+                break;
+            case 12:
+                statusdes = getString(R.string.str_cm_statusdes_snapshooting);
+                break;
+            case 14:
+                statusdes = getString(R.string.str_cm_statusdes_reinstall);
+                break;
+            case 7:
+                statusdes = getString(R.string.str_cm_statusdes_rebooting);
+                break;
+            case 8:
+                statusdes = getString(R.string.str_cm_statusdes_booting);
+                break;
+            case 9:
+                statusdes = getString(R.string.str_cm_statusdes_shutdowning);
+                break;
+            case 11:
+                statusdes = getString(R.string.str_cm_statusdes_formatting);
+                break;
+            default:
+                statusdes = getString(R.string.str_cm_statusdes_others);
+        }
+        return statusdes;
+    }
+
+    //该函数用户根据腾讯返回的OS名字设置相应的OS图标
+    public int getOSImg(String osname){
+        if(osname.indexOf("ubuntu") >= 0){
+            return R.drawable.raw_ubuntuhero;
+        }else if(osname.indexOf("cent") >= 0){
+            return R.drawable.raw_centos;
+        }else if(osname.indexOf("core") >= 0){
+            return R.drawable.raw_coreos;
+        }else if(osname.indexOf("debian") >= 0){
+            return R.drawable.raw_debian;
+        }else if(osname.indexOf("free") >= 0){
+            return R.drawable.raw_freebsd;
+        }else if(osname.indexOf("open") >= 0){
+            return R.drawable.raw_opensuse;
+        }else if(osname.indexOf("windows") >= 0){
+            return R.drawable.raw_windowsserver;
+        }else{
+            return R.drawable.raw_suse;
+        }
+
     }
 
     public void save(String key,String value){
