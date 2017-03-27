@@ -40,8 +40,9 @@ public class DomainManager extends Fragment {
         APIRG = new APIRequestGenerator(defaulyketId,defaultkey);
         //生成请求URL
         String readRecordListURL = APIRG.domian_getRecordList("akakanch.com");
-        //readRecordListURL = APIRG.domain_getDomainList();
-        readRecordListURL = APIRG.domian_addRecord("akakanch.com","test","A","默认","123.123.123.123");
+        readRecordListURL = APIRG.domain_getDomainList();
+        readRecordListURL = APIRG.domain_addDomain("akakancakakanch.com");
+        //readRecordListURL = APIRG.domian_addRecord("akakanch.com","test","A","默认","123.123.123.123");
         Log.v("API-URL-Domain-Manager=","https://"+readRecordListURL);
         //APIRG.test_encode();
     }

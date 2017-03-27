@@ -70,6 +70,7 @@ public class CloudserverManager extends Fragment {
             @Override
             public void onClick(View view) {
                 refresh_progress.setVisibility(View.VISIBLE);
+                cvmAdapter.clear();
                 //找到用户选择的区域
                 String cvmlocation = locationSelector.getSelectedItem().toString();
                 int i = 0;
@@ -127,8 +128,9 @@ public class CloudserverManager extends Fragment {
                     String name = (String)instance.get("instanceName");
                     String ip = (String)((JSONArray)instance.get("wanIpSet")).get(0);
                     String os = (String)instance.get("os");
+                    int paymode = (int)instance.get("cvmPayMode");
                     int status = (int)instance.get("status");
-                    CloudServerItem item = new CloudServerItem(name,ip,os,getStatusDes(status),getOSImg(os),i);
+                    CloudServerItem item = new CloudServerItem(name,ip,os,getStatusDes(status),getPayMode(paymode),getOSImg(os),i);
                     cvmAdapter.add(item);
                 }
                 Snackbar.make(globeView,totalCount + "个实例找到。",Snackbar.LENGTH_LONG).show();
@@ -200,6 +202,20 @@ public class CloudserverManager extends Fragment {
             return R.drawable.raw_suse;
         }
 
+    }
+
+    //该函数根据腾讯返回的PayMode，获取支付方式字符串
+    public String getPayMode(int paymode){
+        switch (paymode){
+            case 0:
+                return getString(R.string.str_cm_paymode_latemonth);
+            case 1:
+                return getString(R.string.str_cm_paymode_payfirst);
+            case 2:
+                return getString(R.string.str_cm_paymode_paybyuse);
+            default:
+                return getString(R.string.str_cm_paymode_unknow);
+        }
     }
 
     public void save(String key,String value){

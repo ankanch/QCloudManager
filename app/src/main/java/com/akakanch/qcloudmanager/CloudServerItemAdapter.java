@@ -39,6 +39,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
         TextView tvIp = (TextView)convertView.findViewById(R.id.textView_ipaddress);
         TextView tvOS = (TextView)convertView.findViewById(R.id.textView_os);
         TextView tvStatus = (TextView)convertView.findViewById(R.id.textView_status);
+        TextView tvPayMode = (TextView)convertView.findViewById(R.id.textView_paymode);
         ImageView ivOS = (ImageView)convertView.findViewById(R.id.imageView_os_img);
         Button bMenu = (Button)convertView.findViewById(R.id.button_item_menu);
         //设置数据
@@ -46,6 +47,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
         tvIp.setText(cvmItem.InstanceIP);
         tvOS.setText(cvmItem.InstanceOS);
         tvStatus.setText(cvmItem.Status);
+        tvPayMode.setText(cvmItem.PayMode);
         ivOS.setImageResource(cvmItem.ImageID);
         //设置菜单
         final View curview = convertView;

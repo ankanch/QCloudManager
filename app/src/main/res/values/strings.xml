@@ -45,6 +45,10 @@
     <string name="str_cm_statusdes_shutdowning">关机中...</string>
     <string name="str_cm_statusdes_formatting">格式化中...</string>
     <string name="str_cm_statusdes_others">其它状态</string>
+    <string name="str_cm_paymode_latemonth">按月结算的后付费</string>
+    <string name="str_cm_paymode_payfirst">包年包月 </string>
+    <string name="str_cm_paymode_paybyuse">按量计费</string>
+    <string name="str_cm_paymode_unknow">未知付费方式</string>
     <!-- - - - - - - - -DomainManager-->
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
