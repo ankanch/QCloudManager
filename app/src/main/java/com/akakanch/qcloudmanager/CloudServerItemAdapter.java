@@ -68,13 +68,26 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
             public void onClick(View view) {
                 PopupMenu pm = new PopupMenu(getContext(),buttonView);
                 pm.getMenuInflater().inflate(R.menu.cloudserver_context_menu, pm.getMenu());
+                //不能删除包年包月的服务
+                if(cvmItem.PayMode.equals(getContext().getString(R.string.str_cm_paymode_payfirst))) {
+                    pm.getMenu().getItem(5).setVisible(false);
+                }
                 pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        String URL = new String();
                         switch(menuItem.getItemId()){
                             case R.id.menu_cvm_start:
+                                URL = "https://" + APIRG.cvm_bootInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
+                                Log.v("START=",URL);
+                                Snackbar.make((View)globeView.getParent(),getContext().getString(R.string.str_cm_contentmenu_tips_booting),Snackbar.LENGTH_LONG).show();
+                               // cvmItem.Status = getContext().getString(R.string.str_cm_statusdes_booting);
                                 break;
                             case R.id.menu_cvm_shutdown:
+                                URL = "https://" + APIRG.cvm_shutdownInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
+                                Log.v("SHUTDOWN=",URL);
+                                Snackbar.make((View)globeView.getParent(),getContext().getString(R.string.str_cm_contentmenu_tips_shutdown),Snackbar.LENGTH_LONG).show();
+                                //cvmItem.Status = getContext().getString(R.string.str_cm_statusdes_shutdowning);
                                 break;
                             case R.id.menu_cvm_returninstance:
                                 break;
@@ -84,16 +97,17 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                                 break;
                             case R.id.menu_cvm_reboot:
                                 String RebootURL = "https://" + APIRG.cvm_rebootInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
+                                Snackbar.make((View)globeView.getParent(),getContext().getString(R.string.str_cm_contentmenu_tips_rebooting),Snackbar.LENGTH_LONG).show();
+                                //cvmItem.Status = getContext().getString(R.string.str_cm_statusdes_rebooting);
                                 Log.v("REBOOT=",RebootURL);
-                                doManageCVM.execute(RebootURL);
                                 break;
                         }
-                        Snackbar.make(curview,cvmItem.InstanceName + "-" + menuItem.getTitle(),Snackbar.LENGTH_LONG ).show();
+                        new doManageCVM().execute(URL);
+                        //Snackbar.make(curview,cvmItem.InstanceName + "-" + menuItem.getTitle(),Snackbar.LENGTH_LONG ).show();
                         return false;
                     }
                 });
                 pm.show();
-                Snackbar.make(curview,cvmItem.InstanceName + "\tClicked.",Snackbar.LENGTH_LONG).show();
             }
         });
         return convertView;
@@ -127,10 +141,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                     String resMsg = (String) responsejson.get("message");
                     Snackbar.make((View)globeView.getParent(),"错误："+resMsg,Snackbar.LENGTH_LONG).show();
                     return;
-                }else{
-                    Snackbar.make((View)globeView.getParent(),"重启指令成功发出，正在重启...",Snackbar.LENGTH_LONG).show();
                 }
-                //继续解析
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
  */
 
 public class CloudServerItem {
+    //详细信息查询：https://www.qcloud.com/document/api/213/831
     //简略信息
     public int ImageID = R.drawable.side_nav_bar;
     public String InstanceName = new String();

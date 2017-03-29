@@ -28,12 +28,18 @@
         <item>北美</item>
     </string-array>
     <string name="str_cm_refresh_button">刷新</string>
+
     <string name="str_cm_contextmenu_start">启动</string>
     <string name="str_cm_contextmenu_shutdown">关闭</string>
     <string name="str_cm_contextmenu_reboot">重启</string>
     <string name="str_cm_contextmenu_reinstallos">重装系统</string>
     <string name="str_cm_contextmenu_resetpassword">重置密码</string>
     <string name="str_cm_contextmenu_returninstance">删除实例</string>
+
+    <string name="str_cm_contentmenu_tips_rebooting">指令已发送！重启中...请稍候刷新。</string>
+    <string name="str_cm_contentmenu_tips_booting">指令已发送！启动中...请稍候刷新。</string>
+    <string name="str_cm_contentmenu_tips_shutdown">指令已发送！关机中...请稍候刷新。</string>
+
     <string name="str_cm_statusdes_error">故障</string>
     <string name="str_cm_statusdes_running">运行中</string>
     <string name="str_cm_statusdes_creating">创建中...</string>
@@ -44,11 +50,14 @@
     <string name="str_cm_statusdes_booting">开机中...</string>
     <string name="str_cm_statusdes_shutdowning">关机中...</string>
     <string name="str_cm_statusdes_formatting">格式化中...</string>
+
     <string name="str_cm_statusdes_others">其它状态</string>
     <string name="str_cm_paymode_latemonth">按月结算的后付费</string>
     <string name="str_cm_paymode_payfirst">包年包月 </string>
     <string name="str_cm_paymode_paybyuse">按量计费</string>
     <string name="str_cm_paymode_unknow">未知付费方式</string>
+
+
     <!-- - - - - - - - -DomainManager-->
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">

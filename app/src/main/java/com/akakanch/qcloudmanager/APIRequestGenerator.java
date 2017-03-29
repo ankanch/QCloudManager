@@ -338,12 +338,13 @@ public class APIRequestGenerator {
     }
 
     //云服务器管理：启动实例
-    public String cvm_bootInstance(String instanceID){
+    public String cvm_bootInstance(String instanceID,String Region){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","StartInstances");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
         para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
         para.put("SecretId",APIkeyId);
+        para.put("Region",Region);
         para.put("SignatureMethod","HmacSHA256");
         para.put("instanceIds.0",instanceID);
         String[] requestlist = generatePublicRequestParameters(para);
@@ -365,12 +366,13 @@ public class APIRequestGenerator {
     }
 
     //云服务器管理：关闭实例（关机）
-    public String cvm_shutdownInstance(String instanceID){
+    public String cvm_shutdownInstance(String instanceID,String Region){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","StopInstances");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
         para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
         para.put("SecretId",APIkeyId);
+        para.put("Region",Region);
         para.put("SignatureMethod","HmacSHA256");
         para.put("instanceIds.0",instanceID);
         String[] requestlist = generatePublicRequestParameters(para);
@@ -447,7 +449,7 @@ public class APIRequestGenerator {
         return requestlist[1];
     }
 
-    //云服务器管理：重置实例密码
+    //云服务器管理：退还实例
     public String cvm_returnInstance(String instanceID){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","ReturnInstance");

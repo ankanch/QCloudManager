@@ -69,6 +69,7 @@ public class CloudserverManager extends Fragment {
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonRefresh.setEnabled(false);
                 refresh_progress.setVisibility(View.VISIBLE);
                 cvmAdapter.clear();
                 //找到用户选择的区域
@@ -142,6 +143,7 @@ public class CloudserverManager extends Fragment {
                 Log.v("JSON-ERROR=",e.getMessage());
             }
             //
+            buttonRefresh.setEnabled(true);
             refresh_progress.setVisibility(View.INVISIBLE);
         }
     }
