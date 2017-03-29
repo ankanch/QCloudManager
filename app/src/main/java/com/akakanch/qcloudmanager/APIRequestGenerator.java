@@ -336,4 +336,141 @@ public class APIRequestGenerator {
         requestlist[1] += "&Signature=" + singuture;
         return requestlist[1];
     }
+
+    //云服务器管理：启动实例
+    public String cvm_bootInstance(String instanceID){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","StartInstances");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("instanceIds.0",instanceID);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
+    //云服务器管理：关闭实例（关机）
+    public String cvm_shutdownInstance(String instanceID){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","StopInstances");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("instanceIds.0",instanceID);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
+    //云服务器管理：重启实例
+    public String cvm_rebootInstance(String instanceID,String Region){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","RestartInstances");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("Region",Region);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("instanceIds.0",instanceID);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
+    //云服务器管理：重置实例密码
+    public String cvm_resetInstancePassword(String instanceID,String newPassword){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","ResetInstancePassword");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("instanceIds.0",instanceID);
+        para.put("password",newPassword);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
+    //云服务器管理：重置实例密码
+    public String cvm_returnInstance(String instanceID){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","ReturnInstance");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("instanceId",instanceID);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
 }

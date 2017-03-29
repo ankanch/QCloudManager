@@ -1,9 +1,11 @@
 package com.akakanch.qcloudmanager;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +32,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
     public CloudServerItemAdapter(Context context, ArrayList<CloudServerItem> users) {
         super(context, 0, users);
     }
+    private View globeView;
 
     @NonNull
     @Override
@@ -50,8 +59,10 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
         tvPayMode.setText(cvmItem.PayMode);
         ivOS.setImageResource(cvmItem.ImageID);
         //设置菜单
+        globeView = convertView;
         final View curview = convertView;
         final View buttonView = (View)bMenu;
+        final APIRequestGenerator APIRG = new APIRequestGenerator(cvmItem.APIKeyID,cvmItem.APIKey);
         bMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,15 +71,71 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                 pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch(menuItem.getItemId()){
+                            case R.id.menu_cvm_start:
+                                break;
+                            case R.id.menu_cvm_shutdown:
+                                break;
+                            case R.id.menu_cvm_returninstance:
+                                break;
+                            case R.id.menu_cvm_resetpassword:
+                                break;
+                            case R.id.menu_cvm_reinstallos:
+                                break;
+                            case R.id.menu_cvm_reboot:
+                                String RebootURL = "https://" + APIRG.cvm_rebootInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
+                                Log.v("REBOOT=",RebootURL);
+                                doManageCVM.execute(RebootURL);
+                                break;
+                        }
                         Snackbar.make(curview,cvmItem.InstanceName + "-" + menuItem.getTitle(),Snackbar.LENGTH_LONG ).show();
                         return false;
                     }
                 });
                 pm.show();
-                Snackbar.make(curview,cvmItem.insid + "\tClicked.",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(curview,cvmItem.InstanceName + "\tClicked.",Snackbar.LENGTH_LONG).show();
             }
         });
-
         return convertView;
     }
+
+    //用于执行云服务器管理相关的操作
+    //传入参数应该为要请求的URL
+    private class doManageCVM extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+            //开始向腾讯请求实例列表
+            WebClient wb = new WebClient();
+            String resultstr = new String();
+            try {
+                resultstr = wb.getContent(params[0], "utf-8", "utf-8");
+            }catch (IOException e){
+                Log.v("IO Exception=",e.getMessage());
+                return "IO EXCEPTION";
+            }
+            return resultstr;
+        }
+        @Override
+        protected void onPostExecute(String message) {
+            //解析返回的JSON数据，加载资源列表
+            try {
+                JSONObject responsejson = new JSONObject(message);
+                int resCode = (int)responsejson.get("code");
+                //检查是否成功获取数据
+                if(resCode != 0) {
+                    String resMsg = (String) responsejson.get("message");
+                    Snackbar.make((View)globeView.getParent(),"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    return;
+                }else{
+                    Snackbar.make((View)globeView.getParent(),"重启指令成功发出，正在重启...",Snackbar.LENGTH_LONG).show();
+                }
+                //继续解析
+            }catch (JSONException e){
+                Log.v("JSON-ERROR=",e.getMessage());
+            }
+            //
+        }
+    }
+
 }

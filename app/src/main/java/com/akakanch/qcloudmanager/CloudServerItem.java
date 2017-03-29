@@ -19,22 +19,33 @@ public class CloudServerItem {
     public String InstanceOS = new String();
     public String Status = new String();
     public String PayMode = new String();
-    public int insid = 0;
 
     //详细信息，点击后可见
+    public String InstanceID = new String();
+    public String InstanceRegion = new String();
 
-    public CloudServerItem(String name,String ip,String os,String status,String paymode,int image,int id){
+
+    //APIkey信息（用于与Adaptor里面的popupmenu交互）
+    public String APIKey = new String();
+    public String APIKeyID = new String();
+
+    public CloudServerItem(String name,String ip,String os,String status,String paymode,int image,String id){
         InstanceName = name;
         InstanceIP = ip;
         InstanceOS = os;
         Status = status;
         PayMode = paymode;
         ImageID = image;
-        insid = id;
+        InstanceID = id;
     }
 
     public void setMoreInfo(){
 
+    }
+
+    public void setAPIInfo(String key,String keyid){
+        APIKey = key;
+        APIKeyID = keyid;
     }
 
 
