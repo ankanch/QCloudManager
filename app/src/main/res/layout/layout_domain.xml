@@ -8,4 +8,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ProgressBar
+            android:id="@+id/progressBar_domainfresh"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="59dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/textView_domain_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.55"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/button_refresh_domain"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="@string/str_cm_refresh_button" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView_domain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
