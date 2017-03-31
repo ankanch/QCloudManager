@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -79,6 +80,15 @@ public class DomainManager extends Fragment {
             }
         });
         //
+        domainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name = (String) domainmAdapter.getItem(i);
+                Snackbar.make(globeView,name + " on click.",Snackbar.LENGTH_LONG).show();
+                String recordURL  = "https://" + APIRG.domian_getRecordList(name);
+                Log.v("recordURL=",recordURL);
+            }
+        });
     }
 
     //用于从腾讯获取实例列表
@@ -109,6 +119,7 @@ public class DomainManager extends Fragment {
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
                     return;
                 }
+                domainmAdapter.clear();
                 responsejson = (JSONObject)responsejson.get("data");
                 //继续解析
                 int domain_total = (int)((JSONObject)responsejson.get("info")).get("domain_total");
@@ -117,15 +128,12 @@ public class DomainManager extends Fragment {
                     JSONObject instance = (JSONObject)instanceSet.get(i);
                     int id = (int)instance.get("id");
                     String status = (String)instance.get("status");
-                    String searchengine_push = (String)instance.get("searchengine_push");
                     String ttl = (String) instance.get("ttl");
-                    String cname_speedup = (String)instance.get("cname_speedup");
                     String created_on = (String)instance.get("created_on");
                     String updated_on = (String) instance.get("updated_on");
                     String punycode = (String)instance.get("punycode");
                     String name = (String) instance.get("name");
                     String grade_title = (String)instance.get("grade_title");
-                    //arrayOfDomain.add(0,name);
                     domainmAdapter.add(name);
                 }
                 Snackbar.make(globeView,domain_total + "个域名找到。",Snackbar.LENGTH_LONG).show();
