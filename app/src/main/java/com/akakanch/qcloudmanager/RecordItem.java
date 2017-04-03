@@ -15,7 +15,11 @@ public class RecordItem {
     public String mx = new String();
 
 
-    public  RecordItem(){
-
+    public  RecordItem(int id,String status,String name,String value,String type){
+        this.id = id;
+        this.status = status;
+        this.value = value;
+        this.type = type;
+        this.name = name;
     }
 }

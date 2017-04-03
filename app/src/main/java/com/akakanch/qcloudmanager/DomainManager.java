@@ -1,6 +1,8 @@
 package com.akakanch.qcloudmanager;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -85,8 +87,15 @@ public class DomainManager extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = (String) domainmAdapter.getItem(i);
                 Snackbar.make(globeView,name + " on click.",Snackbar.LENGTH_LONG).show();
-                String recordURL  = "https://" + APIRG.domian_getRecordList(name);
-                Log.v("recordURL=",recordURL);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RecordsManager ip = new RecordsManager();
+                Bundle args = new Bundle();
+                args.putString("DOMAIN",name);
+                ip.setArguments(args);
+                fragmentTransaction.replace(R.id.content_main,ip);
+                //fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }

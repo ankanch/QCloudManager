@@ -59,6 +59,8 @@
 
 
     <!-- - - - - - - - -DomainManager-->
+    <string name="str_dm_need_to_be_refreshed">无记录，请刷新。</string>
+    <string name="str_dm_title">域名解析记录管理</string>
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
         欢迎使用腾讯云助手\r\n

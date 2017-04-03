@@ -12,7 +12,7 @@ public class DomainItem {
     public String punycode = new String();
     public String name = new String();
     public String grade_title = new String();
-    public RecordItem recordItem = new RecordItem();
+    public RecordItem recordItem;
 
     public DomainItem(String status,String ttl,String created_on,String updated_on,String punycode,String name,String grade_title){
         this.status = status;

@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.55"
-            android:text="TextView" />
+            android:text="@string/str_dm_need_to_be_refreshed" />
 
         <Button
             android:id="@+id/button_refresh_domain"
