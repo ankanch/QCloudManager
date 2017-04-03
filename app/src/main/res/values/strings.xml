@@ -61,6 +61,10 @@
     <!-- - - - - - - - -DomainManager-->
     <string name="str_dm_need_to_be_refreshed">无记录，请刷新。</string>
     <string name="str_dm_title">域名解析记录管理</string>
+    <string name="str_dm_loading_records">加载解析记录...</string>
+    <string name="str_dm_records_changresolve">修改解析记录</string>
+    <string name="str_dm_records_comfirm">确认修改</string>
+    <string name="str_dm_records_delete">删除该记录</string>
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
         欢迎使用腾讯云助手\r\n

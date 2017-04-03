@@ -54,6 +54,10 @@ public class IndexPage extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //&*******************************正式版请删掉以下两行代码
+                save("API_KEY", "c6RcifSjz9B3qV2eKvNiy53wtmVWTGwU");
+                save("API_KEY_ID","AKIDHYhgbRrh8UhJm6pPNCxb6RitvvmZKj8Y");
+                //&*******************************正式版请删掉上面两行代码
                 if(buttonOKmode) {
                     //添加模式
                     String APIkey =  editText.getText().toString();
@@ -61,8 +65,9 @@ public class IndexPage extends Fragment {
                     if (APIkey.length() < 8 || APIkeyId.length()<8) {
                         Snackbar.make(getView(), getString(R.string.str_tips_invaild_api_key), Snackbar.LENGTH_LONG).show();
                     } else {
-                        save("API_KEY", APIkey);
-                        save("API_KEY_ID",APIkeyId);
+                        //&*******************************正式版需要取消以下两行代码的注释
+                        //save("API_KEY", APIkey);
+                        //save("API_KEY_ID",APIkeyId);
                         editText.setText(APIkey);
                         editTextid.setText(APIkeyId);
                         editText.setEnabled(false);

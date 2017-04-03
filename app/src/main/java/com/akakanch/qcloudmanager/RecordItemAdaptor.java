@@ -1,16 +1,20 @@
 package com.akakanch.qcloudmanager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,7 +49,29 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(globView,"change button clicked.", Snackbar.LENGTH_LONG).show();
+                //构造一个用于修改的对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                final EditText input = new EditText(getContext());
+                final TextView tips = new TextView(getContext());
+                final Spinner type = new Spinner(getContext());
+                tips.setText(getContext().getString(R.string.str_dm_records_changresolve));
+                builder.setView(tips);
+                builder.setView(input);
+                builder.setView(type);
+                builder.setPositiveButton(getContext().getString(R.string.str_dm_records_comfirm), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String m_Text = input.getText().toString();
+                        Snackbar.make(globView,m_Text, Snackbar.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton(getContext().getString(R.string.str_dm_records_delete), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
             }
         });
 

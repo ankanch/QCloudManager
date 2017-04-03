@@ -49,14 +49,14 @@
                         android:id="@+id/textView_recordtype"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.7"
                         android:text="Record Type" />
 
                     <TextView
                         android:id="@+id/textView_recordvalue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.3"
                         android:text="Record Value" />
                 </LinearLayout>
 

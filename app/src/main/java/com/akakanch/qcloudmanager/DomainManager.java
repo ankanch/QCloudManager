@@ -86,7 +86,7 @@ public class DomainManager extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = (String) domainmAdapter.getItem(i);
-                Snackbar.make(globeView,name + " on click.",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(globeView,getString(R.string.str_dm_loading_records),Snackbar.LENGTH_LONG).show();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RecordsManager ip = new RecordsManager();
@@ -94,7 +94,7 @@ public class DomainManager extends Fragment {
                 args.putString("DOMAIN",name);
                 ip.setArguments(args);
                 fragmentTransaction.replace(R.id.content_main,ip);
-                //fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

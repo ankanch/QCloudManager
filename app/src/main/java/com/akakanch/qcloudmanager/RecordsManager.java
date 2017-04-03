@@ -114,6 +114,7 @@ public class RecordsManager extends Fragment {
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
                     return;
                 }
+                recordItemAdaptor.clear();
                 //继续解析
                 responsejson = (JSONObject) responsejson.get("data");
                 int totalCount = Integer.parseInt((String)(((JSONObject)(responsejson.get("info"))).get("record_total")));
@@ -128,7 +129,7 @@ public class RecordsManager extends Fragment {
                     RecordItem item = new RecordItem(id,status,name,value,type);
                     recordItemAdaptor.add(item);
                 }
-                Snackbar.make(globeView,totalCount + "个实例找到。",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(globeView,totalCount + "个记录找到。",Snackbar.LENGTH_LONG).show();
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
