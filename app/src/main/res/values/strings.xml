@@ -62,9 +62,23 @@
     <string name="str_dm_need_to_be_refreshed">无记录，请刷新。</string>
     <string name="str_dm_title">域名解析记录管理</string>
     <string name="str_dm_loading_records">加载解析记录...</string>
+    <!-- - - - - - - - -修改域名解析记录对话框-->
     <string name="str_dm_records_changresolve">修改解析记录</string>
     <string name="str_dm_records_comfirm">确认修改</string>
+    <string name="str_dm_records_cancel">取消编辑</string>
     <string name="str_dm_records_delete">删除该记录</string>
+    <string name="str_dm_records_input_value">记录值：</string>
+    <string name="str_dm_records_input_name">主机记录：</string>
+    <string name="str_dm_records_input_type">记录类型：</string>
+    <string-array name="strarr_dm_spinner_records_type">
+        <item>A</item>
+        <item>CNAME</item>
+        <item>MX</item>
+        <item>TXT</item>
+        <item>NS</item>
+        <item>AAAA</item>
+        <item>SRV</item>
+    </string-array>
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
         欢迎使用腾讯云助手\r\n

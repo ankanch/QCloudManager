@@ -127,6 +127,8 @@ public class RecordsManager extends Fragment {
                     int id = (int)instance.get("id");
                     String status = (String) instance.get("status");
                     RecordItem item = new RecordItem(id,status,name,value,type);
+                    item.setAPIInfo(defaultkey,defaulyketId);
+                    item.domain = getArguments().getString("DOMAIN");
                     recordItemAdaptor.add(item);
                 }
                 Snackbar.make(globeView,totalCount + "个记录找到。",Snackbar.LENGTH_LONG).show();

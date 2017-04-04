@@ -13,7 +13,11 @@ public class RecordItem {
     public String line = new String();
     public String type = new String();
     public String mx = new String();
+    public String domain = new String();
 
+    //APIkey信息（用于与Adaptor里面的popupmenu交互）
+    public String APIKey = new String();
+    public String APIKeyID = new String();
 
     public  RecordItem(int id,String status,String name,String value,String type){
         this.id = id;
@@ -21,5 +25,11 @@ public class RecordItem {
         this.value = value;
         this.type = type;
         this.name = name;
+        this.line = "默认";
+    }
+
+    public void setAPIInfo(String key,String keyid){
+        APIKey = key;
+        APIKeyID = keyid;
     }
 }
