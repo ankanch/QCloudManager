@@ -66,7 +66,7 @@
     <string name="str_dm_records_changresolve">修改解析记录</string>
     <string name="str_dm_records_comfirm">确认修改</string>
     <string name="str_dm_records_cancel">取消编辑</string>
-    <string name="str_dm_records_delete">删除该记录</string>
+    <string name="str_dm_records_delete">删除记录</string>
     <string name="str_dm_records_input_value">记录值：</string>
     <string name="str_dm_records_input_name">主机记录：</string>
     <string name="str_dm_records_input_type">记录类型：</string>

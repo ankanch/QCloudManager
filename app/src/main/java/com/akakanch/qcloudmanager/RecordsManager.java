@@ -1,6 +1,7 @@
 package com.akakanch.qcloudmanager;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -103,6 +104,7 @@ public class RecordsManager extends Fragment {
                 final Button btnConfirm = (Button)changeDlgView.findViewById(R.id.button_confirm_add);
                 final Button btnCancel = (Button)changeDlgView.findViewById(R.id.button_cancel_add);
                 final AlertDialog dlg = builder.show();
+                dlg.setCanceledOnTouchOutside(false);
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -194,6 +196,8 @@ public class RecordsManager extends Fragment {
     //用于添加解析记录
     private class AddNewRecord extends AsyncTask<String, Void, String> {
 
+        private final ProgressDialog loading = new ProgressDialog(getContext());
+
         @Override
         protected String doInBackground(String[] params) {
             WebClient wb = new WebClient();
@@ -221,8 +225,17 @@ public class RecordsManager extends Fragment {
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
-            //add refresh here
-           // new LoadRecordList().execute("https://" + APIRG.domian_getRecordList(domain));
+            Snackbar.make(globeView,"添加成功！请手动刷新。",Snackbar.LENGTH_LONG).show();
+            loading.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading.setMessage("更新中...");
+            loading.show();
+            loading.setCancelable(false);
+            loading.setCanceledOnTouchOutside(false);
         }
     }
 

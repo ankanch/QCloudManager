@@ -101,6 +101,11 @@ public class DomainManager extends Fragment {
                 fab.setVisibility(View.VISIBLE);
             }
         });
+        //自动刷新一次
+        buttonRefresh.setEnabled(false);
+        refresh_progress.setVisibility(View.VISIBLE);
+        String URL = "https://" + APIRG.domain_getDomainList();
+        new LoadDomainList().execute(URL);
     }
 
     //用于从腾讯获取实例列表

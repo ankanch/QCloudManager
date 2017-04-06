@@ -43,7 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5sp">
 
                     <TextView
                         android:id="@+id/textView_recordtype"
@@ -70,6 +71,7 @@
             android:layout_width="46dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="20sp"
+            android:backgroundTint="@android:color/transparent"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
     </LinearLayout>

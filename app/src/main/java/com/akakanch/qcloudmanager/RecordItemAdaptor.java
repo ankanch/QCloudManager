@@ -37,7 +37,6 @@ import java.util.Arrays;
 public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
 
     private View globeView;
-    private ProgressDialog loading;
 
     public RecordItemAdaptor(Context context, ArrayList<RecordItem> users) {
         super(context, 0, users);
@@ -48,8 +47,6 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //获取指定项数据
         globeView = convertView;
-        loading = new ProgressDialog(getContext());
-        loading.setMessage("更新中...");
         final RecordItem recordItem = getItem(position);
         //检查视图是否被复用，否则用view填充
         if (convertView == null) {
@@ -83,6 +80,7 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                 ArrayList<String> typelist = new ArrayList<String>(Arrays.asList(getContext().getResources().getStringArray(R.array.strarr_dm_spinner_records_type)));
                 type.setSelection(typelist.indexOf(recordItem.type));
                 final AlertDialog dlg = builder.show();
+                dlg.setCanceledOnTouchOutside(false);
                 btnConfrim.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -95,7 +93,6 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                         Log.v("changeRecord=",changeURL);
                         new PerformChange().execute(changeURL);
                         dlg.dismiss();
-                        loading.show();
                     }
                 });
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +104,6 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Snackbar.make(globView,"delete", Snackbar.LENGTH_LONG).show();
                         //执行删除解析记录操作
                         String deleteURL = "https://"+ APIRG.domian_deleteRecord(recordItem.domain,new String().valueOf(recordItem.id));
                         Log.v("deltetRecord=",deleteURL);
@@ -123,6 +119,8 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
 
     //用于执行域名解析记录相关操作
     private class PerformChange extends AsyncTask<String, Void, String> {
+
+        private final ProgressDialog loading = new ProgressDialog(getContext());
 
         @Override
         protected String doInBackground(String[] params) {
@@ -152,9 +150,17 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
-            loading.cancel();  // NOT WORK PROPOERLY
-            Log.v("done.","-----------------------" + new String().valueOf(loading==null));
-            //loading.dismiss();
+            //Snackbar.make(getView(),"修改成功！请手动刷新。",Snackbar.LENGTH_LONG).show();
+            loading.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading.setMessage("更新中...");
+            loading.show();
+            loading.setCancelable(false);
+            loading.setCanceledOnTouchOutside(false);
         }
     }
 }
