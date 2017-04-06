@@ -1,10 +1,12 @@
 package com.akakanch.qcloudmanager;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,14 +28,19 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Long Zhang on 2017/3/26.
  */
 
 public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
+
+    private Context ct;
+
     public CloudServerItemAdapter(Context context, ArrayList<CloudServerItem> users) {
         super(context, 0, users);
+        ct = context;
     }
     private View globeView;
 
@@ -91,19 +101,78 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                                 break;
                             case R.id.menu_cvm_returninstance:
                                 break;
-                            case R.id.menu_cvm_resetpassword:
+                            case R.id.menu_cvm_resetpassword: {
+                                LayoutInflater li = LayoutInflater.from(getContext());
+                                View changeDlgView = li.inflate(R.layout.layout_cloudserver_changepassword, null);
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setView(changeDlgView);
+                                final EditText pwd = (EditText) changeDlgView.findViewById(R.id.editText_password_changepwd);
+                                final Button confrim = (Button) changeDlgView.findViewById(R.id.button_confirm_changepwd);
+                                final Button cancel = (Button) changeDlgView.findViewById(R.id.button_cancel_changepwd);
+                                final AlertDialog dlg = builder.show();
+                                dlg.setCanceledOnTouchOutside(false);
+                                confrim.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String password = pwd.getText().toString();
+                                        if(password.length()<8){
+                                            Snackbar.make(globeView,"密码无效！请输入长度大于8的密码。",Snackbar.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        String changepwd = "https://" + APIRG.cvm_resetInstancePassword(cvmItem.InstanceID,password,cvmItem.InstanceRegion);
+                                        Log.v("changepwdURL=",changepwd);
+                                        new doManageCVM().execute(changepwd);
+                                        dlg.dismiss();
+                                    }
+                                });
+                                cancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dlg.cancel();
+                                    }
+                                });
+                            }
                                 break;
                             case R.id.menu_cvm_reinstallos:
+                                LayoutInflater li = LayoutInflater.from(getContext());
+                                View changeDlgView = li.inflate(R.layout.layout_cloudserver_reinstall, null);
+                                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setView(changeDlgView);
+                                final EditText pwd = (EditText)changeDlgView.findViewById(R.id.editText_password_reinstall);
+                                final Spinner os = (Spinner)changeDlgView.findViewById(R.id.spinner_type_reinstall);
+                                final Button confrim = (Button)changeDlgView.findViewById(R.id.button_confirm_reinstall);
+                                final Button cancel = (Button)changeDlgView.findViewById(R.id.button_cancel_reintall);
+                                final AlertDialog dlg = builder.show();
+                                dlg.setCanceledOnTouchOutside(false);
+                                confrim.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String password = pwd.getText().toString();
+                                        if(password.length()<8){
+                                            Snackbar.make(globeView,"密码无效！请输入长度大于8的密码。",Snackbar.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        String ostype = os.getSelectedItem().toString().split("@")[1];
+                                        String reinstallURL = "http://"+APIRG.cvm_reinstallInstance(cvmItem.InstanceID,ostype,cvmItem.InstanceRegion,password);
+                                        Log.v("reinstallURL=",reinstallURL);
+                                        new doManageCVM().execute(reinstallURL);
+                                        dlg.cancel();
+                                    }
+                                });
+                                cancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dlg.cancel();
+                                    }
+                                });
                                 break;
                             case R.id.menu_cvm_reboot:
                                 String RebootURL = "https://" + APIRG.cvm_rebootInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
                                 Snackbar.make((View)globeView.getParent(),getContext().getString(R.string.str_cm_contentmenu_tips_rebooting),Snackbar.LENGTH_LONG).show();
-                                //cvmItem.Status = getContext().getString(R.string.str_cm_statusdes_rebooting);
                                 Log.v("REBOOT=",RebootURL);
                                 break;
                         }
                         new doManageCVM().execute(URL);
-                        //Snackbar.make(curview,cvmItem.InstanceName + "-" + menuItem.getTitle(),Snackbar.LENGTH_LONG ).show();
                         return false;
                     }
                 });
@@ -116,6 +185,8 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
     //用于执行云服务器管理相关的操作
     //传入参数应该为要请求的URL
     private class doManageCVM extends AsyncTask<String, Void, String> {
+
+        private final ProgressDialog loading = new ProgressDialog(getContext());
 
         @Override
         protected String doInBackground(String[] params) {
@@ -139,13 +210,25 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                 //检查是否成功获取数据
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
-                    Snackbar.make((View)globeView.getParent(),"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    Log.v("error-CSIA=",resMsg);
+                    Toast.makeText(ct,"错误："+resMsg,Toast.LENGTH_LONG).show();
+                    loading.dismiss();
                     return;
                 }
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
             //
+            loading.dismiss();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading.setMessage("执行中...");
+            loading.show();
+            loading.setCancelable(false);
+            loading.setCanceledOnTouchOutside(false);
         }
     }
 

@@ -421,8 +421,38 @@ public class APIRequestGenerator {
         return requestlist[1];
     }
 
+    //云服务器管理：重装系统
+    public String cvm_reinstallInstance(String instanceID,String osid,String Region,String password){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","ResetInstances");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("Region",Region);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("imageType",instanceID);
+        para.put("imageId",osid);
+        para.put("password",password);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
     //云服务器管理：重置实例密码
-    public String cvm_resetInstancePassword(String instanceID,String newPassword){
+    public String cvm_resetInstancePassword(String instanceID,String newPassword,String region){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","ResetInstancePassword");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
@@ -431,6 +461,7 @@ public class APIRequestGenerator {
         para.put("SignatureMethod","HmacSHA256");
         para.put("instanceIds.0",instanceID);
         para.put("password",newPassword);
+        para.put("Region",region);
         String[] requestlist = generatePublicRequestParameters(para);
         Log.v("raw_para_str=",requestlist[0]);
         String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");

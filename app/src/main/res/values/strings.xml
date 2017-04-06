@@ -57,7 +57,52 @@
     <string name="str_cm_paymode_paybyuse">按量计费</string>
     <string name="str_cm_paymode_unknow">未知付费方式</string>
 
+    <string name="str_cm_reinstall_title">重装系统</string>
+    <string name="str_cm_reinstall_confirm">确认重装</string>
+    <string name="str_cm_reinstall_os">操作系统：</string>
+    <string name="str_cm_reinstall_password">设置密码：</string>
+    <string name="str_cm_reinstall_needSecurityAgent">安装安全Agent</string>
+    <string name="str_cm_reinstall_needMonitorAgent">安装监控Agent</string>
+    <!--.系统列表.-->
+    <string-array name="strarr_cs_spinner_os_list">
+        <item>CentOS 5.8 32位@img-7br3ouzr</item>
+        <item>CentOS 5.8 64位@img-4cq5l3u1</item>
+        <item>CentOS 5.11 32位@img-ko6c8e6f</item>
+        <item>CentOS 5.11 64位@img-ailu7ftt</item>
+        <item>CentOS 6.2 64位@img-50mr2ow7</item>
+        <item>CentOS 6.3 32位@img-1afi29f3</item>
+        <item>CentOS 6.3 64位@img-4w43a15z</item>
+        <item>CentOS 6.4 32位@img-k09t26i1</item>
+        <item>CentOS 6.4 64位@img-jlo93805</item>
+        <item>CentOS 6.5 32位@img-7uq6rrhr</item>
+        <item>CentOS 6.5 64位@img-7fwdvfur</item>
+        <item>CentOS 6.6 32位@img-5jbd8jxn</item>
+        <item>CentOS 6.6 64位@img-h5le2uy5</item>
+        <item>CentOS 6.7 32位@img-ljriodz5</item>
+        <item>CentOS 6.7 64位@img-9iwld2rx</item>
+        <item>CentOS 7.0 64位@img-b1ve77s9</item>
+        <item>CentOS 7.1 64位@img-9q2lxkar</item>
+        <item>CentOS 7.2 64位@img-31tjrtph</item>
+        <item>Debian 7.4 64位@img-c1l6bgb1</item>
+        <item>Debian 7.8 32位@img-2p1g2wjv</item>
+        <item>Debian 7.8 64位@img-feqctcrx</item>
+        <item>Debian 8.2 32位@img-ez7jwngr</item>
+        <item>Debian 8.2 64位@img-hi93l4ht</item>
+        <item>Ubuntu Server 12.04 LTS 64位 (Docker)@img-aa9z7opt</item>
+        <item>Ubuntu Server 14.04.1 LTS 32位@img-qpxvpujt</item>
+        <item>Ubuntu Server 14.04.1 LTS 64位@img-3wnd9xpl</item>
+        <item>openSUSE 12.3 32位@img-8bf2kz5x</item>
+        <item>openSUSE 12.3 64位@img-1p6m0vz5</item>
+        <item>openSUSE 13.2 64位@img-pmhtrjdx</item>
+        <item>SUSE Linux Enterprise Server 11 SP3 64位@img-mg89zx1h</item>
+        <item>SUSE Linux Enterprise Server 12 64位@img-d5304izr</item>
+        <item>FreeBSD 10.1 64位@img-871lthrb</item>
+        <item>CoreOS 717.3.0 64位@img-6mre94jv</item>
+    </string-array>
 
+    <string name="str_cm_changepassword_title">修改密码</string>
+    <string name="str_cm_changepassword_newpassword">新密码</string>
+    <string name="str_cm_changepassword_comfirm">确认修改</string>
     <!-- - - - - - - - -DomainManager-->
     <string name="str_dm_need_to_be_refreshed">无记录，请刷新。</string>
     <string name="str_dm_title">域名解析记录管理</string>

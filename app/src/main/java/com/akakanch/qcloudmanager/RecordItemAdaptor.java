@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -144,7 +145,8 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                 //检查是否成功获取数据
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
-                    Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"错误："+resMsg,Toast.LENGTH_LONG).show();
+                    loading.dismiss();
                     return;
                 }
             }catch (JSONException e){
