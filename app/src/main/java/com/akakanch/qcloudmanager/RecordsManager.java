@@ -6,15 +6,20 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -23,6 +28,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Long Zhang on 2017/4/3.
@@ -38,6 +44,7 @@ public class RecordsManager extends Fragment {
     private String defaulyketId = new String();
     private RecordItemAdaptor recordItemAdaptor;
     private Button btnRefresh;
+    private FloatingActionButton fab;
 
     @Nullable
     @Override
@@ -60,6 +67,7 @@ public class RecordsManager extends Fragment {
         final String domain = getArguments().getString("DOMAIN");
         tvTips.setText(domain);
         getActivity().setTitle(getActivity().getString(R.string.str_dm_title));
+        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");
@@ -78,6 +86,48 @@ public class RecordsManager extends Fragment {
                 refresh_progress.setVisibility(View.VISIBLE);
                 Log.v("recordURL=",recordslisturl);
                 new LoadRecordList().execute(recordslisturl);
+            }
+        });
+        //设置添加新记录对话框
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //构造一个用于修改的对话框
+                LayoutInflater li = LayoutInflater.from(getActivity());
+                View changeDlgView = li.inflate(R.layout.layout_add_new_record, null);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(changeDlgView);
+                final EditText etName = (EditText)changeDlgView.findViewById(R.id.editText_name_add);
+                final EditText etValue = (EditText)changeDlgView.findViewById(R.id.editText_value_add);
+                final Spinner spType = (Spinner)changeDlgView.findViewById(R.id.spinner_type_add);
+                final Button btnConfirm = (Button)changeDlgView.findViewById(R.id.button_confirm_add);
+                final Button btnCancel = (Button)changeDlgView.findViewById(R.id.button_cancel_add);
+                final AlertDialog dlg = builder.show();
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String name = etName.getText().toString();
+                        String value = etValue.getText().toString();
+                        String type = spType.getSelectedItem().toString();
+                        if(name.length()<1 || value.length()<7){
+                            Snackbar.make(globeView,"请输入正确数据.", BaseTransientBottomBar.LENGTH_LONG).show();
+                            return;
+                        }
+                        //生成添加链接
+                        String addURL  = "https://" + APIRG.domian_addRecord(domain,name,type,"默认",value);
+                        Log.v("add_record=",addURL);
+                        //在这里执行
+                        new AddNewRecord().execute(addURL);
+                        dlg.dismiss();
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dlg.cancel();
+                    }
+                });
+
             }
         });
         //自动刷新一次
@@ -138,6 +188,41 @@ public class RecordsManager extends Fragment {
             //
             btnRefresh.setEnabled(true);
             refresh_progress.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    //用于添加解析记录
+    private class AddNewRecord extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+            WebClient wb = new WebClient();
+            String resultstr = new String();
+            try {
+                resultstr = wb.getContent(params[0], "utf-8", "utf-8");
+            }catch (IOException e){
+                Log.v("IO Exception=",e.getMessage());
+                return "IO EXCEPTION";
+            }
+            return resultstr;
+        }
+        @Override
+        protected void onPostExecute(String message) {
+            //解析返回的JSON数据，加载资源列表
+            try {
+                JSONObject responsejson = new JSONObject(message);
+                int resCode = (int)responsejson.get("code");
+                //检查是否成功获取数据
+                if(resCode != 0) {
+                    String resMsg = (String) responsejson.get("message");
+                    Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+            }catch (JSONException e){
+                Log.v("JSON-ERROR=",e.getMessage());
+            }
+            //add refresh here
+           // new LoadRecordList().execute("https://" + APIRG.domian_getRecordList(domain));
         }
     }
 

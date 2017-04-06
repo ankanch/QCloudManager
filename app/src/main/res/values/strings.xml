@@ -79,6 +79,13 @@
         <item>AAAA</item>
         <item>SRV</item>
     </string-array>
+    <!-- - - - - - - - -添加新的解析记录-->
+    <string name="str_dm_add_records_tips">添加解析记录</string>
+    <string name="str_dm_add_records_name">主机记录：</string>
+    <string name="str_dm_add_records_type">记录类型</string>
+    <string name="str_dm_add_records_value">记录值</string>
+    <string name="str_dm_add_records_confirm">确认添加</string>
+    <string name="str_dm_add_records_cancel">取消</string>
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
         欢迎使用腾讯云助手\r\n

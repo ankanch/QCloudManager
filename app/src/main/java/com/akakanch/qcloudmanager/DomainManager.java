@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,6 +97,8 @@ public class DomainManager extends Fragment {
                 fragmentTransaction.replace(R.id.content_main,ip);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                FloatingActionButton fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+                fab.setVisibility(View.VISIBLE);
             }
         });
     }

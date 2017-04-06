@@ -1,5 +1,6 @@
 package com.akakanch.qcloudmanager;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -35,6 +37,7 @@ import java.util.Arrays;
 public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
 
     private View globeView;
+    private ProgressDialog loading;
 
     public RecordItemAdaptor(Context context, ArrayList<RecordItem> users) {
         super(context, 0, users);
@@ -45,6 +48,8 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         //获取指定项数据
         globeView = convertView;
+        loading = new ProgressDialog(getContext());
+        loading.setMessage("更新中...");
         final RecordItem recordItem = getItem(position);
         //检查视图是否被复用，否则用view填充
         if (convertView == null) {
@@ -81,15 +86,16 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                 btnConfrim.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Snackbar.make(globeView,"请求已提交!",Snackbar.LENGTH_LONG).show();
                         String name = inputName.getText().toString();
                         String value = inputValue.getText().toString();
                         String rtype = type.getSelectedItem().toString();
-                        Snackbar.make(globView,name, Snackbar.LENGTH_LONG).show();
                         //执行修改解析记录操作\
                         String changeURL = "https://" + APIRG.domian_changeRecord(recordItem.domain,new String().valueOf(recordItem.id),name,rtype,recordItem.line,value);
                         Log.v("changeRecord=",changeURL);
                         new PerformChange().execute(changeURL);
                         dlg.dismiss();
+                        loading.show();
                     }
                 });
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -103,10 +109,12 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                     public void onClick(View view) {
                         Snackbar.make(globView,"delete", Snackbar.LENGTH_LONG).show();
                         //执行删除解析记录操作
+                        String deleteURL = "https://"+ APIRG.domian_deleteRecord(recordItem.domain,new String().valueOf(recordItem.id));
+                        Log.v("deltetRecord=",deleteURL);
+                        new PerformChange().execute(deleteURL);
                         dlg.dismiss();
                     }
                 });
-                //builder.show();
             }
         });
 
@@ -141,11 +149,12 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                Snackbar.make(globeView,"操作成功",Snackbar.LENGTH_LONG).show();
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
-            refresh_progress.setVisibility(View.INVISIBLE);
+            loading.cancel();  // NOT WORK PROPOERLY
+            Log.v("done.","-----------------------" + new String().valueOf(loading==null));
+            //loading.dismiss();
         }
     }
 }
