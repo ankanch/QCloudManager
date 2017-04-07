@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">腾讯云助手</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6425922486772410/4669971281</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -134,8 +135,7 @@
     <!-- - - - - - - - -IndexPage-->
     <string name="str_ip_notes">
         欢迎使用腾讯云助手\r\n
-        鉴于腾讯云没有易用的应用故我开发了该应用\r\n
-        <b>本应用与腾讯公司没有任何关系</b>\r\n
+        <b>本应用与腾讯公司没有任何关系\r\n腾讯云以及相关图标为腾讯公司所有</b>\r\n
         在开始使用前，本应用需要获取您的云API密钥\r\n
     </string>
     <string name="str_ip_howtogetkey">

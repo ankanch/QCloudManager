@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +14,8 @@
     <LinearLayout android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_marginBottom="5sp">
 
         <ProgressBar
             android:id="@+id/progressBar_cvmrefresh"
@@ -36,9 +38,19 @@
                 android:text="@string/str_cm_refresh_button"
             android:layout_weight="0.38" />
     </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView_cloudserver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp">
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

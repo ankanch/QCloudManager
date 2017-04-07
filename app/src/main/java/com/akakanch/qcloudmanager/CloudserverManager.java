@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +51,10 @@ public class CloudserverManager extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_cloudserver);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         globeView = getView();
         cvmAdapter = new CloudServerItemAdapter(getActivity(), arrayOfCVM);
         //设置关键变量ID

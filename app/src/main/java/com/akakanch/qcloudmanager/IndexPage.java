@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 /**
  * Created by Long Zhang on 2017/3/22.
  */
@@ -31,6 +34,10 @@ public class IndexPage extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_index);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         btnOk = (Button)getActivity().findViewById(R.id.button_OK);
         editText = (EditText)getActivity().findViewById(R.id.editText_apikey);
         editTextid = (EditText)getActivity().findViewById(R.id.editText_apikeyid);

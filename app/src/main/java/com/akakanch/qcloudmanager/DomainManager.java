@@ -22,6 +22,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +57,10 @@ public class DomainManager extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_domain);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         globeView = getView();
         domainmAdapter  = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,arrayOfDomain);
         //获取关键控件变量
