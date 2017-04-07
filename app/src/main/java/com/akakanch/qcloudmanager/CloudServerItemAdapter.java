@@ -2,6 +2,7 @@ package com.akakanch.qcloudmanager;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -90,18 +91,27 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                             case R.id.menu_cvm_start:
                                 URL = "https://" + APIRG.cvm_bootInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
                                 Log.v("START=",URL);
-                                Snackbar.make((View)globeView.getParent(),getContext().getString(R.string.str_cm_contentmenu_tips_booting),Snackbar.LENGTH_LONG).show();
-                               // cvmItem.Status = getContext().getString(R.string.str_cm_statusdes_booting);
+                                Snackbar.make(globeView,getContext().getString(R.string.str_cm_contentmenu_tips_booting),Snackbar.LENGTH_LONG).show();
+                                Log.v("start-id=",cvmItem.InstanceID);
                                 break;
                             case R.id.menu_cvm_shutdown:
                                 URL = "https://" + APIRG.cvm_shutdownInstance(cvmItem.InstanceID,cvmItem.InstanceRegion);
                                 Log.v("SHUTDOWN=",URL);
-                                Snackbar.make((View)globeView.getParent(),getContext().getString(R.string.str_cm_contentmenu_tips_shutdown),Snackbar.LENGTH_LONG).show();
-                                //cvmItem.Status = getContext().getString(R.string.str_cm_statusdes_shutdowning);
+                                Snackbar.make(globeView,getContext().getString(R.string.str_cm_contentmenu_tips_shutdown),Snackbar.LENGTH_LONG).show();
+                                Log.v("shutdown-id=",cvmItem.InstanceID);
                                 break;
                             case R.id.menu_cvm_returninstance:
                                 break;
                             case R.id.menu_cvm_resetpassword: {
+                                if(!cvmItem.Status.equals(getContext().getString(R.string.str_cm_statusdes_shutdown))){
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setMessage("只能在关机状态下修改密码！").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    dialog.cancel();
+                                                }
+                                            }).show();
+                                    break;
+                                }
                                 LayoutInflater li = LayoutInflater.from(getContext());
                                 View changeDlgView = li.inflate(R.layout.layout_cloudserver_changepassword, null);
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -121,6 +131,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                                         }
                                         String changepwd = "https://" + APIRG.cvm_resetInstancePassword(cvmItem.InstanceID,password,cvmItem.InstanceRegion);
                                         Log.v("changepwdURL=",changepwd);
+                                        Log.v("resetpwd-id=",cvmItem.InstanceID);
                                         new doManageCVM().execute(changepwd);
                                         dlg.dismiss();
                                     }
@@ -153,8 +164,9 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                                             return;
                                         }
                                         String ostype = os.getSelectedItem().toString().split("@")[1];
-                                        String reinstallURL = "http://"+APIRG.cvm_reinstallInstance(cvmItem.InstanceID,ostype,cvmItem.InstanceRegion,password);
+                                        String reinstallURL = "https://"+APIRG.cvm_reinstallInstance(cvmItem.InstanceID,ostype,cvmItem.InstanceRegion,password);
                                         Log.v("reinstallURL=",reinstallURL);
+                                        Log.v("reinstall-id=",cvmItem.InstanceID);
                                         new doManageCVM().execute(reinstallURL);
                                         dlg.cancel();
                                     }

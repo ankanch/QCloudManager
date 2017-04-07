@@ -430,7 +430,8 @@ public class APIRequestGenerator {
         para.put("SecretId",APIkeyId);
         para.put("Region",Region);
         para.put("SignatureMethod","HmacSHA256");
-        para.put("imageType",instanceID);
+        para.put("instanceId",instanceID);
+        para.put("imageType","2");
         para.put("imageId",osid);
         para.put("password",password);
         String[] requestlist = generatePublicRequestParameters(para);
