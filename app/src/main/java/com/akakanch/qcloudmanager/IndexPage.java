@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,12 @@ public class IndexPage extends Fragment {
     private EditText editText;
     private EditText editTextid;
     private boolean buttonOKmode = true;
+    private String defaultkey =  new String();
+    private String defaulyketId = new String();
+    private boolean first = true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.layout_index,container,false);
     }
 
@@ -36,34 +39,35 @@ public class IndexPage extends Fragment {
         super.onStart();
         AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_index);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
         btnOk = (Button)getActivity().findViewById(R.id.button_OK);
         editText = (EditText)getActivity().findViewById(R.id.editText_apikey);
         editTextid = (EditText)getActivity().findViewById(R.id.editText_apikeyid);
-        //读取是否已经存在APIkey
-        String defaultkey =  read("API_KEY");
-        String defaulyketId = read("API_KEY_ID");
-        if(defaultkey.equals("NULL") || defaulyketId.equals("NULL")){
-            Snackbar.make(getView(),getString(R.string.str_tips_api_key_needed),Snackbar.LENGTH_LONG).show();
-            buttonOKmode = true;
-            btnOk.setText(getString(R.string.str_ip_ok));
-        }else {
-            Snackbar.make(getView(),getString(R.string.str_tips_api_key_found),Snackbar.LENGTH_LONG).show();
-            editText.setText(defaultkey);
-            editTextid.setText(defaulyketId);
-            editText.setEnabled(false);
-            editTextid.setEnabled(false);
-            buttonOKmode = false;
-            btnOk.setText(getString(R.string.str_ip_change));
+        if(first) {
+            //读取是否已经存在APIkey
+            defaultkey = read("API_KEY");
+            defaulyketId = read("API_KEY_ID");
+            if (defaultkey.equals("NULL") || defaulyketId.equals("NULL")) {
+                Snackbar.make(getView(), getString(R.string.str_tips_api_key_needed), Snackbar.LENGTH_LONG).show();
+                buttonOKmode = true;
+                btnOk.setText(getString(R.string.str_ip_ok));
+            } else {
+                Snackbar.make(getView(), getString(R.string.str_tips_api_key_found), Snackbar.LENGTH_LONG).show();
+                editText.setText(defaultkey);
+                editTextid.setText(defaulyketId);
+                editText.setEnabled(false);
+                editTextid.setEnabled(false);
+                buttonOKmode = false;
+                btnOk.setText(getString(R.string.str_ip_change));
+            }
+            first=false;
         }
         //设置事件
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //&*******************************正式版请删掉以下两行代码
-                save("API_KEY", "c6RcifSjz9B3qV2eKvNiy53wtmVWTGwU");
-                save("API_KEY_ID","AKIDHYhgbRrh8UhJm6pPNCxb6RitvvmZKj8Y");
+                //save("API_KEY", "c6RcifSjz9B3qV2eKvNiy53wtmVWTGwU");
+                //save("API_KEY_ID","AKIDHYhgbRrh8UhJm6pPNCxb6RitvvmZKj8Y");
                 //&*******************************正式版请删掉上面两行代码
                 if(buttonOKmode) {
                     //添加模式
@@ -73,8 +77,8 @@ public class IndexPage extends Fragment {
                         Snackbar.make(getView(), getString(R.string.str_tips_invaild_api_key), Snackbar.LENGTH_LONG).show();
                     } else {
                         //&*******************************正式版需要取消以下两行代码的注释
-                        //save("API_KEY", APIkey);
-                        //save("API_KEY_ID",APIkeyId);
+                        save("API_KEY", APIkey);
+                        save("API_KEY_ID",APIkeyId);
                         editText.setText(APIkey);
                         editTextid.setText(APIkeyId);
                         editText.setEnabled(false);
@@ -92,11 +96,12 @@ public class IndexPage extends Fragment {
                 }
             }
         });
-        //
+        //判断是否有保存的状态，如果有的话，继续编辑
+        mAdView.loadAd(adRequest);
     }
 
 
-    public void save(String key,String value){
+    public void save(String key, String value){
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);
