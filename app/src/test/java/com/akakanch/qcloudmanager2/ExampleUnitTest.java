@@ -1,4 +1,4 @@
-package com.akakanch.qcloudmanager;
+package com.akakanch.qcloudmanager2;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.akakanch.qcloudmanager;
+package com.akakanch.qcloudmanager2;
 import java.net.URL;
 import java.net.URLConnection;
 import java.io.BufferedReader;
