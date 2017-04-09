@@ -103,7 +103,7 @@
             android:layout_marginLeft="10sp"
             android:layout_marginRight="25sp"
             android:layout_weight="0.5"
-            android:text="@string/str_dm_add_records_cancel" />
+            android:text="@string/str_cm_create_cancel" />
 
         <Button
             android:id="@+id/button_confirm_add"
@@ -112,8 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
             android:layout_weight="0.5"
-            android:text="@string/str_dm_add_records_confirm" />
+            android:text="@string/str_cm_create_confirm" />
     </LinearLayout>
-
 
 </LinearLayout>

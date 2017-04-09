@@ -27,16 +27,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/str_ip_keyid" />
+        android:hint="@string/str_ip_keyid"
+        android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/editText_apikey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textLongMessage"
-        android:text="@string/str_ip_apikey"
         android:ems="10"
-        android:id="@+id/editText_apikey" />
+        android:hint="@string/str_ip_apikey"
+        android:inputType="textLongMessage" />
 
     <Button
         android:text="@string/str_ip_ok"
@@ -54,7 +54,7 @@
         android:layout_marginTop="20sp"/>
 
     <TextView
-        android:text="Made with ❤ by Kanch\r\nver0.9.1 beta@20170408"
+        android:text="Made with ❤ by Kanch\r\nver0.9.2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView6"

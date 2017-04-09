@@ -6,15 +6,21 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -41,6 +47,11 @@ public class CloudserverManager extends Fragment {
     private String defaulyketId = new String();
     private Spinner locationSelector;
     private Button buttonRefresh;
+    private FloatingActionButton fab;
+    //存放seekbar数据
+    private static String SysDiskSize ="20";
+    private static String DataDiskSize ="0";
+    private static String Bandwidth ="1";
 
     @Nullable
     @Override
@@ -63,6 +74,7 @@ public class CloudserverManager extends Fragment {
         cvmListView = (ListView)getActivity().findViewById(R.id.listview_cvm_list);
         cvmListView.setAdapter(cvmAdapter);
         refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_cvmrefresh);
+        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");
@@ -95,6 +107,91 @@ public class CloudserverManager extends Fragment {
                 Log.v("API-URL-Cloud-Server=",readRecordListURL);
                 //发送获取实例请求，并加载实例
                 new LoadInstanceList().execute(readRecordListURL);
+            }
+        });
+        //设置fab按钮事件
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //构造创建实例对话框
+                LayoutInflater li = LayoutInflater.from(getActivity());
+                View changeDlgView = li.inflate(R.layout.layout_cloudserver_create_new_server, null);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setView(changeDlgView);
+                Toast.makeText(getActivity(),getActivity().getString(R.string.str_cm_create_tips_support),Toast.LENGTH_LONG).show();
+                final EditText etName = (EditText)changeDlgView.findViewById(R.id.editText_name_create);
+                final EditText etPassword = (EditText)changeDlgView.findViewById(R.id.editText_password_create);
+                final SeekBar sbSystemDisk = (SeekBar)changeDlgView.findViewById(R.id.seekBar_systemdisk);
+                final SeekBar sbDataDisk = (SeekBar)changeDlgView.findViewById(R.id.seekBar_datadisk);
+                final SeekBar sbBandwidth = (SeekBar)changeDlgView.findViewById(R.id.seekBar_banwidth);
+                final TextView tvSysDiskSize = (TextView)changeDlgView.findViewById(R.id.textView_disksystemsize);
+                final TextView tvDtaDiskSize = (TextView)changeDlgView.findViewById(R.id.textView_diskdatasize);
+                final TextView tvBandwidthDiskSize = (TextView)changeDlgView.findViewById(R.id.textView_bandwidth);
+                final Button btnConfirm = (Button)changeDlgView.findViewById(R.id.button_confirm_create);
+                final Button btnCancel = (Button)changeDlgView.findViewById(R.id.button_cancel_create);
+                final AlertDialog dlg = builder.show();
+                dlg.setCanceledOnTouchOutside(false);
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String name = etName.getText().toString();
+                        String password = etPassword.getText().toString();
+                        if(name.length()<6 || password.length()<8){
+                            Snackbar.make(getView(),getActivity().getString(R.string.str_cm_create_tips_invaild),Snackbar.LENGTH_LONG).show();
+                            return;
+                        }
+                        //开始创建
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dlg.cancel();
+                    }
+                });
+                //设置seekBar信息
+                sbSystemDisk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        if(i<=30) {
+                            SysDiskSize = SysDiskSize.valueOf(i + 20);
+                        }else{
+                            SysDiskSize = "50";
+                        }
+                        tvSysDiskSize.setText(SysDiskSize + " GB");
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {}
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {}
+                });
+                sbDataDisk.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        //保证是10的倍数
+                        int x =i;
+                        while(x%10 != 0){
+                            x--;
+                        }
+                        DataDiskSize = DataDiskSize.valueOf(x);
+                        tvDtaDiskSize.setText(DataDiskSize + " GB");
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {}
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {}
+                });
+                sbBandwidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        Bandwidth = Bandwidth.valueOf(i);
+                        tvBandwidthDiskSize.setText(Bandwidth + " Mbps" );
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {}
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {}
+                });
             }
         });
 

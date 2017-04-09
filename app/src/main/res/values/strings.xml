@@ -64,6 +64,17 @@
     <string name="str_cm_reinstall_password">设置密码：</string>
     <string name="str_cm_reinstall_needSecurityAgent">安装安全Agent</string>
     <string name="str_cm_reinstall_needMonitorAgent">安装监控Agent</string>
+    <!--.创建新实例.-->
+    <string name="str_cm_create_tips">创建实例</string>
+    <string name="str_cm_create_confirm">确认创建</string>
+    <string name="str_cm_create_cancel">取消</string>
+    <string name="str_cm_create_disksystem">系统盘大小：</string>
+    <string name="str_cm_create_diskdata">数据盘大小：</string>
+    <string name="str_cm_create_network">带宽(Mbps)：</string>
+    <string name="str_cm_create_password">设置密码：</string>
+    <string name="str_cm_create_name">主机名：</string>
+    <string name="str_cm_create_tips_invaild">请确保填完所有字段！</string>
+    <string name="str_cm_create_tips_support">当前仅支持创建按量使用且使用云端硬盘的云服务器！</string>
     <!--.系统列表.-->
     <string-array name="strarr_cs_spinner_os_list">
         <item>CentOS 5.8 32位@img-7br3ouzr</item>
