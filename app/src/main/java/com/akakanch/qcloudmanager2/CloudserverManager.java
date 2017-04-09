@@ -1,6 +1,7 @@
 package com.akakanch.qcloudmanager2;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -121,6 +122,9 @@ public class CloudserverManager extends Fragment {
                 Toast.makeText(getActivity(),getActivity().getString(R.string.str_cm_create_tips_support),Toast.LENGTH_LONG).show();
                 final EditText etName = (EditText)changeDlgView.findViewById(R.id.editText_name_create);
                 final EditText etPassword = (EditText)changeDlgView.findViewById(R.id.editText_password_create);
+                final Spinner spOS = (Spinner)changeDlgView.findViewById(R.id.spinner_os_create);
+                final Spinner spZone = (Spinner)changeDlgView.findViewById(R.id.spinner_zone_create);
+                final Spinner spRecorce = (Spinner)changeDlgView.findViewById(R.id.spinner_serverresource_create);
                 final SeekBar sbSystemDisk = (SeekBar)changeDlgView.findViewById(R.id.seekBar_systemdisk);
                 final SeekBar sbDataDisk = (SeekBar)changeDlgView.findViewById(R.id.seekBar_datadisk);
                 final SeekBar sbBandwidth = (SeekBar)changeDlgView.findViewById(R.id.seekBar_banwidth);
@@ -141,6 +145,14 @@ public class CloudserverManager extends Fragment {
                             return;
                         }
                         //开始创建
+                        String osid = spOS.getSelectedItem().toString().split("@")[1];
+                        String zoneid = spZone.getSelectedItem().toString().split("@")[1];
+                        String CPU = spRecorce.getSelectedItem().toString().split("@")[1].split(",")[0];
+                        String MEM = spRecorce.getSelectedItem().toString().split("@")[1].split(",")[1];
+                        String CreateURL = "https://"+APIRG.cvm_createNewInstance(zoneid,CPU,MEM,osid,DataDiskSize,name,password,SysDiskSize);
+                        Log.v("create-URL=",CreateURL);
+                        new CreateNewInstance().execute(CreateURL);
+                        dlg.dismiss();
                     }
                 });
                 btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +204,8 @@ public class CloudserverManager extends Fragment {
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {}
                 });
+                //
+
             }
         });
 
@@ -249,6 +263,56 @@ public class CloudserverManager extends Fragment {
             //
             buttonRefresh.setEnabled(true);
             refresh_progress.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
+    //用于创建云服务器
+    private class CreateNewInstance extends AsyncTask<String, Void, String> {
+
+        final private ProgressDialog loading= new ProgressDialog(getContext());;
+
+        @Override
+        protected String doInBackground(String[] params) {
+            //开始向腾讯请求实例列表
+            WebClient wb = new WebClient();
+            String resultstr = new String();
+            try {
+                resultstr = wb.getContent(params[0], "utf-8", "utf-8");
+            }catch (IOException e){
+                Log.v("IO Exception=",e.getMessage());
+                return "IO EXCEPTION";
+            }
+            return resultstr;
+        }
+        @Override
+        protected void onPostExecute(String message) {
+            //解析返回的JSON数据，加载资源列表
+            try {
+                JSONObject responsejson = new JSONObject(message);
+                int resCode = (int)responsejson.get("code");
+                //检查是否成功获取数据
+                if(resCode != 0) {
+                    String resMsg = (String) responsejson.get("message");
+                    Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    return;
+                }
+                //继续解析
+            }catch (JSONException e){
+                Log.v("JSON-ERROR=",e.getMessage());
+            }
+            //
+            loading.dismiss();
+            Snackbar.make(globeView,"创建成功，请刷新(等待3分钟，否则会出错)！",Snackbar.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading.setMessage("创建中...");
+            loading.show();
+            loading.setCancelable(false);
+            loading.setCanceledOnTouchOutside(false);
         }
     }
 

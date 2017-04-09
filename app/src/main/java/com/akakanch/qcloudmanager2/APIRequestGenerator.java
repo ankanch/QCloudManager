@@ -482,7 +482,7 @@ public class APIRequestGenerator {
     }
 
     //云服务器管理：退还实例
-    public String cvm_returnInstance(String instanceID){
+    public String cvm_returnInstance(String instanceID,String region){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","ReturnInstance");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
@@ -490,6 +490,81 @@ public class APIRequestGenerator {
         para.put("SecretId",APIkeyId);
         para.put("SignatureMethod","HmacSHA256");
         para.put("instanceId",instanceID);
+        para.put("Region",region);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
+    //云服务器管理：创建新实例：按量使用
+    public String cvm_createNewInstance(String zoneid,String cpu,String mem,String imageid,String storageSize,String instanceName,String password,String rootSize){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","RunInstancesHour");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("zoneId",zoneid);
+        para.put("cpu",cpu);
+        para.put("mem",mem);
+        para.put("imageId",imageid);
+        para.put("storageSize",storageSize);
+        para.put("instanceName",instanceName);
+        para.put("password",password);
+        para.put("bandwidthType","PayByTraffic"); //设置为按流量计费
+        para.put("storageType","2");  //使用云端硬盘
+        para.put("rootSize",rootSize);
+        String region = new String();
+        String[] regionlist = new String[]{"bj","gz","gz","sh","hk","ca"};
+        String[] zonelist = new String[]{"800001","100003","100002","200001","300001","400001"};
+        int pl = 0;
+        for(String zid : zonelist){
+            if(zid.equals(zoneid)){
+                break;
+            }
+            pl++;
+        }
+        para.put("Region",regionlist[pl]);
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"cvm.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
+
+    //云服务器管理：创建新实例：获取可用区(暂时不使用)
+    public String cvm_loadAvaiableZone(){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","DescribeAvailabilityZones");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("Region","bj");
+        para.put("SignatureMethod","HmacSHA256");
         String[] requestlist = generatePublicRequestParameters(para);
         Log.v("raw_para_str=",requestlist[0]);
         String requestString = generateRequestString(requestlist[0],"cvm.api.qcloud.com/v2/index.php?");

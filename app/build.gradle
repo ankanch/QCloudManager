@@ -7,8 +7,8 @@ android {
         applicationId "com.akakanch.qcloudmanager2"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 3
-        versionName "ver0.9.2"
+        versionCode 4
+        versionName "ver0.9.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

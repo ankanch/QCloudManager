@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
             CloudserverManager cm = new CloudserverManager();
             fragmentTransaction.replace(R.id.content_main,cm);
             this.setTitle(R.string.str_ma_title_cloudserver);
-            fab.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_domain) {
             //切换到域名管理页面
             DomainManager dm = new DomainManager();
