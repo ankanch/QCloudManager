@@ -84,7 +84,7 @@
         <item>上海一区@200001</item>
         <item>广州二区@100002</item>
         <item>广州三区@100003</item>
-        <item>香港一区@300001</item>
+        <item>香港一区(2核2G及以上)@300001</item>
         <item>北美一区@400001</item>
     </string-array>
     <string-array name="strarr_cs_spinner_serverresource_list">
@@ -185,6 +185,12 @@
     <string name="str_tips_api_key_found">存在可用API KEY</string>
     <string name="str_tips_api_key_needed">未找到API KEY，请添加有效API KEY</string>
     <string name="str_ip_open_url">打开API KEY获取页面...</string>
+    <!-- 关于页面-->
+    <string name="str_about_button_requestnew">请求新功能</string>
+    <string name="str_about_bugsubmit">提交bug</string>
+    <string name="str_about_rating">为QCloudManager评分</string>
+    <string name="str_about_abouttext1">测试</string>
+    <string name="str_about_abouttext2">测试2</string>
     <!-- 储存数据用的键值对-->
     <string name="key_value_apikey">TENCENT_API_KEY</string>
 

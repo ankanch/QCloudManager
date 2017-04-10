@@ -149,7 +149,7 @@ public class CloudserverManager extends Fragment {
                         String zoneid = spZone.getSelectedItem().toString().split("@")[1];
                         String CPU = spRecorce.getSelectedItem().toString().split("@")[1].split(",")[0];
                         String MEM = spRecorce.getSelectedItem().toString().split("@")[1].split(",")[1];
-                        String CreateURL = "https://"+APIRG.cvm_createNewInstance(zoneid,CPU,MEM,osid,DataDiskSize,name,password,SysDiskSize);
+                        String CreateURL = "https://"+APIRG.cvm_createNewInstance(zoneid,CPU,MEM,osid,DataDiskSize,name,password,SysDiskSize,Bandwidth);
                         Log.v("create-URL=",CreateURL);
                         new CreateNewInstance().execute(CreateURL);
                         dlg.dismiss();
@@ -248,7 +248,12 @@ public class CloudserverManager extends Fragment {
                     String ip = (String)((JSONArray)instance.get("wanIpSet")).get(0);
                     String os = (String)instance.get("os");
                     String region = (String)instance.get("Region");
-                    String iid = (String)instance.get("instanceId");
+                    String iid = new String();
+                    try {
+                         iid = (String) instance.get("instanceId");
+                    }catch (Exception e){
+                        iid = "null";
+                    }
                     int paymode = (int)instance.get("cvmPayMode");
                     int status = (int)instance.get("status");
                     CloudServerItem item = new CloudServerItem(name,ip,os,getStatusDes(status),getPayMode(paymode),getOSImg(os),iid);

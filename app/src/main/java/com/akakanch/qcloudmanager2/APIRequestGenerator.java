@@ -510,7 +510,7 @@ public class APIRequestGenerator {
     }
 
     //云服务器管理：创建新实例：按量使用
-    public String cvm_createNewInstance(String zoneid,String cpu,String mem,String imageid,String storageSize,String instanceName,String password,String rootSize){
+    public String cvm_createNewInstance(String zoneid,String cpu,String mem,String imageid,String storageSize,String instanceName,String password,String rootSize,String bandwidth){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","RunInstancesHour");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
@@ -523,6 +523,7 @@ public class APIRequestGenerator {
         para.put("imageId",imageid);
         para.put("storageSize",storageSize);
         para.put("instanceName",instanceName);
+        para.put("bandwidth",bandwidth);
         para.put("password",password);
         para.put("bandwidthType","PayByTraffic"); //设置为按流量计费
         para.put("storageType","2");  //使用云端硬盘
