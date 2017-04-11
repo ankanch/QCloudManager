@@ -10,7 +10,8 @@
     <string name="action_settings">设置</string>
     <string name="action_kanch">by Kanch</string>
     <!-- 抽屉导航-->
-    <string name="drawer_index">欢迎页 - 关于</string>
+    <string name="drawer_index">欢迎页</string>
+    <string name="drawer_about">关于本应用</string>
     <string name="drawer_horzontal_title">关于</string>
     <string name="drawer_cloudserver">云服务器管理</string>
     <string name="drawer_domain">域名管理</string>

@@ -18,6 +18,10 @@
                 android:id="@+id/nav_index"
                 android:icon="@drawable/ic_menu_index"
                 android:title="@string/drawer_index" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_menu_index"
+                android:title="@string/drawer_about" />
         </menu>
     </item>
 
