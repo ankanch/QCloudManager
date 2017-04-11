@@ -35,22 +35,34 @@ public class AboutDialog extends Fragment {
         btnRequestNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(globeView,"test",Snackbar.LENGTH_LONG).show();
-                //Intent browserIntent = new Intent(Intent.ACTION_SEND, Uri.parse("https://www.qcloud.com/login?s_url=https%3A%2F%2Fconsole.qcloud.com%2Fcapi"));
-                //startActivity(browserIntent);
-                //发送邮件
+                Snackbar.make(globeView,getActivity().getString(R.string.str_about_tips_requestnew),Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"kanchisme@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "[QCloudManager - Request New Function]");
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
             }
         });
         btnBugReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //提交bug，通过网页
+                Snackbar.make(globeView,getActivity().getString(R.string.str_about_tips_bugreport),Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"kanchisme@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "[QCloudManager - Bug Report]");
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                }
             }
         });
         btnRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //打开market评分
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.akakanch.qcloudmanager2"));
+                startActivity(browserIntent);
             }
         });
     }

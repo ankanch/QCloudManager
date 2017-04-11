@@ -115,10 +115,9 @@ public class MainActivity extends AppCompatActivity
             this.setTitle(R.string.str_ma_title_domain);
             fab.setVisibility(View.INVISIBLE);
         }else if (id == R.id.nav_about) {
-            //切换到域名管理页面
             AboutDialog ad = new AboutDialog();
             fragmentTransaction.replace(R.id.content_main, ad);
-            fragmentTransaction.addToBackStack(null);
+            //fragmentTransaction.addToBackStack(null);
             this.setTitle(R.string.drawer_about);
             fab.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_view) {

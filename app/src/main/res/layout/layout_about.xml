@@ -33,25 +33,38 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView199"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_about_version"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_light_default"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_marginTop="5sp"
             android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="16sp"
-            tools:text="@string/str_about_abouttext1" />
+            android:text="@string/str_about_abouttext1"
+            android:textAlignment="center"
+            android:textSize="16sp" />
 
         <TextView
+            android:layout_marginTop="5sp"
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:text="@string/str_about_abouttext2" />
+            android:text="@string/str_about_abouttext2"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="10sp">
 
         <LinearLayout
             android:layout_width="match_parent"

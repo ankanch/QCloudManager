@@ -78,7 +78,7 @@
     <string name="str_cm_create_os">操作系统：</string>
     <string name="str_cm_create_servertype">服务器配置：</string>
     <string name="str_cm_create_zone">区域选择：</string>
-    <string name="str_cm_create_tips_invaild">请确保填完所有字段！</string>
+    <string name="str_cm_create_tips_invaild">请确保填完所有字段！字段长度需要大于8</string>
     <string name="str_cm_create_tips_support">当前仅支持创建按量使用且使用云端硬盘的云服务器！</string>
     <string-array name="strarr_cm_spinner_create_new">
         <item>北京一区@800001</item>
@@ -187,11 +187,14 @@
     <string name="str_tips_api_key_needed">未找到API KEY，请添加有效API KEY</string>
     <string name="str_ip_open_url">打开API KEY获取页面...</string>
     <!-- 关于页面-->
+    <string name="str_about_tips_requestnew">请在邮件正文写入您需要的新功能</string>
+    <string name="str_about_tips_bugreport">请在邮件正文写上出错信息以及系统日志</string>
     <string name="str_about_button_requestnew">请求新功能</string>
     <string name="str_about_bugsubmit">提交bug</string>
     <string name="str_about_rating">为QCloudManager评分</string>
-    <string name="str_about_abouttext1">测试</string>
-    <string name="str_about_abouttext2">测试2</string>
+    <string name="str_about_abouttext1">本应用可以帮助你便捷管理你的腾讯云资源。\r\n随着应用的更新，以后支持的腾讯云资源会越来越多。</string>
+    <string name="str_about_abouttext2">本应用非腾讯官方应用，与腾讯无任何关系。\r\n腾讯云及其logo均为腾讯公司所有。</string>
+    <string name="str_about_version">版本号： 1.0.1</string>
     <!-- 储存数据用的键值对-->
     <string name="key_value_apikey">TENCENT_API_KEY</string>
 
