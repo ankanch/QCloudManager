@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/str_sii_menue_createcvm"
+        android:id="@+id/menu_systemimage_createcvm"/>
+    <item android:title="@string/str_sii_menue_delete"
+        android:id="@+id/menu_systemimage_delete"/>
+</menu>

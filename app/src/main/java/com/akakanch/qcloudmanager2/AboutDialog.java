@@ -32,6 +32,7 @@ public class AboutDialog extends Fragment {
         Button btnRequestNew  = (Button)globeView.findViewById(R.id.button_request_new_function);
         Button btnBugReport = (Button)globeView.findViewById(R.id.button_submit_bug);
         Button btnRating = (Button)globeView.findViewById(R.id.button_rating_app_in_market);
+        Button btnWebsite = (Button)globeView.findViewById(R.id.button_open_website);
         btnRequestNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +63,13 @@ public class AboutDialog extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.akakanch.qcloudmanager2"));
+                startActivity(browserIntent);
+            }
+        });
+        btnWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://akakanch.com/projects/qcloudmanager"));
                 startActivity(browserIntent);
             }
         });

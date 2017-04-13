@@ -583,4 +583,31 @@ public class APIRequestGenerator {
         requestlist[1] += "&Signature=" + singuture;
         return requestlist[1];
     }
+
+    public String systemimage_retriveImage(){
+        Map<String,String> para = new HashMap<String, String>();
+        para.put("Action","DescribeImages");
+        para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("SecretId",APIkeyId);
+        para.put("SignatureMethod","HmacSHA256");
+        para.put("imageType","1");   //只显示私有镜像
+        //para.put("Region",region);   本函数会显示所有区域的可用镜像
+        String[] requestlist = generatePublicRequestParameters(para);
+        Log.v("raw_para_str=",requestlist[0]);
+        String requestString = generateRequestString(requestlist[0],"image.api.qcloud.com/v2/index.php?");
+        String singuture = HmacSHA256Encode(APIkey,requestString);
+        Log.v("Singuture=",singuture);
+        //编码
+        try {
+            singuture = URLEncoder.encode(singuture, "UTF-8");
+            Log.v("Singuture-encode=",singuture);
+        }catch (UnsupportedEncodingException e){
+            Log.v("ERROR:ENCODING",e.getMessage());
+        }
+        //添加签名在尾部
+        requestlist[1] = generateRequestURL(requestlist[1],"image.api.qcloud.com/v2/index.php?");
+        requestlist[1] += "&Signature=" + singuture;
+        return requestlist[1];
+    }
 }

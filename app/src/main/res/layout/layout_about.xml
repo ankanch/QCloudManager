@@ -84,7 +84,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/str_about_button_requestnew" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/button_open_website"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="访问网站" />
 
         <Button
             android:id="@+id/button_rating_app_in_market"

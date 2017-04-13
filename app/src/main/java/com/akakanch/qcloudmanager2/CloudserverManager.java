@@ -1,6 +1,8 @@
 package com.akakanch.qcloudmanager2;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -75,6 +77,7 @@ public class CloudserverManager extends Fragment {
         cvmListView = (ListView)getActivity().findViewById(R.id.listview_cvm_list);
         cvmListView.setAdapter(cvmAdapter);
         refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_cvmrefresh);
+        Button systemimagemanger = (Button)getActivity().findViewById(R.id.button_systemimage_manager);
         fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         //读取是否有key
         defaultkey =  read("API_KEY");
@@ -205,7 +208,19 @@ public class CloudserverManager extends Fragment {
                     public void onStopTrackingTouch(SeekBar seekBar) {}
                 });
                 //
-
+            }
+        });
+        //
+        systemimagemanger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                SystemImageInspector sii = new SystemImageInspector();
+                fragmentTransaction.replace(R.id.content_main, sii);
+                getActivity().setTitle(R.string.str_sii_title);
+                fab.setVisibility(View.INVISIBLE);
+                fragmentTransaction.commit();
             }
         });
 
