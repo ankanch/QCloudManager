@@ -18,6 +18,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,6 +60,9 @@ public class SystemImageInspector extends Fragment {
         imageAdaptor = new SystemImageItemAdaptor(getActivity(), imageList);
         lvImageList.setAdapter(imageAdaptor);
         globeView = getView();
+        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_systemimage);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         refreshbutton = (Button)getActivity().findViewById(R.id.button_refresh_systemimage);
         //读取是否有key
         defaultkey =  read("API_KEY");
@@ -77,11 +84,11 @@ public class SystemImageInspector extends Fragment {
                 }
             }
         });
-        //
-        //手动添加几个项目
-        SystemImageItem test = new SystemImageItem("IMAGE ID ASSAKDJ","Name xxx","This is description.","X OS","2106-1-1","OK");
-        imageList.add(test);
         //自动刷新
+        for(String url : urllist){
+            new LoadSystemImage().execute(url);
+            Log.v("imagelisturl=",url);
+        }
     }
 
     //用于获取镜像列表
@@ -112,12 +119,28 @@ public class SystemImageInspector extends Fragment {
                     return;
                 }
                 //继续解析
+                int count = (int)responsejson.get("totalCount");
+                Log.v("total-count=",new String().valueOf(count));
+                JSONArray imageset = (JSONArray)responsejson.get("imageSet");
+                for(int i=0;i<count;i++){
+                    JSONObject imagedata = (JSONObject)imageset.get(i);
+                    SystemImageItem imageitem = new SystemImageItem();
+                    imageitem.imageName = (String) imagedata.get("imageName");
+                    imageitem.imageID = (String)imagedata.get("unImgId");
+                    imageitem.imageDescription = (String)imagedata.get("imageDescription");
+                    imageitem.imageStatus = getImageStatus((int)imagedata.get("status"));
+                    imageitem.osName = (String)imagedata.get("osName");
+                    imageitem.createTime = (String)imagedata.get("createTime");
+                    imageAdaptor.add(imageitem);
+                }
+
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
             refresh_progress.setVisibility(View.INVISIBLE);
             refreshbutton.setEnabled(true);
-            Snackbar.make(globeView,"刷新完毕！",Snackbar.LENGTH_LONG).show();
+            tvHeaderTips.setText("加载完毕！");
+            Snackbar.make(globeView,"刷新完毕",Snackbar.LENGTH_LONG).show();
         }
 
         @Override
@@ -125,6 +148,24 @@ public class SystemImageInspector extends Fragment {
             super.onPreExecute();
             refresh_progress.setVisibility(View.VISIBLE);
             refreshbutton.setEnabled(false);
+            Snackbar.make(globeView,"刷新中...",Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public String getImageStatus(int statuscode){
+        switch(statuscode){
+            case 1:
+                return "创建中";
+            case 2:
+                return "正常";
+            case 3:
+                return "使用中";
+            case 4:
+                return "同步中";
+            case 5:
+                return "复制中";
+            default:
+                return "未知状态";
         }
     }
 

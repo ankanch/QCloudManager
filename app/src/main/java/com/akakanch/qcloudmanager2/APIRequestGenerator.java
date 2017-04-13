@@ -589,7 +589,7 @@ public class APIRequestGenerator {
         String[] urls = new String[5];
         int i = 0;
         for(String pos : REGION){
-            String url = systemimage_retriveImage(pos);
+            String url = "https://" + systemimage_retriveImage(pos);
             urls[i] = url;
             i++;
         }

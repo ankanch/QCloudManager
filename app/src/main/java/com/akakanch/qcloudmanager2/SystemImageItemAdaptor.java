@@ -47,10 +47,10 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
         final Button btnMenu = (Button)convertView.findViewById(R.id.button_systemimage_menu);
         //设置数据
         tvName.setText(imageItem.imageName);
-        tvID.setText(imageItem.imageID);
+        tvID.setText("镜像ID："+imageItem.imageID);
         tvCreateTime.setText(imageItem.createTime);
         tvOS.setText(imageItem.osName);
-        tvDescription.setText(imageItem.imageDescription);
+        tvDescription.setText("状态："+imageItem.imageStatus);
         //设置菜单事件
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override

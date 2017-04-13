@@ -67,7 +67,7 @@
     <string name="str_cm_reinstall_needSecurityAgent">安装安全Agent</string>
     <string name="str_cm_reinstall_needMonitorAgent">安装监控Agent</string>
     <!--.创建新实例.-->
-    <string name="str_cm_create_tips">创建实例</string>
+    <string name="str_cm_create_tips">创建实例（按量使用）</string>
     <string name="str_cm_create_confirm">确认创建</string>
     <string name="str_cm_create_cancel">取消</string>
     <string name="str_cm_create_disksystem">系统盘大小：</string>
