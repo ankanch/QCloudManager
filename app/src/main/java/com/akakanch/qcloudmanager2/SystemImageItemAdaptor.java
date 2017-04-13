@@ -60,6 +60,13 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                 pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
+                        String url = new String();
+                        switch(menuItem.getItemId()){
+                            case R.id.menu_systemimage_createcvm:
+                                break;
+                            case R.id.menu_systemimage_delete:
+                                break;
+                        }
                         return false;
                     }
                 });

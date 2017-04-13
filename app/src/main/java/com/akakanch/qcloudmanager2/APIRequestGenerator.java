@@ -584,7 +584,19 @@ public class APIRequestGenerator {
         return requestlist[1];
     }
 
-    public String systemimage_retriveImage(){
+    public String[] systemimage_retriveAllImage(){
+        String[] REGION= {"bj","sh","gz","hk","sg"} ;
+        String[] urls = new String[5];
+        int i = 0;
+        for(String pos : REGION){
+            String url = systemimage_retriveImage(pos);
+            urls[i] = url;
+            i++;
+        }
+        return urls;
+    }
+
+    private String systemimage_retriveImage(String region){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","DescribeImages");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
@@ -592,7 +604,7 @@ public class APIRequestGenerator {
         para.put("SecretId",APIkeyId);
         para.put("SignatureMethod","HmacSHA256");
         para.put("imageType","1");   //只显示私有镜像
-        //para.put("Region",region);   本函数会显示所有区域的可用镜像
+        para.put("Region",region);
         String[] requestlist = generatePublicRequestParameters(para);
         Log.v("raw_para_str=",requestlist[0]);
         String requestString = generateRequestString(requestlist[0],"image.api.qcloud.com/v2/index.php?");
