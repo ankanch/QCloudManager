@@ -54,7 +54,7 @@
         android:layout_marginTop="20sp"/>
 
     <TextView
-        android:text="Made with ❤ by Kanch\r\nver 1.1.0"
+        android:text="Made with ❤ by Kanch\r\nver 1.1.0 Preview "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView6"

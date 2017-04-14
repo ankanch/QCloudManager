@@ -681,6 +681,7 @@ public class APIRequestGenerator {
         para.put("SecretId",APIkeyId);
         para.put("SignatureMethod","HmacSHA256");
         para.put("imageIds.0",id);
+        para.put("imageType","1");   //只显示私有镜像
         para.put("Region",region);
         String[] requestlist = generatePublicRequestParameters(para);
         Log.v("raw_para_str=",requestlist[0]);

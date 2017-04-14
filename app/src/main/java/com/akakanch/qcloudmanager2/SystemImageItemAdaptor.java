@@ -83,7 +83,7 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                         String url = new String();
                         switch(menuItem.getItemId()){
                             case R.id.menu_systemimage_createcvm:
-                                SetCVMandCreate(ct,imageItem.imageID,imageItem.osName,imageItem.APIKeyID,imageItem.APIKey);
+                                SetCVMandCreate(ct,imageItem.imageID,imageItem.osName, imageItem.region,imageItem.APIKeyID,imageItem.APIKey);
                                 break;
                             case R.id.menu_systemimage_delete:
                                 url = "https://"+APIRG.systemimage_deleteImage(imageItem.imageID,imageItem.region);
@@ -101,7 +101,7 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
     }
 
     //用于创建按量使用的服务器（----自定义镜像）
-    public void SetCVMandCreate(final Context ct, String osid, String osname,final String defaulyketId,final String defaultkey){
+    public void SetCVMandCreate(final Context ct, String osid, String osname,String rc,final String defaulyketId,final String defaultkey){
         //构造创建实例对话框
         final Context contextx = ct;
         LayoutInflater li = LayoutInflater.from(ct);
@@ -114,11 +114,28 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
         final Spinner spOS = (Spinner)changeDlgView.findViewById(R.id.spinner_os_create);
         //设置当前系统为用户自定义镜像
         String[] os = new String[1];
-        os[0] = "私有镜像：" + osname;
+        os[0] = "私有镜像:" + osname;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ct, android.R.layout.simple_spinner_item, os);
         spOS.setAdapter(adapter);
+        spOS.setEnabled(false);
         //---------
         final Spinner spZone = (Spinner)changeDlgView.findViewById(R.id.spinner_zone_create);
+        //限制地域为镜像地域
+        String[] reg = new String[]{"北京一区@800001", "上海一区@200001", "广州二区@100002",
+                                    "广州三区@100003", "香港一区(2核2G及以上)@300001", "北美一区@400001"};
+        String[] regioncode = new String[]{"bj","sh","gz","gz","hk","ca","sg",};
+        int i =0;
+        Log.v("rc=",rc);
+        for(String x : regioncode){
+            if(x.equals(rc)){
+                break;
+            }
+            i++;
+        }
+        ArrayAdapter<String> adapterb = new ArrayAdapter<String>(ct, android.R.layout.simple_spinner_item, new String[]{reg[i]});
+        spZone.setAdapter(adapterb);
+        spZone.setEnabled(false);
+        //----------------
         final Spinner spRecorce = (Spinner)changeDlgView.findViewById(R.id.spinner_serverresource_create);
         final SeekBar sbSystemDisk = (SeekBar)changeDlgView.findViewById(R.id.seekBar_systemdisk);
         final SeekBar sbDataDisk = (SeekBar)changeDlgView.findViewById(R.id.seekBar_datadisk);

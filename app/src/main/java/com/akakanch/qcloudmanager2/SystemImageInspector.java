@@ -86,7 +86,7 @@ public class SystemImageInspector extends Fragment {
         });
         //自动刷新
         for(String url : urllist){
-            new LoadSystemImage().execute(url,url.substring(url.indexOf("Region")+6,url.indexOf("Region")+8));
+            new LoadSystemImage().execute(url,url.substring(url.indexOf("Region")+7,url.indexOf("Region")+9));
             Log.v("imagelisturl=",url);
         }
     }
@@ -120,7 +120,7 @@ public class SystemImageInspector extends Fragment {
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                imageAdaptor.clear();
+                //imageAdaptor.clear();
                 //继续解析
                 int count = (int)responsejson.get("totalCount");
                 Log.v("total-count=",new String().valueOf(count));
