@@ -193,6 +193,7 @@
     <string name="str_sii_tips_no_found">您的账户下还没有任何已知镜像列表！</string>
     <string name="str_sii_menue_createcvm">用该镜像创建实例</string>
     <string name="str_sii_menue_delete">删除该镜像</string>
+    <string name="str_sii_create_tips_support">当前仅支持创建按量使用且地域与镜像地域相同的的云服务器！</string>
     <!-- 关于页面-->
     <string name="str_about_tips_requestnew">请在邮件正文写入您需要的新功能</string>
     <string name="str_about_tips_bugreport">请在邮件正文写上出错信息以及系统日志</string>

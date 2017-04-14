@@ -1,5 +1,7 @@
 package com.akakanch.qcloudmanager2;
 
+import android.graphics.Region;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,7 @@ public class SystemImageItem {
     public String osName = new String();
     public String createTime = new String();
     public String imageStatus = new String();
+    public String region = new String();
 
     //APIkey信息（用于与Adaptor里面的popupmenu交互）
     public String APIKey = new String();

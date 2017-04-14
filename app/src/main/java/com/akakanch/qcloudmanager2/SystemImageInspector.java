@@ -79,25 +79,27 @@ public class SystemImageInspector extends Fragment {
             @Override
             public void onClick(View view) {
                 for(String url : urllist){
-                    new LoadSystemImage().execute(url);
+                    new LoadSystemImage().execute(url,url.substring(url.indexOf("Region")+6,url.indexOf("Region")+8));
                     Log.v("imagelisturl=",url);
                 }
             }
         });
         //自动刷新
         for(String url : urllist){
-            new LoadSystemImage().execute(url);
+            new LoadSystemImage().execute(url,url.substring(url.indexOf("Region")+6,url.indexOf("Region")+8));
             Log.v("imagelisturl=",url);
         }
     }
 
     //用于获取镜像列表
     private class LoadSystemImage extends AsyncTask<String, Void, String> {
+        private String region = new String();
         @Override
         protected String doInBackground(String[] params) {
             //开始向腾讯请求实例列表
             WebClient wb = new WebClient();
             String resultstr = new String();
+            region = params[1];
             try {
                 resultstr = wb.getContent(params[0], "utf-8", "utf-8");
             }catch (IOException e){
@@ -118,6 +120,7 @@ public class SystemImageInspector extends Fragment {
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
                     return;
                 }
+                imageAdaptor.clear();
                 //继续解析
                 int count = (int)responsejson.get("totalCount");
                 Log.v("total-count=",new String().valueOf(count));
@@ -131,6 +134,9 @@ public class SystemImageInspector extends Fragment {
                     imageitem.imageStatus = getImageStatus((int)imagedata.get("status"));
                     imageitem.osName = (String)imagedata.get("osName");
                     imageitem.createTime = (String)imagedata.get("createTime");
+                    imageitem.region = region;
+                    imageitem.APIKey = defaultkey;
+                    imageitem.APIKeyID = defaulyketId;
                     imageAdaptor.add(imageitem);
                 }
 
@@ -140,7 +146,11 @@ public class SystemImageInspector extends Fragment {
             refresh_progress.setVisibility(View.INVISIBLE);
             refreshbutton.setEnabled(true);
             tvHeaderTips.setText("加载完毕！");
-            Snackbar.make(globeView,"刷新完毕",Snackbar.LENGTH_LONG).show();
+            try {
+                Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
+            }catch(Exception e){
+                Log.v("NO-SUITABLE-PARENT",e.getMessage());
+            }
         }
 
         @Override
