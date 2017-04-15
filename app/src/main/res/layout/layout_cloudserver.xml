@@ -14,33 +14,36 @@
     <LinearLayout android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
+        android:weightSum="8"
         android:layout_marginBottom="5sp">
+
+        <Button
+            android:id="@+id/button_refresh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/str_cm_refresh_button" />
 
         <ProgressBar
             android:id="@+id/progressBar_cvmrefresh"
             style="?android:attr/progressBarStyle"
-            android:layout_width="59dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/button_refresh"
-            android:layout_width="106dp"
-            android:layout_height="wrap_content"
-            android:text="@string/str_cm_refresh_button" />
 
         <Spinner
                 android:id="@+id/spinner_location"
-            android:layout_width="130dp"
+            android:layout_width="0dp"
+            android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:entries="@array/strarr_cm_spinner_location" />
 
         <Button
             android:id="@+id/button_systemimage_manager"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.39"
+            android:layout_weight="2"
             android:text="@string/str_cm_systemimage_button" />
 
     </LinearLayout>

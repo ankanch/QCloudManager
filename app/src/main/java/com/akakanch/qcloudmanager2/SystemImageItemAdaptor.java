@@ -87,6 +87,7 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                                 break;
                             case R.id.menu_systemimage_delete:
                                 url = "https://"+APIRG.systemimage_deleteImage(imageItem.imageID,imageItem.region);
+                                Log.v("delete-url=",url);
                                 break;
                         }
                         new CreateNew().execute(url);

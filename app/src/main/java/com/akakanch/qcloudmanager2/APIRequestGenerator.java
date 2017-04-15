@@ -675,13 +675,12 @@ public class APIRequestGenerator {
     //删除镜像
     public String systemimage_deleteImage(String id,String region){
         Map<String,String> para = new HashMap<String, String>();
-        para.put("Action","DescribeImages");
+        para.put("Action","DeleteImages");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
         para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
         para.put("SecretId",APIkeyId);
         para.put("SignatureMethod","HmacSHA256");
         para.put("imageIds.0",id);
-        para.put("imageType","1");   //只显示私有镜像
         para.put("Region",region);
         String[] requestlist = generatePublicRequestParameters(para);
         Log.v("raw_para_str=",requestlist[0]);
