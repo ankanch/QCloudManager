@@ -6,6 +6,8 @@
         android:title="@string/str_cm_contextmenu_shutdown"/>
     <item android:id="@+id/menu_cvm_reboot"
         android:title="@string/str_cm_contextmenu_reboot"/>
+    <item android:id="@+id/menu_cvm_createimage"
+        android:title="@string/str_cm_contextmenu_createimage"/>
     <item android:id="@+id/menu_cvm_reinstallos"
         android:title="@string/str_cm_contextmenu_reinstallos"/>
     <item android:id="@+id/menu_cvm_resetpassword"

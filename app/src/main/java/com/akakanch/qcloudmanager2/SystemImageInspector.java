@@ -117,7 +117,11 @@ public class SystemImageInspector extends Fragment {
                 //检查是否成功获取数据
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
+                    try{
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    }catch(Exception e){
+                        Log.v("NO-SUITABLE-PARENT",e.getMessage());
+                    }
                     return;
                 }
                 //imageAdaptor.clear();
@@ -129,7 +133,11 @@ public class SystemImageInspector extends Fragment {
                     JSONObject imagedata = (JSONObject)imageset.get(i);
                     SystemImageItem imageitem = new SystemImageItem();
                     imageitem.imageName = (String) imagedata.get("imageName");
-                    imageitem.imageID = (String)imagedata.get("unImgId");
+                    try {
+                        imageitem.imageID = (String) imagedata.get("unImgId");
+                    }catch (Exception e){
+                        imageitem.imageID = "未知";
+                    }
                     imageitem.imageDescription = (String)imagedata.get("imageDescription");
                     imageitem.imageStatus = getImageStatus((int)imagedata.get("status"));
                     imageitem.osName = (String)imagedata.get("osName");

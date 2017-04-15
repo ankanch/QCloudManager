@@ -34,6 +34,7 @@
     <string name="str_cm_contextmenu_start">启动</string>
     <string name="str_cm_contextmenu_shutdown">关闭</string>
     <string name="str_cm_contextmenu_reboot">重启</string>
+    <string name="str_cm_contextmenu_createimage">创建镜像</string>
     <string name="str_cm_contextmenu_reinstallos">重装系统</string>
     <string name="str_cm_contextmenu_resetpassword">重置密码</string>
     <string name="str_cm_contextmenu_returninstance">删除实例</string>
@@ -187,6 +188,11 @@
     <string name="str_tips_api_key_needed">未找到API KEY，请添加有效API KEY</string>
     <string name="str_ip_open_url">打开API KEY获取页面...</string>
     <!-- 镜像管理页面-->
+    <string name="str_sii_create">创建镜像</string>
+    <string name="str_sii_tips_inputname">镜像名称：</string>
+    <string name="str_sii_tips_inputdes">镜像描述：</string>
+    <string name="str_sii_tips_ok">创建</string>
+    <string name="str_sii_tips_cancel">取消</string>
     <string name="str_sii_title">私有镜像管理</string>
     <string name="str_sii_tips">正在获取私有镜像列表，请稍后！</string>
     <string name="str_sii_button">刷新</string>
@@ -200,7 +206,7 @@
     <string name="str_about_button_requestnew">请求新功能</string>
     <string name="str_about_bugsubmit">提交bug</string>
     <string name="str_about_rating">为QCloudManager评分</string>
-    <string name="str_about_abouttext1">本应用可以帮助你便捷管理你的腾讯云资源。\r\n随着应用的更新，支持的腾讯云资源也会越来越多。</string>
+    <string name="str_about_abouttext1">本应用可以帮助你便捷管理你的腾讯云资源。\r\n随着应用的更新，功能也会越来越多。</string>
     <string name="str_about_abouttext2">本应用非腾讯官方应用，与腾讯无任何关系。\r\n腾讯云及其logo均为腾讯公司所有。</string>
     <string name="str_about_version">版本号： 1.1.0\r\nMade with ❤ by Kanch</string>
     <!-- 储存数据用的键值对-->
