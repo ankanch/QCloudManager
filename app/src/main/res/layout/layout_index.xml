@@ -48,17 +48,15 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72sp"
         android:textAlignment="center"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginTop="20sp"/>
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
-        android:text="Made with ❤ by Kanch\r\nver 1.1.0"
+        android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView6"
-        android:layout_marginTop="15sp"
+        android:text="Made with ❤ by Kanch\r\nver 1.1.1"
         android:textAlignment="center" />
 
     <com.google.android.gms.ads.AdView

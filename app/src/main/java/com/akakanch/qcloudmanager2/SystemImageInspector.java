@@ -85,79 +85,100 @@ public class SystemImageInspector extends Fragment {
             }
         });
         //自动刷新
-        for(String url : urllist){
-            new LoadSystemImage().execute(url,url.substring(url.indexOf("Region")+7,url.indexOf("Region")+9));
-            Log.v("imagelisturl=",url);
+        try {
+            new LoadSystemImage().execute(new JSONArray(urllist).toString());
+        }catch(JSONException e){
+            Log.v("ERROR_IN_REFRESH_TRS=",e.getMessage());
         }
     }
 
     //用于获取镜像列表
     private class LoadSystemImage extends AsyncTask<String, Void, String> {
-        private String region = new String();
+        private String[] region;
         @Override
         protected String doInBackground(String[] params) {
             //开始向腾讯请求实例列表
             WebClient wb = new WebClient();
             String resultstr = new String();
-            region = params[1];
             try {
-                resultstr = wb.getContent(params[0], "utf-8", "utf-8");
-            }catch (IOException e){
-                Log.v("IO Exception=",e.getMessage());
-                return "IO EXCEPTION";
+                JSONArray urllist = new JSONArray(params[0]); //获得url列表
+                region = new String[urllist.length()];
+                ArrayList<String> returndata = new ArrayList<String>();   //用于储存返回结果
+                for(int i=0;i<urllist.length();i++){ //构建地域列表
+                    String url = (String) urllist.get(i);
+                    region[i] = url.substring(url.indexOf("Region") + 7, url.indexOf("Region") + 9);
+                }
+                try {
+                    returndata = wb.getContent(urllist);
+                } catch (IOException e) {
+                    Log.v("IO Exception=", e.getMessage());
+                    return "IO EXCEPTION";
+                }
+                resultstr = new JSONArray(returndata).toString();
+            }catch (JSONException e){
+                Log.v("error-in-json-array=",e.getMessage());
             }
             return resultstr;
         }
         @Override
         protected void onPostExecute(String message) {
-            //解析返回的JSON数据，加载资源列表
+            //将message反向解析为JSONArray
             try {
-                JSONObject responsejson = new JSONObject(message);
-                int resCode = (int)responsejson.get("code");
-                //检查是否成功获取数据
-                if(resCode != 0) {
-                    String resMsg = (String) responsejson.get("message");
-                    try{
-                    Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
-                    }catch(Exception e){
-                        Log.v("NO-SUITABLE-PARENT",e.getMessage());
-                    }
-                    return;
-                }
-                //imageAdaptor.clear();
-                //继续解析
-                int count = (int)responsejson.get("totalCount");
-                Log.v("total-count=",new String().valueOf(count));
-                JSONArray imageset = (JSONArray)responsejson.get("imageSet");
-                for(int i=0;i<count;i++){
-                    JSONObject imagedata = (JSONObject)imageset.get(i);
-                    SystemImageItem imageitem = new SystemImageItem();
-                    imageitem.imageName = (String) imagedata.get("imageName");
+                JSONArray reusltdata = new JSONArray(message);
+                for(int t=0;t<reusltdata.length();t++) {
+                    String datax = (String)reusltdata.get(t);
+                    //解析返回的JSON数据，加载资源列表
                     try {
-                        imageitem.imageID = (String) imagedata.get("unImgId");
-                    }catch (Exception e){
-                        imageitem.imageID = "未知";
-                    }
-                    imageitem.imageDescription = (String)imagedata.get("imageDescription");
-                    imageitem.imageStatus = getImageStatus((int)imagedata.get("status"));
-                    imageitem.osName = (String)imagedata.get("osName");
-                    imageitem.createTime = (String)imagedata.get("createTime");
-                    imageitem.region = region;
-                    imageitem.APIKey = defaultkey;
-                    imageitem.APIKeyID = defaulyketId;
-                    imageAdaptor.add(imageitem);
-                }
+                        JSONObject responsejson = new JSONObject(datax);
+                        int resCode = (int) responsejson.get("code");
+                        //检查是否成功获取数据
+                        if (resCode != 0) {
+                            String resMsg = (String) responsejson.get("message");
+                            try {
+                                Snackbar.make(globeView, "错误：" + resMsg, Snackbar.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Log.v("NO-SUITABLE-PARENT", e.getMessage());
+                            }
+                            return;
+                        }
+                        //imageAdaptor.clear();
+                        //继续解析
+                        int count = (int) responsejson.get("totalCount");
+                        Log.v("total-count=", new String().valueOf(count));
+                        JSONArray imageset = (JSONArray) responsejson.get("imageSet");
+                        for (int i = 0; i < count; i++) {
+                            JSONObject imagedata = (JSONObject) imageset.get(i);
+                            SystemImageItem imageitem = new SystemImageItem();
+                            imageitem.imageName = (String) imagedata.get("imageName");
+                            try {
+                                imageitem.imageID = (String) imagedata.get("unImgId");
+                            } catch (Exception e) {
+                                imageitem.imageID = "未知";
+                            }
+                            imageitem.imageDescription = (String) imagedata.get("imageDescription");
+                            imageitem.imageStatus = getImageStatus((int) imagedata.get("status"));
+                            imageitem.osName = (String) imagedata.get("osName");
+                            imageitem.createTime = (String) imagedata.get("createTime");
+                            imageitem.region = region[t];
+                            imageitem.APIKey = defaultkey;
+                            imageitem.APIKeyID = defaulyketId;
+                            imageAdaptor.add(imageitem);
+                        }
 
+                    } catch (JSONException e) {
+                        Log.v("JSON-ERROR=", e.getMessage());
+                    }
+                    refresh_progress.setVisibility(View.INVISIBLE);
+                    refreshbutton.setEnabled(true);
+                    tvHeaderTips.setText("加载完毕！");
+                    try {
+                        Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Log.v("NO-SUITABLE-PARENT", e.getMessage());
+                    }
+                }
             }catch (JSONException e){
-                Log.v("JSON-ERROR=",e.getMessage());
-            }
-            refresh_progress.setVisibility(View.INVISIBLE);
-            refreshbutton.setEnabled(true);
-            tvHeaderTips.setText("加载完毕！");
-            try {
-                Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
-            }catch(Exception e){
-                Log.v("NO-SUITABLE-PARENT",e.getMessage());
+                Log.v("json-error-in-parsing=",e.getMessage());
             }
         }
 

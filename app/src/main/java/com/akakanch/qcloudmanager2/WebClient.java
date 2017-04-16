@@ -1,9 +1,14 @@
 package com.akakanch.qcloudmanager2;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 /**
  * Created by Long Zhang on 2017/3/24.
  */
@@ -38,5 +43,23 @@ public class WebClient {
             return sb.toString();
         }
         return new String(sb.toString().getBytes(), targetEncoding);
+    }
+
+    public ArrayList<String> getContent(String[] urls) throws  IOException{
+        ArrayList<String> contentlist = new ArrayList<String>();
+        for(String url : urls){
+            String data = getContent(url, "utf-8", "utf-8");
+            contentlist.add(data);
+        }
+        return contentlist;
+    }
+
+    public ArrayList<String> getContent(JSONArray urls) throws  IOException,JSONException{
+        ArrayList<String> contentlist = new ArrayList<String>();
+        for(int i=0;i<urls.length();i++){
+            String data = getContent((String)urls.get(i), "utf-8", "utf-8");
+            contentlist.add(data);
+        }
+        return contentlist;
     }
 }
