@@ -43,21 +43,33 @@
 
 
         <TextView
-            android:layout_marginTop="5sp"
             android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
             android:text="@string/str_about_abouttext1"
             android:textAlignment="center"
             android:textSize="16sp" />
 
         <TextView
-            android:layout_marginTop="5sp"
             android:id="@+id/textView13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
             android:text="@string/str_about_abouttext2"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="8sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/str_about_abouttext3"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
     <LinearLayout

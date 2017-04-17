@@ -125,6 +125,7 @@ public class CloudserverManager extends Fragment {
         systemimagemanger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "当前只支持北京，上海，香港，广州，新加坡这个5个地域的镜像。", Toast.LENGTH_SHORT).show();
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 SystemImageInspector sii = new SystemImageInspector();

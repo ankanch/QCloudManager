@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Created by Long Zhang on 4/10/2017.
@@ -33,6 +34,14 @@ public class AboutDialog extends Fragment {
         Button btnBugReport = (Button)globeView.findViewById(R.id.button_submit_bug);
         Button btnRating = (Button)globeView.findViewById(R.id.button_rating_app_in_market);
         Button btnWebsite = (Button)globeView.findViewById(R.id.button_open_website);
+        TextView tvthankyou = (TextView)globeView.findViewById(R.id.textView15);
+        tvthankyou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.coolapk.com/u/531994"));
+                startActivity(browserIntent);
+            }
+        });
         btnRequestNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

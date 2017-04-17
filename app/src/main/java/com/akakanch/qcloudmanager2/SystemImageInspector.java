@@ -125,6 +125,8 @@ public class SystemImageInspector extends Fragment {
             //将message反向解析为JSONArray
             try {
                 JSONArray reusltdata = new JSONArray(message);
+                int imagecount = 0;
+                imageAdaptor.clear();
                 for(int t=0;t<reusltdata.length();t++) {
                     String datax = (String)reusltdata.get(t);
                     //解析返回的JSON数据，加载资源列表
@@ -145,6 +147,7 @@ public class SystemImageInspector extends Fragment {
                         //继续解析
                         int count = (int) responsejson.get("totalCount");
                         Log.v("total-count=", new String().valueOf(count));
+                        imagecount += count;
                         JSONArray imageset = (JSONArray) responsejson.get("imageSet");
                         for (int i = 0; i < count; i++) {
                             JSONObject imagedata = (JSONObject) imageset.get(i);
@@ -164,18 +167,17 @@ public class SystemImageInspector extends Fragment {
                             imageitem.APIKeyID = defaulyketId;
                             imageAdaptor.add(imageitem);
                         }
-
                     } catch (JSONException e) {
                         Log.v("JSON-ERROR=", e.getMessage());
                     }
-                    refresh_progress.setVisibility(View.INVISIBLE);
-                    refreshbutton.setEnabled(true);
-                    tvHeaderTips.setText("加载完毕！");
-                    try {
-                        Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        Log.v("NO-SUITABLE-PARENT", e.getMessage());
-                    }
+                }
+                refresh_progress.setVisibility(View.INVISIBLE);
+                refreshbutton.setEnabled(true);
+                tvHeaderTips.setText("私有镜像列表加在完毕，共" +new String().valueOf(imagecount)+"个。");
+                try {
+                    Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.v("NO-SUITABLE-PARENT", e.getMessage());
                 }
             }catch (JSONException e){
                 Log.v("json-error-in-parsing=",e.getMessage());

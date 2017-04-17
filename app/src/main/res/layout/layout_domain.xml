@@ -4,12 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="@string/drawer_domain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

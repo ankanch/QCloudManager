@@ -5,12 +5,6 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:text="@string/drawer_cloudserver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3" />
-
     <LinearLayout android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
