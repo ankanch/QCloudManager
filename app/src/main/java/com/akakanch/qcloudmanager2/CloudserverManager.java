@@ -93,9 +93,12 @@ public class CloudserverManager extends Fragment {
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
                 buttonRefresh.setEnabled(false);
                 refresh_progress.setVisibility(View.VISIBLE);
                 cvmAdapter.clear();
+                new LoadAllInstanceList().execute(defaulyketId,defaultkey);
+                /*/  下面的代码是以前单个刷新的时候使用的 老版本，1.1.2之前的
                 //找到用户选择的区域
                 String cvmlocation = locationSelector.getSelectedItem().toString();
                 int i = 0;
@@ -112,6 +115,7 @@ public class CloudserverManager extends Fragment {
                 Log.v("API-URL-Cloud-Server=",readRecordListURL);
                 //发送获取实例请求，并加载实例
                 new LoadInstanceList().execute(readRecordListURL);
+                /*/
             }
         });
         //设置fab按钮事件
@@ -135,7 +139,11 @@ public class CloudserverManager extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-
+        //自动加载所有镜像
+        Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+        buttonRefresh.setEnabled(false);
+        refresh_progress.setVisibility(View.VISIBLE);
+        new LoadAllInstanceList().execute(defaulyketId,defaultkey);
     }
 
     //用于创建按量使用的服务器（非自定义镜像）
@@ -237,7 +245,7 @@ public class CloudserverManager extends Fragment {
 
 
 
-    //用于从腾讯获取实例列表
+    //用于从腾讯获取实例列表（单个地域）老版本，1.1.2之前的
     private class LoadInstanceList extends AsyncTask<String, Void, String> {
 
         @Override
@@ -297,6 +305,84 @@ public class CloudserverManager extends Fragment {
         }
     }
 
+    //用于从腾讯获取实例列表(所有实例)
+    private class LoadAllInstanceList extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String[] params) {
+            //开始向腾讯请求实例列表
+            WebClient wb = new WebClient();
+            APIRequestGenerator apirg = new APIRequestGenerator(params[0],params[1]);
+            String[] urllist = apirg.cvm_getAllInstanceList();
+            String[] resullist = new String[apirg.REGION.length];
+            try {
+                for(int i =0;i<urllist.length;i++) {
+                    resullist[i] = wb.getContent(urllist[i], "utf-8", "utf-8");
+                }
+            }catch (IOException e){
+                Log.v("IO Exception=",e.getMessage());
+                return "IO EXCEPTION";
+            }
+            String resultbuf = new String();
+            try{
+                resultbuf =  new JSONArray(resullist).toString();
+            }catch (JSONException e){
+                Log.v("error when pocess json=",e.getMessage());
+            }
+            return resultbuf;
+        }
+        @Override
+        protected void onPostExecute(String message) {
+            try {
+                JSONArray jd = new JSONArray(message);
+                for (int x = 0; x < jd.length(); x++) {
+                    String buf = (String) jd.get(x);
+                    //解析返回的JSON数据，加载资源列表
+                    try {
+                        JSONObject responsejson = new JSONObject(buf);
+                        int resCode = (int) responsejson.get("code");
+                        //检查是否成功获取数据
+                        if (resCode != 0) {
+                            String resMsg = (String) responsejson.get("message");
+                            Snackbar.make(globeView, "错误：" + resMsg, Snackbar.LENGTH_LONG).show();
+                            return;
+                        }
+                        //继续解析
+                        int totalCount = (int) responsejson.get("totalCount");
+                        JSONArray instanceSet = (JSONArray) responsejson.get("instanceSet");
+                        for (int i = 0; i < totalCount; i++) {
+                            JSONObject instance = (JSONObject) instanceSet.get(i);
+                            String name = (String) instance.get("instanceName");
+                            String ip = (String) ((JSONArray) instance.get("wanIpSet")).get(0);
+                            String os = (String) instance.get("os");
+                            String region = (String) instance.get("Region");
+                            String iid = new String();
+                            try {
+                                iid = (String) instance.get("instanceId");
+                            } catch (Exception e) {
+                                iid = "null";
+                            }
+                            int paymode = (int) instance.get("cvmPayMode");
+                            int status = (int) instance.get("status");
+                            CloudServerItem item = new CloudServerItem(name, ip, os, getStatusDes(status), getPayMode(paymode), getOSImg(os), iid);
+                            item.setAPIInfo(defaultkey, defaulyketId);
+                            item.InstanceRegion = region;
+                            cvmAdapter.add(item);
+                        }
+                        Snackbar.make(globeView, totalCount + "个实例找到。", Snackbar.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        Log.v("JSON-ERROR=", e.getMessage());
+                    }
+                }
+            }catch (Exception e){
+                Log.v("json error when parser=",e.getMessage());
+                Snackbar.make(globeView, "加载失败！请检查网络并重试。", Snackbar.LENGTH_LONG).show();
+            }
+            //
+            buttonRefresh.setEnabled(true);
+            refresh_progress.setVisibility(View.INVISIBLE);
+        }
+    }
 
     //用于创建云服务器
     private class CreateNewInstance extends AsyncTask<String, Void, String> {

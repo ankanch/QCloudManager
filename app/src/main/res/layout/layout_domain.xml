@@ -15,7 +15,7 @@
             android:id="@+id/progressBar_domainfresh"
             style="?android:attr/progressBarStyle"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_height="wrap_content"
             android:visibility="invisible" />
 
@@ -23,7 +23,7 @@
             android:id="@+id/textView_domain_tips"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
+            android:layout_weight="5.5"
             android:text="@string/str_dm_need_to_be_refreshed" />
 
         <Button

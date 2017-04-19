@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Long Zhang on 4/10/2017.
@@ -34,6 +35,7 @@ public class AboutDialog extends Fragment {
         Button btnBugReport = (Button)globeView.findViewById(R.id.button_submit_bug);
         Button btnRating = (Button)globeView.findViewById(R.id.button_rating_app_in_market);
         Button btnWebsite = (Button)globeView.findViewById(R.id.button_open_website);
+        Button btnDonate = (Button)globeView.findViewById(R.id.button_donate);
         TextView tvthankyou = (TextView)globeView.findViewById(R.id.textView15);
         tvthankyou.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +81,14 @@ public class AboutDialog extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://akakanch.com/projects/qcloudmanager"));
+                startActivity(browserIntent);
+            }
+        });
+        btnDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://qr.alipay.com/a6x09720wf8ltcafg1vp06a"));
+                Toast.makeText(getActivity(),"感谢您的支持！",Toast.LENGTH_LONG).show();
                 startActivity(browserIntent);
             }
         });

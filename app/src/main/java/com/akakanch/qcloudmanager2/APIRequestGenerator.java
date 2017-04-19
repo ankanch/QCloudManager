@@ -310,6 +310,19 @@ public class APIRequestGenerator {
         return requestlist[1];
     }
 
+    //本函数用来获取所有的实例列表（一次性）
+    public String[] cvm_getAllInstanceList(){
+        String[] REGION_LIST= {"bj","sh","gz","hk","sg","ca"} ;
+        String[] urllist = new String[REGION_LIST.length];
+        int i =0;
+        for(String rg : REGION_LIST){
+            String url = "https://" + cvm_getInstanceList(rg);
+            urllist[i] = url;
+            i++;
+        }
+        return urllist;
+    }
+
     //云服务器管理：获取实例列表
     public String cvm_getInstanceList(String Region){
         Map<String,String> para = new HashMap<String, String>();
