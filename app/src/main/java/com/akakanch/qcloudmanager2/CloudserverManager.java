@@ -367,6 +367,7 @@ public class CloudserverManager extends Fragment {
                             CloudServerItem item = new CloudServerItem(name, ip, os, getStatusDes(status), getPayMode(paymode), getOSImg(os), iid);
                             item.setAPIInfo(defaultkey, defaulyketId);
                             item.InstanceRegion = region;
+                            item.RegionName = APIRequestGenerator.REGION_NAME[x];
                             cvmAdapter.add(item);
                         }
                         Snackbar.make(globeView, totalCount + "个实例找到。", Snackbar.LENGTH_LONG).show();

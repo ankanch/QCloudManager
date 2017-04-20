@@ -36,10 +36,12 @@
 
         <Button
             android:id="@+id/button_systemimage_manager"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="@string/str_cm_systemimage_button" />
+            android:text="@string/str_cm_systemimage_button"
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
     <com.google.android.gms.ads.AdView

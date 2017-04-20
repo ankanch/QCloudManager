@@ -205,7 +205,7 @@
     <string name="str_about_tips_bugreport">请在邮件正文写上出错信息以及系统日志</string>
     <string name="str_about_button_requestnew">请求新功能</string>
     <string name="str_about_bugsubmit">提交bug</string>
-    <string name="str_about_rating">为QCloudManager评分</string>
+    <string name="str_about_rating">去市场评分</string>
     <string name="str_about_abouttext1">本应用可以帮助你便捷管理你的腾讯云资源。\r\n随着应用的更新，功能也会越来越多。</string>
     <string name="str_about_abouttext2">本应用非腾讯官方应用，与腾讯无任何关系。\r\n腾讯云及其logo均为腾讯公司所有。</string>
     <string name="str_about_abouttext3">*图标由pandecheng制作*</string>

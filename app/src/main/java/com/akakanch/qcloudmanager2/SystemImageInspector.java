@@ -173,7 +173,7 @@ public class SystemImageInspector extends Fragment {
                 }
                 refresh_progress.setVisibility(View.INVISIBLE);
                 refreshbutton.setEnabled(true);
-                tvHeaderTips.setText("私有镜像列表加在完毕，共" +new String().valueOf(imagecount)+"个。");
+                tvHeaderTips.setText("私有镜像列表加载完毕，共" +new String().valueOf(imagecount)+"个。");
                 try {
                     Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
                 } catch (Exception e) {
