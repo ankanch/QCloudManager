@@ -2,6 +2,7 @@ package com.akakanch.qcloudmanager2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -69,7 +70,7 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                 final EditText inputValue = (EditText)changeDlgView.findViewById(R.id.editText_value);
                 final Spinner type = (Spinner)changeDlgView.findViewById(R.id.spinner_type);
                 final Button btnConfrim = (Button)changeDlgView.findViewById(R.id.button_confirm);
-                final Button btnCancel = (Button)changeDlgView.findViewById(R.id.button_cancel);
+                final ImageButton btnCancel = (ImageButton)changeDlgView.findViewById(R.id.button_cancel);
                 final Button btnDelete = (Button)changeDlgView.findViewById(R.id.button_delete);
                 inputName.setText(recordItem.name);
                 inputValue.setText(recordItem.value);

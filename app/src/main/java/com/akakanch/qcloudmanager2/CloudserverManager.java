@@ -102,7 +102,7 @@ public class CloudserverManager extends Fragment {
                 buttonRefresh.setEnabled(false);
                 refresh_progress.setVisibility(View.VISIBLE);
                 cvmAdapter.clear();
-                new LoadAllInstanceList().execute(defaulyketId,defaultkey);
+                new LoadAllInstanceList().execute(defaulyketId, defaultkey);
                 /*/  下面的代码是以前单个刷新的时候使用的 老版本，1.1.2之前的
                 //找到用户选择的区域
                 String cvmlocation = locationSelector.getSelectedItem().toString();
@@ -148,7 +148,8 @@ public class CloudserverManager extends Fragment {
         Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
         buttonRefresh.setEnabled(false);
         refresh_progress.setVisibility(View.VISIBLE);
-        new LoadAllInstanceList().execute(defaulyketId,defaultkey);
+        new LoadAllInstanceList().execute(defaulyketId, defaultkey);
+
     }
 
     //用于创建按量使用的服务器（非自定义镜像）
@@ -382,7 +383,11 @@ public class CloudserverManager extends Fragment {
                 }
             }catch (Exception e){
                 Log.v("json error when parser=",e.getMessage());
-                Snackbar.make(globeView, "加载失败！请检查网络并重试。", Snackbar.LENGTH_LONG).show();
+                try {
+                    Snackbar.make(globeView, "加载失败！请检查网络并重试。", Snackbar.LENGTH_LONG).show();
+                }catch (Exception ee){
+                    Log.v("outExp=",ee.getMessage());
+                }
             }
             //
             buttonRefresh.setEnabled(true);

@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="@string/str_cm_systemimage_button"
-            android:textColor="@color/colorAccent" />
+            android:textAllCaps="false"
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
     <com.google.android.gms.ads.AdView

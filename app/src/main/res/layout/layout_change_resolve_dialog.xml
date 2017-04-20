@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView4"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/str_dm_records_changresolve"
-        android:textAlignment="center"
-        android:layout_marginTop="20sp"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_weight="8"
+            android:text="@string/str_dm_records_changresolve"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4sp"
+            android:layout_weight="2"
+            android:background="@color/colorAccent"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,16 +124,6 @@
             android:layout_marginRight="25sp"
             android:layout_weight="0.5"
             android:text="@string/str_dm_records_delete" />
-
-        <Button
-            android:id="@+id/button_cancel"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginRight="25sp"
-            android:layout_weight="0.5"
-            android:text="@string/str_dm_records_cancel" />
 
         <Button
             android:id="@+id/button_confirm"
