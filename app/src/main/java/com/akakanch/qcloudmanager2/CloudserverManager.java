@@ -56,6 +56,8 @@ public class CloudserverManager extends Fragment {
     private static String SysDiskSize ="20";
     private static String DataDiskSize ="0";
     private static String Bandwidth ="1";
+    //确认是否为第一次启动
+    private boolean firstRun = true;
 
     @Nullable
     @Override
@@ -69,7 +71,10 @@ public class CloudserverManager extends Fragment {
         AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_cloudserver);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-
+        if(!firstRun){
+            return;
+        }
+        firstRun = false;
         globeView = getView();
         cvmAdapter = new CloudServerItemAdapter(getActivity(), arrayOfCVM);
         //设置关键变量ID

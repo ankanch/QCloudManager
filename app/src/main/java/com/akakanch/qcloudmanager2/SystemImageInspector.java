@@ -44,6 +44,8 @@ public class SystemImageInspector extends Fragment {
     private ArrayList<SystemImageItem> imageList = new ArrayList<SystemImageItem>();
     private SystemImageItemAdaptor imageAdaptor;
     private View globeView;
+    //确认是否为第一次启动
+    private boolean firstRun = true;
 
     @Nullable
     @Override
@@ -54,6 +56,10 @@ public class SystemImageInspector extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if(!firstRun){
+            return;
+        }
+        firstRun = false;
         lvImageList = (ListView) getActivity().findViewById(R.id.listview_systemimage_list);
         tvHeaderTips = (TextView)getActivity().findViewById(R.id.textView_systemimage_inspector_tips);
         refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_systemimage_inspector);
