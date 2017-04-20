@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -108,6 +109,13 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.content_main,cm);
             this.setTitle(R.string.str_ma_title_cloudserver);
             fab.setVisibility(View.VISIBLE);
+        }else if (id == R.id.nav_imagemanage) {
+            //切换到云服务器管理页面
+            Toast.makeText(this, "当前只支持北京，上海，香港，广州，新加坡这个5个地域的镜像。", Toast.LENGTH_SHORT).show();
+            SystemImageInspector sii = new SystemImageInspector();
+            fragmentTransaction.replace(R.id.content_main, sii);
+            this.setTitle(R.string.str_sii_title);
+            fab.setVisibility(View.INVISIBLE);
         } else if (id == R.id.nav_domain) {
             //切换到域名管理页面
             DomainManager dm = new DomainManager();

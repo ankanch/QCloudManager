@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,14 +44,12 @@ import java.util.ArrayList;
 public class CloudserverManager extends Fragment {
     private  APIRequestGenerator APIRG;
     private ListView cvmListView;
-    private ProgressBar refresh_progress;
+    private SwipeRefreshLayout swiprefresh;
     private ArrayList<CloudServerItem> arrayOfCVM = new ArrayList<CloudServerItem>();
     private CloudServerItemAdapter cvmAdapter;
     private View globeView;
     private String defaultkey = new String();
     private String defaulyketId = new String();
-    private Spinner locationSelector;
-    private Button buttonRefresh;
     private FloatingActionButton fab;
     //存放seekbar数据
     private static String SysDiskSize ="20";
@@ -78,12 +77,9 @@ public class CloudserverManager extends Fragment {
         globeView = getView();
         cvmAdapter = new CloudServerItemAdapter(getActivity(), arrayOfCVM);
         //设置关键变量ID
-        locationSelector = (Spinner) getActivity().findViewById(R.id.spinner_location);
-        buttonRefresh = (Button)getActivity().findViewById(R.id.button_refresh);
         cvmListView = (ListView)getActivity().findViewById(R.id.listview_cvm_list);
+        swiprefresh = (SwipeRefreshLayout)getActivity().findViewById(R.id.swiperefresh_cvm);
         cvmListView.setAdapter(cvmAdapter);
-        refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_cvmrefresh);
-        Button systemimagemanger = (Button)getActivity().findViewById(R.id.button_systemimage_manager);
         fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         //读取是否有key
         defaultkey =  read("API_KEY");
@@ -94,35 +90,6 @@ public class CloudserverManager extends Fragment {
         }
         //初始化请求生成器
         APIRG = new APIRequestGenerator(defaulyketId,defaultkey);
-        //设置刷新事件
-        buttonRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
-                buttonRefresh.setEnabled(false);
-                refresh_progress.setVisibility(View.VISIBLE);
-                cvmAdapter.clear();
-                new LoadAllInstanceList().execute(defaulyketId, defaultkey);
-                /*/  下面的代码是以前单个刷新的时候使用的 老版本，1.1.2之前的
-                //找到用户选择的区域
-                String cvmlocation = locationSelector.getSelectedItem().toString();
-                int i = 0;
-                for(String loc : APIRequestGenerator.REGION_NAME){
-                    if(loc.equals(cvmlocation)){
-                        cvmlocation = APIRequestGenerator.REGION[i];
-                        break;
-                    }
-                    i++;
-                }
-                Log.v("SelectLocation=",cvmlocation);
-                //构造刷新请求字符串,生成请求URL
-                String readRecordListURL = "https://" + APIRG.cvm_getInstanceList(cvmlocation);
-                Log.v("API-URL-Cloud-Server=",readRecordListURL);
-                //发送获取实例请求，并加载实例
-                new LoadInstanceList().execute(readRecordListURL);
-                /*/
-            }
-        });
         //设置fab按钮事件
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,25 +97,21 @@ public class CloudserverManager extends Fragment {
                 SetCVMandCreate(getActivity());
             }
         });
-        //
-        systemimagemanger.setOnClickListener(new View.OnClickListener() {
+        //设置下拉刷新
+        swiprefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "当前只支持北京，上海，香港，广州，新加坡这个5个地域的镜像。", Toast.LENGTH_SHORT).show();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                SystemImageInspector sii = new SystemImageInspector();
-                fragmentTransaction.replace(R.id.content_main, sii);
-                getActivity().setTitle(R.string.str_sii_title);
-                fab.setVisibility(View.INVISIBLE);
-                fragmentTransaction.commit();
+            public void onRefresh() {
+                Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+                cvmAdapter.clear();
+                new LoadAllInstanceList().execute(defaulyketId, defaultkey);
             }
         });
+        //设置刷新条颜色
+        swiprefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,R.color.colorRefresh_A,R.color.colorRefresh_B);
         //自动加载所有镜像
-        Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
-        buttonRefresh.setEnabled(false);
-        refresh_progress.setVisibility(View.VISIBLE);
         new LoadAllInstanceList().execute(defaulyketId, defaultkey);
+        swiprefresh.setRefreshing(true);
+        Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
 
     }
 
@@ -305,9 +268,6 @@ public class CloudserverManager extends Fragment {
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
             }
-            //
-            buttonRefresh.setEnabled(true);
-            refresh_progress.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -389,9 +349,9 @@ public class CloudserverManager extends Fragment {
                     Log.v("outExp=",ee.getMessage());
                 }
             }
-            //
-            buttonRefresh.setEnabled(true);
-            refresh_progress.setVisibility(View.INVISIBLE);
+            //刷新完成
+            swiprefresh.setRefreshing(false);
+            Snackbar.make(swiprefresh, "加载完毕!", Snackbar.LENGTH_LONG).show();
         }
     }
 

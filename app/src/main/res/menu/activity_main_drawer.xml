@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_menu_cloudserver"
             android:title="@string/drawer_cloudserver" />
         <item
+            android:id="@+id/nav_imagemanage"
+            android:icon="@drawable/ic_action_imageicon"
+            android:title="@string/str_sii_title" />
+        <item
             android:id="@+id/nav_domain"
             android:icon="@drawable/ic_menu_domain"
             android:title="@string/drawer_domain" />
