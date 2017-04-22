@@ -350,8 +350,12 @@ public class CloudserverManager extends Fragment {
                 }
             }
             //刷新完成
-            swiprefresh.setRefreshing(false);
-            Snackbar.make(swiprefresh, "加载完毕!", Snackbar.LENGTH_LONG).show();
+            try {
+                swiprefresh.setRefreshing(false);
+                Snackbar.make(swiprefresh, "加载完毕!", Snackbar.LENGTH_LONG).show();
+            }catch (Exception e){
+                Log.v("NO-VIEW-FOUND=",e.getMessage());
+            }
         }
     }
 
@@ -482,13 +486,6 @@ public class CloudserverManager extends Fragment {
         }
     }
 
-
-    public void save(String key,String value){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
 
     public String read(String key){
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);

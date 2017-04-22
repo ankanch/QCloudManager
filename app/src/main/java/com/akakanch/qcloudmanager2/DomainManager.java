@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +40,9 @@ public class DomainManager extends Fragment {
     private  APIRequestGenerator APIRG;
     private String defaultkey = new String();
     private String defaulyketId = new String();
+    private SwipeRefreshLayout swiprefresh;
     private TextView domainTips;
-    private Button buttonRefresh;
     private ListView domainListView;
-    private ProgressBar refresh_progress;
     private ArrayList<String> arrayOfDomain = new ArrayList<String>();
     private ArrayAdapter domainmAdapter;
     private View globeView;
@@ -68,11 +68,10 @@ public class DomainManager extends Fragment {
         globeView = getView();
         domainmAdapter  = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,arrayOfDomain);
         //获取关键控件变量
-        buttonRefresh = (Button) getActivity().findViewById(R.id.button_refresh_domain);
-        refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_domainfresh);
         domainTips = (TextView)getActivity().findViewById(R.id.textView_domain_tips);
         domainListView = (ListView)getActivity().findViewById(R.id.listView_domain);
         domainListView.setAdapter(domainmAdapter);
+        swiprefresh = (SwipeRefreshLayout)getActivity().findViewById(R.id.swiperefresh_domain);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");
@@ -82,17 +81,6 @@ public class DomainManager extends Fragment {
         }
         //初始化请求生成器
         APIRG = new APIRequestGenerator(defaulyketId,defaultkey);
-        //
-        buttonRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonRefresh.setEnabled(false);
-                refresh_progress.setVisibility(View.VISIBLE);
-                String domainlistURL = "https://" + APIRG.domain_getDomainList();
-                Log.v("API-URL-Domain-Manager=",domainlistURL);
-                new LoadDomainList().execute(domainlistURL);
-            }
-        });
         //
         domainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,11 +100,22 @@ public class DomainManager extends Fragment {
                 fab.setVisibility(View.VISIBLE);
             }
         });
+        //设置下拉刷新
+        swiprefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+                domainmAdapter.clear();
+                new LoadDomainList().execute("https://" + APIRG.domain_getDomainList());
+            }
+        });
+        //设置刷新条颜色
+        swiprefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,R.color.colorRefresh_A,R.color.colorRefresh_B);
         //自动刷新一次
-        buttonRefresh.setEnabled(false);
-        refresh_progress.setVisibility(View.VISIBLE);
         String URL = "https://" + APIRG.domain_getDomainList();
         new LoadDomainList().execute(URL);
+        swiprefresh.setRefreshing(true);
+        Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
     }
 
     //用于从腾讯获取实例列表
@@ -172,10 +171,15 @@ public class DomainManager extends Fragment {
                 }
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
+                Snackbar.make(swiprefresh, e.getMessage(), Snackbar.LENGTH_LONG).show();
             }
-            //
-            buttonRefresh.setEnabled(true);
-            refresh_progress.setVisibility(View.INVISIBLE);
+            //刷新完成
+            try {
+                swiprefresh.setRefreshing(false);
+                Snackbar.make(swiprefresh, "加载完毕!", Snackbar.LENGTH_LONG).show();
+            }catch (Exception e){
+                Log.v("NO-VIEW-FOUND=",e.getMessage());
+            }
         }
     }
 

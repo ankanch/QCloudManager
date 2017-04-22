@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1084936108646",
+    "firebase_url": "https://qcloudmanager.firebaseio.com",
+    "project_id": "qcloudmanager",
+    "storage_bucket": "qcloudmanager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084936108646:android:4633d783af8308ec",
+        "android_client_info": {
+          "package_name": "com.akakanch.qcloudmanager2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084936108646-0sajvcv7ic64g8t00barnnm17suv6utm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnxpW8-9ZWv-vFZoC-Ib5HOw25IbFsfW4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

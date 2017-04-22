@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,13 +40,12 @@ import java.util.ArrayList;
 public class RecordsManager extends Fragment {
     private APIRequestGenerator APIRG;
     private ListView recordsListView;
-    private ProgressBar refresh_progress;
     private ArrayList<RecordItem> arrayOfRecords = new ArrayList<RecordItem>();
     private View globeView;
+    private SwipeRefreshLayout swiprefresh;
     private String defaultkey = new String();
     private String defaulyketId = new String();
     private RecordItemAdaptor recordItemAdaptor;
-    private Button btnRefresh;
     private FloatingActionButton fab;
     //确认是否为第一次启动
     private boolean firstRun = true;
@@ -68,12 +68,10 @@ public class RecordsManager extends Fragment {
         globeView = getView();
         recordItemAdaptor = new RecordItemAdaptor(getActivity(),arrayOfRecords);
         //获取关键控件变量
-        btnRefresh = (Button)getActivity().findViewById(R.id.button_refresh_record);
         TextView tvTips = (TextView)getActivity().findViewById(R.id.textView_domain_record);
-        refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_refresh_recordslist);
         recordsListView = (ListView)getActivity().findViewById(R.id.listview_record_list);
         recordsListView.setAdapter(recordItemAdaptor);
-        refresh_progress.setVisibility(View.INVISIBLE);
+        swiprefresh = (SwipeRefreshLayout)getActivity().findViewById(R.id.swiperefresh_record);
         final String domain = getArguments().getString("DOMAIN");
         tvTips.setText(domain);
         getActivity().setTitle(getActivity().getString(R.string.str_dm_title));
@@ -89,15 +87,6 @@ public class RecordsManager extends Fragment {
         APIRG = new APIRequestGenerator(defaulyketId,defaultkey);
         //设置刷新事件
         final String recordslisturl = "https://" + APIRG.domian_getRecordList(domain);
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnRefresh.setEnabled(false);
-                refresh_progress.setVisibility(View.VISIBLE);
-                Log.v("recordURL=",recordslisturl);
-                new LoadRecordList().execute(recordslisturl);
-            }
-        });
         //设置添加新记录对话框
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,10 +130,21 @@ public class RecordsManager extends Fragment {
 
             }
         });
+        //设置下拉刷新
+        swiprefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+                recordItemAdaptor.clear();
+                new LoadRecordList().execute(recordslisturl);
+            }
+        });
+        //设置刷新条颜色
+        swiprefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,R.color.colorRefresh_A,R.color.colorRefresh_B);
         //自动刷新一次
-        btnRefresh.setEnabled(false);
-        refresh_progress.setVisibility(View.VISIBLE);
         new LoadRecordList().execute(recordslisturl);
+        swiprefresh.setRefreshing(true);
+        Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
     }
 
     //用于获取指定域名的记录列表
@@ -197,9 +197,13 @@ public class RecordsManager extends Fragment {
                 Log.v("JSON-ERROR=",e.getMessage());
                 Snackbar.make(globeView,"加载失败！请检查网络后重试！",Snackbar.LENGTH_LONG).show();
             }
-            //
-            btnRefresh.setEnabled(true);
-            refresh_progress.setVisibility(View.INVISIBLE);
+            //刷新完成
+            try {
+                swiprefresh.setRefreshing(false);
+                Snackbar.make(swiprefresh, "加载完毕!", Snackbar.LENGTH_LONG).show();
+            }catch (Exception e){
+                Log.v("NO-VIEW-FOUND=",e.getMessage());
+            }
         }
     }
 

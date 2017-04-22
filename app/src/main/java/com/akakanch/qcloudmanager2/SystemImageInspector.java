@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +40,7 @@ public class SystemImageInspector extends Fragment {
     private String defaulyketId = new String();
     private ListView lvImageList ;
     private TextView tvHeaderTips;
-    private ProgressBar refresh_progress;
-    private Button refreshbutton;
+    private SwipeRefreshLayout swiprefresh;
     private ArrayList<SystemImageItem> imageList = new ArrayList<SystemImageItem>();
     private SystemImageItemAdaptor imageAdaptor;
     private View globeView;
@@ -62,14 +62,13 @@ public class SystemImageInspector extends Fragment {
         firstRun = false;
         lvImageList = (ListView) getActivity().findViewById(R.id.listview_systemimage_list);
         tvHeaderTips = (TextView)getActivity().findViewById(R.id.textView_systemimage_inspector_tips);
-        refresh_progress = (ProgressBar)getActivity().findViewById(R.id.progressBar_systemimage_inspector);
         imageAdaptor = new SystemImageItemAdaptor(getActivity(), imageList);
+        swiprefresh = (SwipeRefreshLayout)getActivity().findViewById(R.id.swiperefresh_systemimage);
         lvImageList.setAdapter(imageAdaptor);
         globeView = getView();
         AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_systemimage);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-        refreshbutton = (Button)getActivity().findViewById(R.id.button_refresh_systemimage);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");
@@ -80,19 +79,26 @@ public class SystemImageInspector extends Fragment {
         //初始化请求生成器
         APIRG = new APIRequestGenerator(defaulyketId,defaultkey);
         final String[] urllist = APIRG.systemimage_retriveAllImage();
-        //设置刷新事件
-        refreshbutton.setOnClickListener(new View.OnClickListener() {
+        //设置下拉刷新
+        swiprefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                for(String url : urllist){
-                    new LoadSystemImage().execute(url,url.substring(url.indexOf("Region")+6,url.indexOf("Region")+8));
-                    Log.v("imagelisturl=",url);
+            public void onRefresh() {
+                try {
+                    new LoadSystemImage().execute(new JSONArray(urllist).toString());
+                    swiprefresh.setRefreshing(true);
+                    Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+                }catch(JSONException e){
+                    Log.v("ERROR_IN_REFRESH_TRS=",e.getMessage());
                 }
             }
         });
+        //设置刷新条颜色
+        swiprefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,R.color.colorRefresh_A,R.color.colorRefresh_B);
         //自动刷新
         try {
             new LoadSystemImage().execute(new JSONArray(urllist).toString());
+            swiprefresh.setRefreshing(true);
+            Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
         }catch(JSONException e){
             Log.v("ERROR_IN_REFRESH_TRS=",e.getMessage());
         }
@@ -177,25 +183,17 @@ public class SystemImageInspector extends Fragment {
                         Log.v("JSON-ERROR=", e.getMessage());
                     }
                 }
-                refresh_progress.setVisibility(View.INVISIBLE);
-                refreshbutton.setEnabled(true);
-                tvHeaderTips.setText("私有镜像列表加载完毕，共" +new String().valueOf(imagecount)+"个。");
+                //刷新完成
                 try {
-                    Snackbar.make(globeView, "刷新完毕", Snackbar.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Log.v("NO-SUITABLE-PARENT", e.getMessage());
+                    swiprefresh.setRefreshing(false);
+                    Snackbar.make(swiprefresh, "加载完毕!", Snackbar.LENGTH_LONG).show();
+                    tvHeaderTips.setText("私有镜像列表加载完毕，共" +new String().valueOf(imagecount)+"个。");
+                }catch (Exception e){
+                    Log.v("NO-VIEW-FOUND=",e.getMessage());
                 }
             }catch (JSONException e){
                 Log.v("json-error-in-parsing=",e.getMessage());
             }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            refresh_progress.setVisibility(View.VISIBLE);
-            refreshbutton.setEnabled(false);
-            Snackbar.make(globeView,"刷新中...",Snackbar.LENGTH_LONG).show();
         }
     }
 

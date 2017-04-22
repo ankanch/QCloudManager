@@ -4,38 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="8"
-        android:layout_marginBottom="5sp">
-
-        <ProgressBar
-            android:id="@+id/progressBar_refresh_recordslist"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/textView_domain_record"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30sp"
-            android:layout_weight="4"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-
-        <Button
-            android:id="@+id/button_refresh_record"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/str_cm_refresh_button"
-            android:layout_marginRight="30sp"/>
-    </LinearLayout>
-
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView_recordlist"
         android:layout_width="match_parent"
@@ -46,9 +14,21 @@
         ads:adUnitId="@string/banner_ad_unit_id">
     </com.google.android.gms.ads.AdView>
 
+    <TextView
+        android:id="@+id/textView_domain_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh_record"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ListView
         android:id="@+id/listview_record_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5sp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

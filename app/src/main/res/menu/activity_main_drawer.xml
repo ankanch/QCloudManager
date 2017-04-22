@@ -8,7 +8,7 @@
             android:title="@string/drawer_cloudserver" />
         <item
             android:id="@+id/nav_imagemanage"
-            android:icon="@drawable/ic_action_imageicon"
+            android:icon="@drawable/ic_menu_imageicon"
             android:title="@string/str_sii_title" />
         <item
             android:id="@+id/nav_domain"
