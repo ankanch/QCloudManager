@@ -8,6 +8,9 @@
     <string name="header_des">本应用非腾讯官方应用</string>
     <!-- 右上角设置菜单-->
     <string name="action_settings">设置</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_export_settings">导出APIKey</string>
+    <string name="action_import_settings">导入APIKey</string>
     <string name="action_kanch">by Kanch</string>
     <!-- 抽屉导航-->
     <string name="drawer_index">欢迎页</string>

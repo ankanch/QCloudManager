@@ -16,12 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FloatingActionButton fab;
+    private boolean inIndexPage = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,12 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        inIndexPage = false;
+        if(inIndexPage){
+            menu.getItem(3).setVisible(true);menu.getItem(2).setVisible(true);
+        }else{
+            menu.getItem(3).setVisible(false);menu.getItem(2).setVisible(false);
+        }
         return true;
     }
 
@@ -96,13 +104,14 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         int id = item.getItemId();
-
+        inIndexPage = false;
         if (id == R.id.nav_index) {
             // 切换到主页面（默认关于页面）
             IndexPage ip = new IndexPage();
             fragmentTransaction.replace(R.id.content_main,ip);
             this.setTitle(R.string.str_ma_title_index);
             fab.setVisibility(View.INVISIBLE);
+            inIndexPage = true;
         } else if (id == R.id.nav_cloudserver) {
             //切换到云服务器管理页面
             CloudserverManager cm = new CloudserverManager();
@@ -131,10 +140,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_view) {
 
         }
-
         fragmentTransaction.commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        invalidateOptionsMenu();
         return true;
     }
 
