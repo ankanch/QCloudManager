@@ -13,6 +13,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -118,7 +121,26 @@ public class DomainManager extends Fragment {
         new LoadDomainList().execute(URL);
         swiprefresh.setRefreshing(true);
         Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+        setHasOptionsMenu(true);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_refresh){
+            domainmAdapter.clear();
+            new LoadDomainList().execute("https://" + APIRG.domain_getDomainList());
+            swiprefresh.setRefreshing(true);
+            Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+        }
+        return true;
+    }
+
+
 
     //用于从腾讯获取实例列表
     private class LoadDomainList extends AsyncTask<String, Void, String> {

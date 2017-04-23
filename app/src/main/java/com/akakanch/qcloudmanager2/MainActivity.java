@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton fab;
     private boolean inIndexPage = true;
+    private boolean inWorkPage = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +74,17 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        inIndexPage = false;
+        //inIndexPage = false;
+        //inWorkPage = false;
         if(inIndexPage){
             menu.getItem(3).setVisible(true);menu.getItem(2).setVisible(true);
         }else{
             menu.getItem(3).setVisible(false);menu.getItem(2).setVisible(false);
+        }
+        if(inWorkPage){
+            menu.getItem(1).setVisible(true);
+        }else{
+            menu.getItem(1).setVisible(false);
         }
         return true;
     }
@@ -92,6 +99,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.action_kanch){
+            Toast.makeText(getApplicationContext(),"测试",Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -105,6 +114,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         int id = item.getItemId();
         inIndexPage = false;
+        inWorkPage = true;
         if (id == R.id.nav_index) {
             // 切换到主页面（默认关于页面）
             IndexPage ip = new IndexPage();
@@ -112,6 +122,7 @@ public class MainActivity extends AppCompatActivity
             this.setTitle(R.string.str_ma_title_index);
             fab.setVisibility(View.INVISIBLE);
             inIndexPage = true;
+            inWorkPage = false;
         } else if (id == R.id.nav_cloudserver) {
             //切换到云服务器管理页面
             CloudserverManager cm = new CloudserverManager();
@@ -137,6 +148,7 @@ public class MainActivity extends AppCompatActivity
             //fragmentTransaction.addToBackStack(null);
             this.setTitle(R.string.drawer_about);
             fab.setVisibility(View.INVISIBLE);
+            inWorkPage = false;
         } else if (id == R.id.nav_view) {
 
         }

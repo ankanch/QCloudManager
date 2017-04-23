@@ -11,6 +11,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -104,6 +107,27 @@ public class SystemImageInspector extends Fragment {
         }catch(JSONException e){
             Log.v("ERROR_IN_REFRESH_TRS=",e.getMessage());
         }
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_refresh){
+            imageAdaptor.clear();
+            try {
+                new LoadSystemImage().execute(new JSONArray(APIRG.systemimage_retriveAllImage()).toString());
+                swiprefresh.setRefreshing(true);
+                Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+            }catch(JSONException e){
+                Log.v("ERROR_IN_REFRESH_TRS=",e.getMessage());
+            }
+        }
+        return true;
     }
 
     //用于获取镜像列表
