@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
 
-    <com.google.android.gms.ads.AdView
+    <!--com.google.android.gms.ads.AdView
         android:id="@+id/adView_cloudserver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +13,14 @@
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
+    </com.google.android.gms.ads.AdView-->
+    <com.google.android.gms.ads.NativeExpressAdView
+        android:id="@+id/adView_cloudserver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-6425922486772410/9914632483"
+        ads:adSize="360x100">
+    </com.google.android.gms.ads.NativeExpressAdView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,10 +30,11 @@
             android:id="@+id/swiperefresh_cvm"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/listview_cvm_list"/>
+
+        <ListView
+            android:id="@+id/listview_cvm_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 

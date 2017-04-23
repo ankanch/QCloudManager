@@ -74,15 +74,15 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
         final View curview = convertView;
         final View buttonView = (View)bMenu;
         final APIRequestGenerator APIRG = new APIRequestGenerator(cvmItem.APIKeyID,cvmItem.APIKey);
+        final PopupMenu pm = new PopupMenu(getContext(),buttonView);
+        pm.getMenuInflater().inflate(R.menu.cloudserver_context_menu, pm.getMenu());
+        //不能删除包年包月的服务
+        if(cvmItem.PayMode.indexOf(getContext().getString(R.string.str_cm_paymode_payfirst)) >= 0) {
+            pm.getMenu().getItem(6).setVisible(false);
+        }
         bMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu pm = new PopupMenu(getContext(),buttonView);
-                pm.getMenuInflater().inflate(R.menu.cloudserver_context_menu, pm.getMenu());
-                //不能删除包年包月的服务
-                if(cvmItem.PayMode.equals(getContext().getString(R.string.str_cm_paymode_payfirst))) {
-                    pm.getMenu().getItem(5).setVisible(false);
-                }
                 pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {

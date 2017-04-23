@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.NativeExpressAdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +59,8 @@ public class DomainManager extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_domain);
+        //AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_domain);
+        NativeExpressAdView mAdView = (NativeExpressAdView)getActivity().findViewById(R.id.adView_domain);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         if(!firstRun){

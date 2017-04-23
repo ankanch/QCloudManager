@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.NativeExpressAdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,7 +68,8 @@ public class CloudserverManager extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_cloudserver);
+        //AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_cloudserver);
+        NativeExpressAdView mAdView = (NativeExpressAdView)getActivity().findViewById(R.id.adView_cloudserver);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         if(!firstRun){
