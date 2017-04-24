@@ -2,11 +2,15 @@ package com.akakanch.qcloudmanager2;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +22,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,8 +83,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        //inIndexPage = false;
-        //inWorkPage = false;
         if(inIndexPage){
             menu.getItem(3).setVisible(true);menu.getItem(2).setVisible(true);
         }else{
@@ -101,6 +108,8 @@ public class MainActivity extends AppCompatActivity
             return true;
         }else if(id == R.id.action_kanch){
             Toast.makeText(getApplicationContext(),"测试",Toast.LENGTH_LONG).show();
+        }else if(id == R.id.action_export_setting){
+            exportAPIKey();
         }
 
         return super.onOptionsItemSelected(item);
@@ -163,5 +172,69 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(v,getString(R.string.str_ip_open_url),Snackbar.LENGTH_LONG).show();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.qcloud.com/login?s_url=https%3A%2F%2Fconsole.qcloud.com%2Fcapi"));
         startActivity(browserIntent);
+    }
+
+    //导出API数据到外部储存
+    public boolean exportAPIKey(){
+        FileOutputStream outputStream;
+        try {
+            File file = new File(Environment.getExternalStorageDirectory(), "QCloudManager");
+            if(!file.mkdirs()){
+                Log.v("error-creating-dir=", "error");
+            }
+            outputStream = new FileOutputStream(file+"/apikeydata");
+            String defaultkey = read("API_KEY");
+            String defaulyketId = read("API_KEY_ID");
+            if (defaultkey.equals("NULL") || defaulyketId.equals("NULL")) {
+                //不存在，则禁止导出
+                return false;
+            }
+            outputStream.write((defaulyketId+"<@>"+defaultkey).getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /*/从外部储存导入API数据
+    public boolean importAPIKey(){
+        FileInputStream inputStream;
+        try {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "QCloudManager");
+            inputStream = new FileInputStream(file);
+            String var = inputStream.read();
+            inputStream.close();
+            String defaultkey = new String();
+            String defaulyketId = new String();
+            String[] x= var.split("<@>");
+            defaultkey = x[1];
+            defaulyketId = x[2];
+            if (defaultkey.equals("NULL") || defaulyketId.equals("NULL")) {
+                //解析失败，则报错
+                return false;
+            }
+            save("API_KEY",defaultkey);
+            save("API_KEY_ID",defaulyketId);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }//*/
+
+    public void save(String key, String value){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public String read(String key){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String defaultValue = "NULL";
+        String value = sharedPref.getString(key, defaultValue);
+        return value;
     }
 }
