@@ -112,6 +112,7 @@ public class DomainManager extends Fragment {
                 Snackbar.make(globeView, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
                 domainmAdapter.clear();
                 new LoadDomainList().execute("https://" + APIRG.domain_getDomainList());
+                Log.v("url=","https://" + APIRG.domain_getDomainList());
             }
         });
         //设置刷新条颜色

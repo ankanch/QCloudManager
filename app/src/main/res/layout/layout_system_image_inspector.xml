@@ -17,7 +17,7 @@
 
     <com.google.android.gms.ads.NativeExpressAdView
         android:id="@+id/adView_systemimage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ads:adUnitId="ca-app-pub-6425922486772410/9914632483"
         ads:adSize="320x100">
