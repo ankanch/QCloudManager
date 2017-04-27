@@ -180,6 +180,7 @@
     <string name="str_ip_howtogetkey">
         不知道什么是云API密钥？点击这里查看如何获取\r\n
         请在下面的编辑框中分别输入您的密钥ID和密钥\r\n
+        你也可以使用右上角菜单中的导入APIKey功能直接导入\r\n
     </string>
     <string name="str_ip_keyid">请输入您的SecretKeyID</string>
     <string name="str_ip_apikey">请输入您的SecretKey</string>
@@ -204,6 +205,7 @@
     <string name="str_sii_menue_delete">删除该镜像</string>
     <string name="str_sii_create_tips_support">当前仅支持创建按量使用且地域与镜像地域相同的的云服务器！</string>
     <!-- 关于页面-->
+    <string name="str_about_thanks4your_support">感谢您的支持！</string>
     <string name="str_about_tips_requestnew">请在邮件正文写入您需要的新功能</string>
     <string name="str_about_tips_bugreport">请在邮件正文写上出错信息以及系统日志</string>
     <string name="str_about_button_requestnew">请求新功能</string>
@@ -213,6 +215,18 @@
     <string name="str_about_abouttext2">本应用非腾讯官方应用，与腾讯无任何关系。\r\n腾讯云及其logo均为腾讯公司所有。</string>
     <string name="str_about_abouttext3">*图标由pandecheng制作*</string>
     <string name="str_about_version">版本号： 2.0.1\r\nMade with ❤ by Kanch</string>
+    <!-- 支持页面-->
+    <string name="str_support_header">支持开发者</string>
+    <string name="str_support_saying">
+        当前您可以通过以下方式支持：\r\n
+        ***支付宝捐助\r\n
+        **PayPal捐助\r\n
+        *通过我的Airbnb邀请链接注册(跑题了)\r\n\r\n
+        点击以下按钮直达\r\n
+    </string>
+    <string name="str_support_alipay">通过支付宝支持</string>
+    <string name="str_support_paypal">通过PayPal支持</string>
+    <string name="str_support_airbnb">通过Airbnb邀请链接支持</string>
     <!-- 储存数据用的键值对-->
     <string name="key_value_apikey">TENCENT_API_KEY</string>
 

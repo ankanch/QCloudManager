@@ -16,7 +16,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -116,8 +118,6 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.action_kanch){
-            Toast.makeText(getApplicationContext(),"测试",Toast.LENGTH_LONG).show();
         }else if(id == R.id.action_export_setting){
             //检查权限
             if( ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
@@ -137,6 +137,12 @@ public class MainActivity extends AppCompatActivity
                 intent.setType("*/*");
                 startActivityForResult(intent, 199);
             }
+        }else if(id == R.id.action_kanch){
+            LayoutInflater li = LayoutInflater.from(this);
+            View changeDlgView = li.inflate(R.layout.layout_support, null);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(changeDlgView);
+            final AlertDialog dlg = builder.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -210,6 +216,24 @@ public class MainActivity extends AppCompatActivity
     public void openWebPage(View v){
         Snackbar.make(v,getString(R.string.str_ip_open_url),Snackbar.LENGTH_LONG).show();
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.qcloud.com/login?s_url=https%3A%2F%2Fconsole.qcloud.com%2Fcapi"));
+        startActivity(browserIntent);
+    }
+
+    public void openAlipay(View v){
+        Snackbar.make(v,getString(R.string.str_about_thanks4your_support),Snackbar.LENGTH_LONG).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://qr.alipay.com/a6x09720wf8ltcafg1vp06a"));
+        startActivity(browserIntent);
+    }
+
+    public void openPaypal(View v){
+        Snackbar.make(v,getString(R.string.str_about_thanks4your_support),Snackbar.LENGTH_LONG).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://paypal.me/kanchz"));
+        startActivity(browserIntent);
+    }
+
+    public void openAirbnb(View v){
+        Snackbar.make(v,getString(R.string.str_about_thanks4your_support),Snackbar.LENGTH_LONG).show();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.airbnb.com/c/4f500a"));
         startActivity(browserIntent);
     }
 

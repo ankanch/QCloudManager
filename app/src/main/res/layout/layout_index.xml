@@ -19,14 +19,15 @@
         android:id="@+id/textView_notes"
         android:textAlignment="center" />
 
-    <TextView
-        android:text="@string/str_ip_howtogetkey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:textAlignment="center"
-        android:clickable="true"
-        android:onClick="openWebPage"/>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="openWebPage"
+                android:text="@string/str_ip_howtogetkey"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark" />
 
     <EditText
         android:id="@+id/editText_apikeyid"

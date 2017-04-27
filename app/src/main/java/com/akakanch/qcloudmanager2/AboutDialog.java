@@ -94,7 +94,7 @@ public class AboutDialog extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://qr.alipay.com/a6x09720wf8ltcafg1vp06a"));
-                Toast.makeText(getActivity(),"感谢您的支持！",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),getString(R.string.str_about_thanks4your_support),Toast.LENGTH_LONG).show();
                 startActivity(browserIntent);
             }
         });
