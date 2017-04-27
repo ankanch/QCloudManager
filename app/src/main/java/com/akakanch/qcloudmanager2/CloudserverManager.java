@@ -165,8 +165,11 @@ public class CloudserverManager extends Fragment {
             public void onClick(View view) {
                 String name = etName.getText().toString();
                 String password = etPassword.getText().toString();
-                if(name.length()<6 || password.length()<8){
-                    Snackbar.make(getView(),contextx.getString(R.string.str_cm_create_tips_invaild),Snackbar.LENGTH_LONG).show();
+                if(name.length()<4){
+                    etName.setError(contextx.getString(R.string.str_cm_create_tips_error_name));
+                    return;
+                }if(password.length()<8){
+                    etPassword.setError(contextx.getString(R.string.str_cm_create_tips_error_password));
                     return;
                 }
                 //开始创建

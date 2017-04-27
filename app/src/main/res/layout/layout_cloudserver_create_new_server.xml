@@ -48,6 +48,7 @@
             android:layout_marginRight="10sp"
             android:layout_weight="0.3"
             android:ems="10"
+            android:hint="@string/str_sii_input_tips_name"
             android:inputType="textPersonName"
             android:text="" />
     </LinearLayout>
@@ -73,6 +74,7 @@
             android:layout_marginRight="10sp"
             android:layout_weight="0.3"
             android:ems="10"
+            android:hint="@string/str_sii_input_tips_password"
             android:inputType="textPersonName"
             android:text="" />
 

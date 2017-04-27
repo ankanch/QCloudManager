@@ -108,7 +108,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                             case R.id.menu_cvm_resetpassword: {
                                 if(!cvmItem.Status.equals(getContext().getString(R.string.str_cm_statusdes_shutdown))){
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setMessage("只能在关机状态下修改密码！").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    builder.setMessage(getContext().getString(R.string.str_cm_changepassword_not_shutdown)).setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int id) {
                                                     dialog.cancel();
                                                 }
@@ -163,13 +163,12 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                                     public void onClick(View view) {
                                         String password = pwd.getText().toString();
                                         if(password.length()<8){
-                                            Snackbar.make(globeView,"密码无效！请输入长度大于8的密码。",Snackbar.LENGTH_LONG).show();
+                                            pwd.setError(getContext().getString(R.string.str_cm_changepassword_input_error));
                                             return;
                                         }
                                         String ostype = os.getSelectedItem().toString().split("@")[1];
                                         String reinstallURL = "https://"+APIRG.cvm_reinstallInstance(cvmItem.InstanceID,ostype,cvmItem.InstanceRegion,password);
                                         Log.v("reinstallURL=",reinstallURL);
-                                        Log.v("reinstall-id=",cvmItem.InstanceID);
                                         new doManageCVM().execute(reinstallURL);
                                         dlg.cancel();
                                     }
@@ -189,7 +188,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                             case R.id.menu_cvm_createimage:
                                 if(!cvmItem.Status.equals(getContext().getString(R.string.str_cm_statusdes_shutdown))){
                                     AlertDialog.Builder buildert = new AlertDialog.Builder(getContext());
-                                    buildert.setMessage("只能在关机状态下创建镜像！").setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                    buildert.setMessage(getContext().getString(R.string.str_sii_error_not_shutdown)).setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
@@ -223,6 +222,38 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                                     }
                                 });
                                 break;
+                            case R.id.menu_cvm_rename:
+                                LayoutInflater li2 = LayoutInflater.from(getContext());
+                                View changeDlgView2 = li2.inflate(R.layout.layout_cloudserver_rename, null);
+                                final AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+                                builder2.setView(changeDlgView2);
+                                final EditText newname = (EditText)changeDlgView2.findViewById(R.id.editText_rename_new_name);
+                                final Button confrim2 = (Button)changeDlgView2.findViewById(R.id.button_confirm_rename);
+                                final Button cancel2 = (Button)changeDlgView2.findViewById(R.id.button_cancel_rename);
+                                final AlertDialog dlg2 = builder2.show();
+                                dlg2.setCanceledOnTouchOutside(false);
+                                confrim2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        String name = newname.getText().toString();
+                                        if(name.length()<4 || name.length()>60){
+                                            newname.setError(getContext().getString(R.string.str_cm_rename_imput_error));
+                                            return;
+                                        }
+                                        String renameURL = "https://"+APIRG.cvm_rename(cvmItem.InstanceID,cvmItem.InstanceRegion,name);
+                                        Log.v("renameURL=",renameURL);
+                                        new doManageCVM().execute(renameURL);
+                                        dlg2.cancel();
+                                    }
+                                });
+                                cancel2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dlg2.cancel();
+                                    }
+                                });
+                                break;
+
                         }
                         new doManageCVM().execute(URL);
                         return false;

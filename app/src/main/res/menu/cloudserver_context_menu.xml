@@ -14,5 +14,7 @@
         android:title="@string/str_cm_contextmenu_resetpassword"/>
     <item android:id="@+id/menu_cvm_returninstance"
         android:title="@string/str_cm_contextmenu_returninstance"/>
+    <item android:id="@+id/menu_cvm_rename"
+        android:title="@string/str_cm_rename_title"/>
 
 </menu>

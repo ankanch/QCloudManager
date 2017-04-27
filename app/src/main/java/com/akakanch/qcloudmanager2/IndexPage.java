@@ -49,7 +49,7 @@ public class IndexPage extends Fragment {
                 Snackbar.make(getView(), getString(R.string.str_tips_api_key_needed), Snackbar.LENGTH_LONG).show();
                 buttonOKmode = true;
                 btnOk.setText(getString(R.string.str_ip_ok));
-                mAdView.setVisibility(View.INVISIBLE);
+                //mAdView.setVisibility(View.INVISIBLE);
             } else {
                 Snackbar.make(getView(), getString(R.string.str_tips_api_key_found), Snackbar.LENGTH_LONG).show();
                 editText.setText(defaultkey);
@@ -58,6 +58,8 @@ public class IndexPage extends Fragment {
                 editTextid.setEnabled(false);
                 buttonOKmode = false;
                 btnOk.setText(getString(R.string.str_ip_change));
+                editText.setFocusable(false);
+                editTextid.setFocusable(false);
             }
             first=false;
         }
@@ -65,10 +67,10 @@ public class IndexPage extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //&*******************************正式版请删掉以下两行代码
-                //save("API_KEY", "c6RcifSjz9B3qV2eKvNiy53wtmVWTGwU");
-                //save("API_KEY_ID","AKIDHYhgbRrh8UhJm6pPNCxb6RitvvmZKj8Y");
-                //&*******************************正式版请删掉上面两行代码
+                editText.setFocusableInTouchMode(true);
+                editText.setFocusable(true);
+                editTextid.setFocusableInTouchMode(true);
+                editTextid.setFocusable(true);
                 if(buttonOKmode) {
                     //添加模式
                     String APIkey =  editText.getText().toString();
@@ -76,7 +78,6 @@ public class IndexPage extends Fragment {
                     if (APIkey.length() < 8 || APIkeyId.length()<8) {
                         Snackbar.make(getView(), getString(R.string.str_tips_invaild_api_key), Snackbar.LENGTH_LONG).show();
                     } else {
-                        //&*******************************正式版需要取消以下两行代码的注释
                         save("API_KEY", APIkey);
                         save("API_KEY_ID",APIkeyId);
                         editText.setText(APIkey);
@@ -86,7 +87,7 @@ public class IndexPage extends Fragment {
                         btnOk.setText(getString(R.string.str_ip_change));
                         Snackbar.make(getView(), getString(R.string.str_tips_api_key_saved), Snackbar.LENGTH_LONG).show();
                         buttonOKmode = false;
-                        mAdView.setVisibility(View.VISIBLE);
+                        //mAdView.setVisibility(View.VISIBLE);
                     }
                 }else {
                     //修改模式
@@ -94,7 +95,7 @@ public class IndexPage extends Fragment {
                     editText.setEnabled(true);
                     editTextid.setEnabled(true);
                     buttonOKmode = true;
-                    mAdView.setVisibility(View.INVISIBLE);
+                    //mAdView.setVisibility(View.INVISIBLE);
                 }
             }
         });

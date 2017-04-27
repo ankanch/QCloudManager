@@ -14,10 +14,10 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
             android:layout_marginBottom="10sp"
+            android:layout_marginTop="10sp"
             android:layout_weight="1"
-            android:text="@string/str_cm_changepassword_title"
+            android:text="@string/str_cm_rename_title"
             android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="18sp"
@@ -36,17 +36,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
             android:layout_weight="0.7"
-            android:text="@string/str_cm_changepassword_newpassword"
+            android:text="@string/str_cm_rename_tips"
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText_password_changepwd"
+            android:id="@+id/editText_rename_new_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="10sp"
             android:layout_weight="0.3"
             android:ems="10"
-            android:hint="@string/str_cm_changepassword_tips"
+            android:hint="@string/str_cm_rename_newnametips"
             android:inputType="textPersonName"
             android:text="" />
     </LinearLayout>
@@ -60,7 +60,7 @@
         android:layout_marginTop="30sp">
 
         <Button
-            android:id="@+id/button_cancel_changepwd"
+            android:id="@+id/button_cancel_rename"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:text="@string/str_dm_add_records_cancel" />
 
         <Button
-            android:id="@+id/button_confirm_changepwd"
+            android:id="@+id/button_confirm_rename"
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

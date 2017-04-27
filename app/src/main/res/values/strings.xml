@@ -11,7 +11,7 @@
     <string name="action_refresh">刷新</string>
     <string name="action_export_settings">导出APIKey</string>
     <string name="action_import_settings">导入APIKey</string>
-    <string name="action_kanch">by Kanch</string>
+    <string name="action_kanch">by Kanch - 支持开发者</string>
     <!-- 抽屉导航-->
     <string name="drawer_index">欢迎页</string>
     <string name="drawer_about">关于本应用</string>
@@ -70,6 +70,11 @@
     <string name="str_cm_reinstall_password">设置密码：</string>
     <string name="str_cm_reinstall_needSecurityAgent">安装安全Agent</string>
     <string name="str_cm_reinstall_needMonitorAgent">安装监控Agent</string>
+    <!--.修改实例名称对话框.-->
+    <string name="str_cm_rename_title">修改实例名称</string>
+    <string name="str_cm_rename_tips">实例名称：</string>
+    <string name="str_cm_rename_imput_error">输入错误，情保证实例名称长度大于4小于60！</string>
+    <string name="str_cm_rename_newnametips">实例名称不应超过60字符</string>
     <!--.创建新实例.-->
     <string name="str_cm_create_tips">创建实例（按量使用）</string>
     <string name="str_cm_create_confirm">确认创建</string>
@@ -82,7 +87,8 @@
     <string name="str_cm_create_os">操作系统：</string>
     <string name="str_cm_create_servertype">服务器配置：</string>
     <string name="str_cm_create_zone">区域选择：</string>
-    <string name="str_cm_create_tips_invaild">请确保填完所有字段！字段长度需要大于8</string>
+    <string name="str_cm_create_tips_error_password">密码长度需要大于8且由字符和数字组成</string>
+    <string name="str_cm_create_tips_error_name">请确保主机名长度大于4</string>
     <string name="str_cm_create_tips_support">当前仅支持创建按量使用且使用云端硬盘的云服务器！</string>
     <string-array name="strarr_cm_spinner_create_new">
         <item>北京一区@800001</item>
@@ -143,6 +149,9 @@
     <string name="str_cm_changepassword_title">修改密码</string>
     <string name="str_cm_changepassword_newpassword">新密码</string>
     <string name="str_cm_changepassword_comfirm">确认修改</string>
+    <string name="str_cm_changepassword_tips">密码长度应该大于8位，由字符和数字组成</string>
+    <string name="str_cm_changepassword_input_error">输入密码无效，请重新输入！</string>
+    <string name="str_cm_changepassword_not_shutdown">只能在关机状态下修改密码！</string>
     <!-- - - - - - - - -DomainManager-->
     <string name="str_dm_need_to_be_refreshed">无记录，请刷新。</string>
     <string name="str_dm_title">域名解析记录管理</string>
@@ -203,6 +212,9 @@
     <string name="str_sii_tips_no_found">您的账户下还没有任何已知镜像列表！</string>
     <string name="str_sii_menue_createcvm">用该镜像创建实例</string>
     <string name="str_sii_menue_delete">删除该镜像</string>
+    <string name="str_sii_input_tips_name">主机名长度应大于4</string>
+    <string name="str_sii_input_tips_password">密码长度大于8且由字符和数字组成</string>
+    <string name="str_sii_error_not_shutdown">只能在关机状态下创建镜像！</string>
     <string name="str_sii_create_tips_support">当前仅支持创建按量使用且地域与镜像地域相同的的云服务器！</string>
     <!-- 关于页面-->
     <string name="str_about_thanks4your_support">感谢您的支持！</string>
