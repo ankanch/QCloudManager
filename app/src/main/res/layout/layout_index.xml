@@ -59,16 +59,6 @@
         android:text="Made with ❤ by Kanch"
         android:textAlignment="center" />
 
-    <com.google.android.gms.ads.AdView
-        android:layout_marginTop="20sp"
-        android:id="@+id/adView_index"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
-</LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -45,8 +45,8 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
             android:onClick="openAlipay"
-            android:background="@color/common_google_signin_btn_text_light_disabled"
             android:text="@string/str_support_alipay" />
 
         <Button
@@ -54,20 +54,20 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
             android:onClick="openPaypal"
-            android:background="@color/common_google_signin_btn_text_light_focused"
             android:text="@string/str_support_paypal"
-            android:textColor="@color/common_google_signin_btn_text_light_pressed" />
+            android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
         <Button
             android:id="@+id/button_support_airbnb"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
             android:onClick="openAirbnb"
-            android:background="@color/common_google_signin_btn_text_light_pressed"
             android:text="@string/str_support_airbnb"
-            android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
 </LinearLayout>

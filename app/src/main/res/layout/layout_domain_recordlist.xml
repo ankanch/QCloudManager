@@ -4,16 +4,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView_recordlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
-
     <TextView
         android:id="@+id/textView_domain_record"
         android:layout_width="match_parent"
