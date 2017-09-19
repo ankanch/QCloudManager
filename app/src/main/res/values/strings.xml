@@ -218,15 +218,17 @@
     <string name="str_sii_create_tips_support">当前仅支持创建按量使用且地域与镜像地域相同的的云服务器！</string>
     <!-- 关于页面-->
     <string name="str_about_thanks4your_support">感谢您的支持！</string>
+    <string name="str_about_getsourcetips">欢迎发起Pull Request！</string>
     <string name="str_about_tips_requestnew">请在邮件正文写入您需要的新功能</string>
     <string name="str_about_tips_bugreport">请在邮件正文写上出错信息以及系统日志</string>
     <string name="str_about_button_requestnew">请求新功能</string>
     <string name="str_about_bugsubmit">提交bug</string>
     <string name="str_about_rating">去市场评分</string>
+    <string name="str_about_getsourcecode">获取源代码</string>
     <string name="str_about_abouttext1">本应用可以帮助你便捷管理你的腾讯云资源。\r\n随着应用的更新，功能也会越来越多。</string>
     <string name="str_about_abouttext2">本应用非腾讯官方应用，与腾讯无任何关系。\r\n腾讯云及其logo均为腾讯公司所有。</string>
     <string name="str_about_abouttext3">*图标由pandecheng制作*</string>
-    <string name="str_about_version">版本号： 2.0.2\r\nMade with ❤ by Kanch</string>
+    <string name="str_about_version">版本号： 2.1.0\r\nMade with ❤ by Kanch</string>
     <!-- 支持页面-->
     <string name="str_support_header">支持开发者</string>
     <string name="str_support_saying">

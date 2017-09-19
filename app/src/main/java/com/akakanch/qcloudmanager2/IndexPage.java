@@ -47,8 +47,10 @@ public class IndexPage extends Fragment {
                 btnOk.setText(getString(R.string.str_ip_ok));
             } else {
                 Snackbar.make(getView(), getString(R.string.str_tips_api_key_found), Snackbar.LENGTH_LONG).show();
-                editText.setText(defaultkey);
-                editTextid.setText(defaulyketId);
+                //editText.setText(defaultkey);
+                //editTextid.setText(defaulyketId);
+                editText.setText("***********************");
+                editTextid.setText("***********************");
                 editText.setEnabled(false);
                 editTextid.setEnabled(false);
                 buttonOKmode = false;
@@ -62,6 +64,8 @@ public class IndexPage extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                editText.setText(defaultkey);
+                editTextid.setText(defaulyketId);
                 editText.setFocusableInTouchMode(true);
                 editText.setFocusable(true);
                 editTextid.setFocusableInTouchMode(true);
@@ -75,8 +79,10 @@ public class IndexPage extends Fragment {
                     } else {
                         save("API_KEY", APIkey);
                         save("API_KEY_ID",APIkeyId);
-                        editText.setText(APIkey);
-                        editTextid.setText(APIkeyId);
+                        //editText.setText(APIkey);
+                        //editTextid.setText(APIkeyId);
+                        editText.setText("***********************");
+                        editTextid.setText("***********************");
                         editText.setEnabled(false);
                         editTextid.setEnabled(false);
                         btnOk.setText(getString(R.string.str_ip_change));

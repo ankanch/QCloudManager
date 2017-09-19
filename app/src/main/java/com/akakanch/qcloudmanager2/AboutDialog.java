@@ -37,6 +37,7 @@ public class AboutDialog extends Fragment {
         Button btnRating = (Button)globeView.findViewById(R.id.button_rating_app_in_market);
         Button btnWebsite = (Button)globeView.findViewById(R.id.button_open_website);
         Button btnDonate = (Button)globeView.findViewById(R.id.button_donate);
+        Button btnSource = (Button)globeView.findViewById(R.id.button_getsourcecode);
         TextView tvthankyou = (TextView)globeView.findViewById(R.id.textView15);
         tvthankyou.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,14 @@ public class AboutDialog extends Fragment {
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://qr.alipay.com/a6x09720wf8ltcafg1vp06a"));
                 Toast.makeText(getActivity(),getString(R.string.str_about_thanks4your_support),Toast.LENGTH_LONG).show();
+                startActivity(browserIntent);
+            }
+        });
+        btnSource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ankanch/QCloudManager"));
+                Toast.makeText(getActivity(),getString(R.string.str_about_getsourcetips),Toast.LENGTH_LONG).show();
                 startActivity(browserIntent);
             }
         });
