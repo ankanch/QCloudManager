@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 /**
  * Created by Long Zhang on 2017/3/22.
@@ -36,8 +34,6 @@ public class IndexPage extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        final AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_index);
-        AdRequest adRequest = new AdRequest.Builder().build();
         btnOk = (Button)getActivity().findViewById(R.id.button_OK);
         editText = (EditText)getActivity().findViewById(R.id.editText_apikey);
         editTextid = (EditText)getActivity().findViewById(R.id.editText_apikeyid);
@@ -49,7 +45,6 @@ public class IndexPage extends Fragment {
                 Snackbar.make(getView(), getString(R.string.str_tips_api_key_needed), Snackbar.LENGTH_LONG).show();
                 buttonOKmode = true;
                 btnOk.setText(getString(R.string.str_ip_ok));
-                //mAdView.setVisibility(View.INVISIBLE);
             } else {
                 Snackbar.make(getView(), getString(R.string.str_tips_api_key_found), Snackbar.LENGTH_LONG).show();
                 editText.setText(defaultkey);
@@ -87,7 +82,6 @@ public class IndexPage extends Fragment {
                         btnOk.setText(getString(R.string.str_ip_change));
                         Snackbar.make(getView(), getString(R.string.str_tips_api_key_saved), Snackbar.LENGTH_LONG).show();
                         buttonOKmode = false;
-                        //mAdView.setVisibility(View.VISIBLE);
                     }
                 }else {
                     //修改模式
@@ -95,11 +89,9 @@ public class IndexPage extends Fragment {
                     editText.setEnabled(true);
                     editTextid.setEnabled(true);
                     buttonOKmode = true;
-                    //mAdView.setVisibility(View.INVISIBLE);
                 }
             }
         });
-        mAdView.loadAd(adRequest);
     }
 
 

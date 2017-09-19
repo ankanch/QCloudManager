@@ -21,11 +21,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.NativeExpressAdView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,10 +65,6 @@ public class SystemImageInspector extends Fragment {
         swiprefresh = (SwipeRefreshLayout)getActivity().findViewById(R.id.swiperefresh_systemimage);
         lvImageList.setAdapter(imageAdaptor);
         globeView = getView();
-        //AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_systemimage);
-        NativeExpressAdView mAdView = (NativeExpressAdView)getActivity().findViewById(R.id.adView_systemimage);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         //读取是否有key
         defaultkey =  read("API_KEY");
         defaulyketId = read("API_KEY_ID");

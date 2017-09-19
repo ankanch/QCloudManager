@@ -26,9 +26,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,9 +58,6 @@ public class RecordsManager extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_recordlist);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         if(!firstRun){
             return;
         }

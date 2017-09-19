@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 /**
  * Created by Long Zhang on 4/10/2017.
@@ -34,9 +32,6 @@ public class AboutDialog extends Fragment {
     public void onStart() {
         super.onStart();
         globeView = getView();
-        AdView mAdView = (AdView) getActivity().findViewById(R.id.adView_about);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         Button btnRequestNew  = (Button)globeView.findViewById(R.id.button_request_new_function);
         Button btnBugReport = (Button)globeView.findViewById(R.id.button_submit_bug);
         Button btnRating = (Button)globeView.findViewById(R.id.button_rating_app_in_market);
