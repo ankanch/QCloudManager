@@ -82,7 +82,7 @@ public class AboutDialog extends Fragment {
         btnWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://akakanch.com/projects/qcloudmanager"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://akakanch.com/myprojects/"));
                 startActivity(browserIntent);
             }
         });

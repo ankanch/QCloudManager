@@ -280,6 +280,7 @@ public class CloudServerItemAdapter extends ArrayAdapter<CloudServerItem> {
                 resultstr = wb.getContent(params[0], "utf-8", "utf-8");
             }catch (IOException e){
                 Log.v("IO Exception=",e.getMessage());
+                loading.dismiss();
                 return "IO EXCEPTION";
             }
             return resultstr;

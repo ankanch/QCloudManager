@@ -1,8 +1,6 @@
 package com.akakanch.qcloudmanager2;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,11 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -228,65 +224,6 @@ public class CloudserverManager extends Fragment {
         //
     }
 
-
-
-    //用于从腾讯获取实例列表（单个地域）老版本，1.1.2之前的
-    private class LoadInstanceList extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String[] params) {
-            //开始向腾讯请求实例列表
-            WebClient wb = new WebClient();
-            String resultstr = new String();
-            try {
-                resultstr = wb.getContent(params[0], "utf-8", "utf-8");
-            }catch (IOException e){
-                Log.v("IO Exception=",e.getMessage());
-                return "IO EXCEPTION";
-            }
-            return resultstr;
-        }
-        @Override
-        protected void onPostExecute(String message) {
-            //解析返回的JSON数据，加载资源列表
-            try {
-                JSONObject responsejson = new JSONObject(message);
-                int resCode = (int)responsejson.get("code");
-                //检查是否成功获取数据
-                if(resCode != 0) {
-                    String resMsg = (String) responsejson.get("message");
-                    Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-                //继续解析
-                int totalCount = (int)responsejson.get("totalCount");
-                JSONArray instanceSet = (JSONArray)responsejson.get("instanceSet");
-                for(int i=0;i<totalCount;i++){
-                    JSONObject instance = (JSONObject)instanceSet.get(i);
-                    String name = (String)instance.get("instanceName");
-                    String ip = (String)((JSONArray)instance.get("wanIpSet")).get(0);
-                    String os = (String)instance.get("os");
-                    String region = (String)instance.get("Region");
-                    String iid = new String();
-                    try {
-                         iid = (String) instance.get("instanceId");
-                    }catch (Exception e){
-                        iid = "null";
-                    }
-                    int paymode = (int)instance.get("cvmPayMode");
-                    int status = (int)instance.get("status");
-                    CloudServerItem item = new CloudServerItem(name,ip,os,getStatusDes(status),getPayMode(paymode),getOSImg(os),iid);
-                    item.setAPIInfo(defaultkey,defaulyketId);
-                    item.InstanceRegion = region;
-                    cvmAdapter.add(item);
-                }
-                Snackbar.make(globeView,totalCount + "个实例找到。",Snackbar.LENGTH_LONG).show();
-            }catch (JSONException e){
-                Log.v("JSON-ERROR=",e.getMessage());
-            }
-        }
-    }
-
     //用于从腾讯获取实例列表(所有实例)
     private class LoadAllInstanceList extends AsyncTask<String, Void, String> {
 
@@ -355,6 +292,7 @@ public class CloudserverManager extends Fragment {
                         Snackbar.make(globeView, totalCount + "个实例找到。", Snackbar.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         Log.v("JSON-ERROR=", e.getMessage());
+
                     }
                 }
             }catch (Exception e){
@@ -363,6 +301,7 @@ public class CloudserverManager extends Fragment {
                     Snackbar.make(globeView, "加载失败！请检查网络并重试。", Snackbar.LENGTH_LONG).show();
                 }catch (Exception ee){
                     Log.v("outExp=",ee.getMessage());
+
                 }
             }
             //刷新完成
@@ -389,6 +328,7 @@ public class CloudserverManager extends Fragment {
                 resultstr = wb.getContent(params[0], "utf-8", "utf-8");
             }catch (IOException e){
                 Log.v("IO Exception=",e.getMessage());
+                loading.dismiss();
                 return "IO EXCEPTION";
             }
             return resultstr;
@@ -403,11 +343,15 @@ public class CloudserverManager extends Fragment {
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    loading.dismiss();
                     return;
                 }
                 //继续解析
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
+                Snackbar.make(globeView,"JSON解析错误！",Snackbar.LENGTH_LONG).show();
+                loading.dismiss();
+                return;
             }
             //
             loading.dismiss();

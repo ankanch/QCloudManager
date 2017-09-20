@@ -48,6 +48,12 @@
                 android:hint="@string/str_ip_apikey"
                 android:inputType="textLongMessage" />
 
+            <Spinner
+                android:id="@+id/spinner_chooseprofile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"/>
+
             <Button
                 android:id="@+id/button_OK"
                 android:layout_width="wrap_content"
@@ -60,7 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Made with ❤ by Kanch"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
     </ScrollView>

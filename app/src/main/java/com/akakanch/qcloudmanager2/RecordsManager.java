@@ -19,8 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -95,23 +97,43 @@ public class RecordsManager extends Fragment {
                 builder.setView(changeDlgView);
                 final EditText etName = (EditText)changeDlgView.findViewById(R.id.editText_name_add);
                 final EditText etValue = (EditText)changeDlgView.findViewById(R.id.editText_value_add);
+                final EditText etMXpriority = (EditText)changeDlgView.findViewById(R.id.editText_value_mxpriority);
+                final LinearLayout lnlMXpriority = (LinearLayout)changeDlgView.findViewById(R.id.lnl_mxpriority);
                 final Spinner spType = (Spinner)changeDlgView.findViewById(R.id.spinner_type_add);
                 final Button btnConfirm = (Button)changeDlgView.findViewById(R.id.button_confirm_add);
                 final Button btnCancel = (Button)changeDlgView.findViewById(R.id.button_cancel_add);
                 final AlertDialog dlg = builder.show();
                 dlg.setCanceledOnTouchOutside(false);
+                spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String sel = spType.getItemAtPosition(position).toString();
+                        Log.v("sel",sel);
+                        if(sel.equals("MX")){
+                            lnlMXpriority.setVisibility(View.VISIBLE);
+                        }else{
+                            lnlMXpriority.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String name = etName.getText().toString();
                         String value = etValue.getText().toString();
+                        String mxpriority = etMXpriority.getText().toString();
                         String type = spType.getSelectedItem().toString();
                         if(name.length()<1 || value.length()<7){
-                            Snackbar.make(globeView,"请输入正确数据.", BaseTransientBottomBar.LENGTH_LONG).show();
+                            Snackbar.make(globeView,"请输入正确数据.记录值长度需要大于7.", BaseTransientBottomBar.LENGTH_LONG).show();
                             return;
                         }
                         //生成添加链接
-                        String addURL  = "https://" + APIRG.domian_addRecord(domain,name,type,"默认",value);
+                        String addURL  = "https://" + APIRG.domian_addRecord(domain,name,type,"默认",value,mxpriority);
                         Log.v("add_record=",addURL);
                         //在这里执行
                         new AddNewRecord().execute(addURL);
@@ -142,6 +164,7 @@ public class RecordsManager extends Fragment {
         new LoadRecordList().execute(recordslisturl);
         swiprefresh.setRefreshing(true);
         Snackbar.make(swiprefresh, "刷新中，请稍候。", Snackbar.LENGTH_LONG).show();
+        Log.v("refresh-url=",recordslisturl);
         setHasOptionsMenu(true);
     }
 
@@ -234,6 +257,7 @@ public class RecordsManager extends Fragment {
                 resultstr = wb.getContent(params[0], "utf-8", "utf-8");
             }catch (IOException e){
                 Log.v("IO Exception=",e.getMessage());
+                loading.dismiss();
                 return "IO EXCEPTION";
             }
             return resultstr;
@@ -248,10 +272,14 @@ public class RecordsManager extends Fragment {
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
                     Snackbar.make(globeView,"错误："+resMsg,Snackbar.LENGTH_LONG).show();
+                    loading.dismiss();
                     return;
                 }
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
+                Snackbar.make(globeView,"JSON解析失败！",Snackbar.LENGTH_LONG).show();
+                loading.dismiss();
+                return;
             }
             Snackbar.make(globeView,"添加成功！请手动刷新。",Snackbar.LENGTH_LONG).show();
             loading.dismiss();

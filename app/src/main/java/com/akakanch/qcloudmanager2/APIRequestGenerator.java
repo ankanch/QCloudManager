@@ -144,7 +144,7 @@ public class APIRequestGenerator {
         para.put("SecretId",APIkeyId);
         para.put("SignatureMethod","HmacSHA256");
         para.put("domain",domain.replace("www.","").replace("http://",""));
-        para.put("recordType","A");
+        //para.put("recordType","A");
         para.put("offset","0");
         para.put("length","20");
         String[] requestlist = generatePublicRequestParameters(para);
@@ -220,7 +220,7 @@ public class APIRequestGenerator {
     }
 
     //域名管理：添加域名解析记录
-    public String domian_addRecord(String domain,String subdomian,String recordType,String recordLine,String value){
+    public String domian_addRecord(String domain,String subdomian,String recordType,String recordLine,String value,String mxpriority){
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","RecordCreate");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
@@ -232,6 +232,9 @@ public class APIRequestGenerator {
         para.put("recordType",recordType);
         para.put("recordLine",recordLine);
         para.put("value",value);
+        if(recordType.equals("MX")){
+            para.put("mx",mxpriority);
+        }
         String[] requestlist = generatePublicRequestParameters(para);
         Log.v("raw_para_str=",requestlist[0]);
         String requestString = generateRequestString(requestlist[0],"cns.api.qcloud.com/v2/index.php?");
@@ -287,7 +290,7 @@ public class APIRequestGenerator {
         Map<String,String> para = new HashMap<String, String>();
         para.put("Action","RecordDelete");
         para.put("Timestamp",new String().valueOf(System.currentTimeMillis()/1000));
-        para.put("Nonce",new String().valueOf(new Random().nextInt(88888)));
+        para.put("Nonce",new String().valueOf(new Random().nextInt(888888)));
         para.put("SecretId",APIkeyId);
         para.put("SignatureMethod","HmacSHA256");
         para.put("domain",domain.replace("www.","").replace("http://",""));

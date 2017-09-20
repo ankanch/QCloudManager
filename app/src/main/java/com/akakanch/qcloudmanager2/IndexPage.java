@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 
 /**
@@ -19,6 +22,7 @@ import android.widget.EditText;
 
 public class IndexPage extends Fragment {
     private Button btnOk;
+    private Spinner spProfileChooser;
     private EditText editText;
     private EditText editTextid;
     private boolean buttonOKmode = true;
@@ -35,6 +39,7 @@ public class IndexPage extends Fragment {
     public void onStart() {
         super.onStart();
         btnOk = (Button)getActivity().findViewById(R.id.button_OK);
+        spProfileChooser = (Spinner)getActivity().findViewById((R.id.spinner_chooseprofile));
         editText = (EditText)getActivity().findViewById(R.id.editText_apikey);
         editTextid = (EditText)getActivity().findViewById(R.id.editText_apikeyid);
         if(first) {
@@ -100,6 +105,32 @@ public class IndexPage extends Fragment {
         });
     }
 
+    public void addProfile(String pname,String key, String value){
+        String orginalProfileList = read("PROFILES");
+        String datax = pname + "@" + key + "@" + value + "$";
+        int ppos = orginalProfileList.indexOf(pname);
+        if( ppos > -1 ){
+            orginalProfileList = orginalProfileList.substring(0,ppos) + datax +
+                    orginalProfileList.substring(orginalProfileList.indexOf("$",ppos),orginalProfileList.length()-1);
+            save("PROFILES",orginalProfileList);
+            return;
+        }
+        if(orginalProfileList != "NULL"){
+            save("PROFILES",orginalProfileList + datax);
+        }else{
+            save("PROFILES",  datax);
+        }
+    }
+
+    public void deleteProfile(String pname){
+        String orginalProfileList = read("PROFILES");
+        int ppos = orginalProfileList.indexOf(pname);
+        if( ppos > -1 ){
+            orginalProfileList = orginalProfileList.substring(0,ppos) +
+                    orginalProfileList.substring(orginalProfileList.indexOf("$",ppos),orginalProfileList.length()-1);
+            save("PROFILES",orginalProfileList);
+        }
+    }
 
     public void save(String key, String value){
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);

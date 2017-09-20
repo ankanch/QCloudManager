@@ -166,8 +166,9 @@ public class DomainManager extends Fragment {
                 domainmAdapter.clear();
                 responsejson = (JSONObject)responsejson.get("data");
                 //继续解析
-                int domain_total = (int)((JSONObject)responsejson.get("info")).get("domain_total");
                 JSONArray instanceSet = (JSONArray)responsejson.get("domains");
+                //int domain_total = (int)((JSONObject)responsejson.get("info")).get("domain_total");
+                int domain_total = instanceSet.length();
                 for(int i=0;i<domain_total;i++){
                     JSONObject instance = (JSONObject)instanceSet.get(i);
                     int id = (int)instance.get("id");

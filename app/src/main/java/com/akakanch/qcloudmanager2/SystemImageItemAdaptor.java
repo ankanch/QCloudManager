@@ -236,6 +236,7 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                 resultstr = wb.getContent(params[0], "utf-8", "utf-8");
             }catch (IOException e){
                 Log.v("IO Exception=",e.getMessage());
+                loading.dismiss();
                 return "IO EXCEPTION";
             }
             return resultstr;
@@ -250,11 +251,15 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
                     Toast.makeText(ct,"错误："+resMsg,Toast.LENGTH_LONG).show();
+                    loading.dismiss();
                     return;
                 }
                 //继续解析
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
+                Snackbar.make(globeView,"JSON解析错误！",Snackbar.LENGTH_LONG).show();
+                loading.dismiss();
+                return;
             }
             loading.dismiss();
             //Snackbar.make(,"创建成功，请刷新(等待3分钟，否则会出错)！",Snackbar.LENGTH_LONG).show();
@@ -282,6 +287,7 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                 resultstr = wb.getContent(params[0], "utf-8", "utf-8");
             }catch (IOException e){
                 Log.v("IO Exception=",e.getMessage());
+                loading.dismiss();
                 return "IO EXCEPTION";
             }
             return resultstr;
@@ -296,10 +302,14 @@ public class SystemImageItemAdaptor extends ArrayAdapter<SystemImageItem> {
                 if(resCode != 0) {
                     String resMsg = (String) responsejson.get("message");
                     Toast.makeText(ct,"错误："+resMsg,Toast.LENGTH_LONG).show();
+                    loading.dismiss();
                     return;
                 }
             }catch (JSONException e){
                 Log.v("JSON-ERROR=",e.getMessage());
+                Snackbar.make(globeView,"JSON解析错误！",Snackbar.LENGTH_LONG).show();
+                loading.dismiss();
+                return;
             }
             loading.dismiss();
         }

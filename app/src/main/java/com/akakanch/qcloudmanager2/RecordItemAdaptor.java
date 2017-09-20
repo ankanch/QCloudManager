@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -105,6 +106,7 @@ public class RecordItemAdaptor extends ArrayAdapter<RecordItem> {
                         String deleteURL = "https://"+ APIRG.domian_deleteRecord(recordItem.domain,new String().valueOf(recordItem.id));
                         Log.v("deltetRecord=",deleteURL);
                         new PerformChange().execute(deleteURL);
+                        Toast.makeText(view.getContext(),"删除完毕！请手动下拉刷新。",Toast.LENGTH_LONG).show();
                         dlg.dismiss();
                     }
                 });
